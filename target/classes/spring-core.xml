@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+   xmlns:task="http://www.springframework.org/schema/task" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-4.3.xsd
+            http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd
+           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+    
+   <!--  <context:component-scan base-package="cho.carbon"" /> -->
+    <context:component-scan base-package="cho.carbon" />
+		<!-- 加载jdbc.properties配置文件 -->
+    <bean id="propConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="order" value="1" />
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+			</list>
+		</property>  
+	</bean>       
+          
+	<!-- 声明Hibernate的SessionFactory -->
+    <bean id="sessionFactory" 
+        class="org.springframework.orm.hibernate5.LocalSessionFactoryBean">
+        <!-- 结合配置文件 -->
+        <property name="configLocations">
+        	<value>classpath:hibernate.cfg.xml</value>
+        </property>
+
+        <property name="dataSource" ref="dataSource" /> 
+        <property name="packagesToScan">
+            <list>
+            	<value>com.abc*</value>
+        	</list>
+        </property>
+    </bean>
+	<!-- 数据库连接池使用c3p0来管理，这些参数在jdbc.properties中进行配置 -->
+    <bean id="dataSource"
+        class="com.mchange.v2.c3p0.ComboPooledDataSource"  destroy-method="close">
+        <property name="driverClass" value="${driverClass}" />
+        <property name="jdbcUrl" value="${jdbcUrl}" />
+        <property name="user" value="${username}" />
+        <property name="password" value="${password}" />
+        <property name="acquireIncrement" value="${acquireIncrement}"></property>  
+        <property name="initialPoolSize" value="${initialPoolSize}"></property>  
+        <property name="maxIdleTime" value="${maxIdleTime}"></property>  
+        <property name="maxPoolSize" value="${maxPoolSize}"></property>  
+        <property name="minPoolSize" value="${minPoolSize}"></property>  
+        <property name="acquireRetryDelay" value="1000"></property>  
+        <property name="acquireRetryAttempts" value="60"></property>  
+        <property name="breakAfterAcquireFailure" value="false"></property> 
+    </bean>
+    
+
+	<!-- 开启事务管理器（声明式事务在tx:annotation-driven中打开） -->  
+	 <bean id="transactionManager"
+        class="org.springframework.orm.hibernate5.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+
+	<task:annotation-driven /> <!-- 定时器开关 -->
+
+</beans>

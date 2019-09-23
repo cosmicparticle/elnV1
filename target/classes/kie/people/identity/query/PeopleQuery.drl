@@ -1,0 +1,36 @@
+package com.abc.rule.people.identity.query
+
+import cho.carbon.biz.constant.item.DXJDE2020Item;
+import cho.carbon.fuse.improve.attribute.FuseAttribute;
+import cho.carbon.query.model.FGConJunctionFactory;
+import cho.carbon.meta.enun.AttributeValueType;
+import cho.carbon.meta.enun.operator.UnaryOperator;
+import cho.carbon.biz.common.CommonCalculation;
+
+
+global java.lang.String recordName;
+global cho.carbon.query.model.FGConJunctionFactory conJunctionFactory;
+
+rule "姓名 and 身份证号 criteria" 
+	activation-group "people查询条件"
+	salience 9  
+when
+    $nameFB:FuseAttribute(name==DXJDE2020Item.基本信息_姓名,CommonCalculation.isBasicLawful((String)getValue(AttributeValueType.STRING)));
+	$IdFB: FuseAttribute( name==DXJDE2020Item.人口信息_身份证号码, CommonCalculation.isBasicLawful((String)getValue(AttributeValueType.STRING)))
+then 
+
+	conJunctionFactory.getGroupFactory().addCommon($nameFB.getAttribute().getName(), $nameFB.getAttribute().getValueStr(), UnaryOperator.EQUAL);
+	conJunctionFactory.getGroupFactory().addCommon($IdFB.getAttribute().getName(), $IdFB.getAttribute().getValueStr(), UnaryOperator.EQUAL);
+end
+
+rule "姓名 and 户籍地址 criteria" 
+	activation-group "people查询条件"
+	salience 8  
+when
+    $nameFA:FuseAttribute(name==DXJDE2020Item.基本信息_姓名,CommonCalculation.isBasicLawful((String)getValue(AttributeValueType.STRING)));
+    $siteFB:FuseAttribute(name == DXJDE2020Item.基本信息_户籍地址,CommonCalculation.isBasicLawful((String)getValue(AttributeValueType.STRING)));
+then      
+	
+	conJunctionFactory.getGroupFactory().addCommon($nameFA.getAttribute().getName(), $nameFA.getAttribute().getValueStr(), UnaryOperator.EQUAL);
+	conJunctionFactory.getGroupFactory().addCommon($siteFB.getAttribute().getName(), $siteFB.getAttribute().getValueStr(), UnaryOperator.EQUAL);
+end

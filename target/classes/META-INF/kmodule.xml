@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kmodule xmlns="http://www.drools.org/xsd/kmodule">
+	
+	<!-- stock start-->
+	<kbase name="elnstockidtquery" packages="kie.eln.stock.identity.query">
+		<ksession name="ks-eln-stock-idt-query" />
+	</kbase>
+
+	<kbase name="elnstockpreipm" packages="kie.eln.stock.preipm">
+		<ksession name="ks-eln-stock-preipm" />
+	</kbase>
+	<kbase name="elnstockipm" packages="kie.eln.stock.ipm">
+		<ksession name="ks-eln-stock-ipm" />
+	</kbase>
+
+	
+	<kbase name="elnstockSecondimp" packages="kie.eln.stock.secondipm">
+		<ksession name="ks-eln-stock-secondipm" />
+	</kbase>
+	
+	<kbase name="stockthirdimp" packages="kie.eln.stock.thirdipm">
+		<ksession name="ks-eln-stock-thirdipm" />
+	</kbase>
+	
+	<!-- stock end-->
+	
+</kmodule>

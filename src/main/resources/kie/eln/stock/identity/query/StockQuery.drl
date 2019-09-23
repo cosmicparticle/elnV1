@@ -1,0 +1,16 @@
+package com.abc.rule.eln.identity.query
+
+
+import cho.carbon.fuse.improve.attribute.FuseAttribute;
+import cho.carbon.query.model.FGConJunctionFactory;
+import cho.carbon.meta.enun.AttributeValueType;
+import cho.carbon.meta.enun.operator.UnaryOperator;
+import cho.carbon.biz.common.CommonCalculation;
+
+import cho.carbon.biz.constant.item.CELNE2006Item;
+
+
+global java.lang.String recordName;
+global cho.carbon.query.model.FGConJunctionFactory conJunctionFactory;
+
+

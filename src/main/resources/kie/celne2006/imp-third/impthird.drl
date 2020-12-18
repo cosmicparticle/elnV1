@@ -1,0 +1,79 @@
+package cho.carbon.fg.eln.rule.celne2006.impthird
+
+import cho.carbon.relation.RelationCorrelation;
+import cho.carbon.fuse.improve.attribute.FuseAttributeFactory;
+import cho.carbon.rrc.record.FGAttribute;
+import cho.carbon.meta.enun.AttributeValueType;
+import cho.carbon.relation.RecordRelation;
+import cho.carbon.fuse.improve.attribute.FuseAttribute;
+import cho.carbon.fuse.improve.attribute.OpsAttribute;
+import cho.carbon.fuse.improve.attribute.mline.OpsMLineAttr;
+import cho.carbon.message.MessageFactory;
+import cho.carbon.fg.eln.common.CommonCalculation;
+import cho.carbon.fg.eln.constant.BaseConstant;
+import cho.carbon.fg.eln.constant.EnumKeyValue;
+import cho.carbon.fg.eln.constant.RelationType;
+import cho.carbon.fg.eln.constant.item.CELNE2006Item;
+
+
+global java.lang.String recordCode;
+global java.lang.String userCode;
+global java.lang.String recordName;
+global java.lang.String hostCode; 
+global java.lang.String hostName;
+global cho.carbon.rrc.record.FGRootRecord record;
+global cho.carbon.complexus.FGRecordComplexus recordComplexus;
+global cho.carbon.fuse.improve.ops.builder.FGRecordOpsBuilder recordOpsBuilder;
+global java.util.List<FGRootRecord> relatedRecordList;
+global java.util.List<Updatable> updateBeans;
+global java.util.List<RemoveRecordInfo> removeRecordInfoList;
+global java.util.List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList;
+global cho.carbon.ops.builder.RecordRelationOpsBuilder relationOpsBuilder;
+global java.util.List<Message> messageList;
+
+
+
+rule "设置库存状态-高库存"
+	salience 15
+when
+	FuseAttribute(name==CELNE2006Item.基本信息_高库存阈值 ,getValue(AttributeValueType.INT)!=null,$value:getValue(AttributeValueType.INT));
+	FuseAttribute(name==CELNE2006Item.基本信息_库存量 ,getValue(AttributeValueType.INT)!=null,$current:getValue(AttributeValueType.INT));
+	eval((Integer)$current>(Integer)$value);
+then 
+	FGAttribute attr=FuseAttributeFactory.buildAttribute(CELNE2006Item.基本信息_库存状态, EnumKeyValue.ENUM_库存状态_高库存);
+	recordOpsBuilder.addUpdateAttr(attr);
+end
+
+rule "设置库存状态-低库存"
+	salience 15
+when
+	FuseAttribute(name==CELNE2006Item.基本信息_低库存阈值 ,getValue(AttributeValueType.INT)!=null,$value:getValue(AttributeValueType.INT));
+	FuseAttribute(name==CELNE2006Item.基本信息_库存量 ,getValue(AttributeValueType.INT)!=null,$current:getValue(AttributeValueType.INT));
+	eval((Integer)$current<(Integer)$value);
+then 
+	FGAttribute attr=FuseAttributeFactory.buildAttribute(CELNE2006Item.基本信息_库存状态, EnumKeyValue.ENUM_库存状态_低库存);
+		recordOpsBuilder.addUpdateAttr(attr);
+end
+
+
+rule "设置库存状态-零库存"
+	salience 16
+when
+	FuseAttribute(name==CELNE2006Item.基本信息_库存量 ,getValue(AttributeValueType.INT)==null || (Integer)getValue(AttributeValueType.INT)==0);
+then 
+	FGAttribute attr=FuseAttributeFactory.buildAttribute(CELNE2006Item.基本信息_库存状态, EnumKeyValue.ENUM_库存状态_零库存);
+		recordOpsBuilder.addUpdateAttr(attr);
+end
+
+
+rule "设置库存状态-正常库存"
+	salience 15
+when
+	FuseAttribute(name==CELNE2006Item.基本信息_高库存阈值,getValue(AttributeValueType.INT)!=null,$valueHigh:getValue(AttributeValueType.INT));
+	FuseAttribute(name==CELNE2006Item.基本信息_低库存阈值,getValue(AttributeValueType.INT)!=null,$valueLow:getValue(AttributeValueType.INT));
+	FuseAttribute(name==CELNE2006Item.基本信息_库存量 ,getValue(AttributeValueType.INT)!=null,$current:getValue(AttributeValueType.INT));
+	eval((Integer)$current>=(Integer)$valueLow && (Integer)$current<=(Integer)$valueHigh);
+then 
+	FGAttribute attr=FuseAttributeFactory.buildAttribute(CELNE2006Item.基本信息_库存状态, EnumKeyValue.ENUM_库存状态_正常);
+		recordOpsBuilder.addUpdateAttr(attr);
+end

@@ -1,27 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <kmodule xmlns="http://www.drools.org/xsd/kmodule">
 	
-	<!-- stock start-->
-	<kbase name="elnstockidtquery" packages="kie.eln.stock.identity.query">
-		<ksession name="ks-eln-stock-idt-query" />
-	</kbase>
-
-	<kbase name="elnstockpreipm" packages="kie.eln.stock.preipm">
-		<ksession name="ks-eln-stock-preipm" />
-	</kbase>
-	<kbase name="elnstockipm" packages="kie.eln.stock.ipm">
-		<ksession name="ks-eln-stock-ipm" />
-	</kbase>
-
-	
-	<kbase name="elnstockSecondimp" packages="kie.eln.stock.secondipm">
-		<ksession name="ks-eln-stock-secondipm" />
-	</kbase>
-	
-	<kbase name="stockthirdimp" packages="kie.eln.stock.thirdipm">
-		<ksession name="ks-eln-stock-thirdipm" />
-	</kbase>
-	
-	<!-- stock end-->
+	<!-- 仪器库存celne2006 start -->
+<kbase name="celne2006-identity-query" packages="kie.celne2006.identity.query">
+<ksession name="ks-celne2006-identity-query" />
+</kbase>
+<kbase name="celne2006-imp-fetch" packages="kie.celne2006.imp-fetch">
+<ksession name="ks-celne2006-imp-fetch" />
+</kbase>
+<kbase name="celne2006-f1-pre" packages="kie.celne2006.imp-first.f1-pre">
+<ksession name="ks-celne2006-f1-pre" />
+</kbase>
+<kbase name="celne2006-f2-imp" packages="kie.celne2006.imp-first.f2-imp">
+<ksession name="ks-celne2006-f2-imp" />
+</kbase>
+<kbase name="celne2006-f3-post" packages="kie.celne2006.imp-first.f3-post">
+<ksession name="ks-celne2006-f3-post" />
+</kbase>
+<kbase name="celne2006-imp-second" packages="kie.celne2006.imp-second">
+<ksession name="ks-celne2006-imp-second" />
+</kbase>
+<kbase name="celne2006-imp-third" packages="kie.celne2006.imp-third">
+<ksession name="ks-celne2006-imp-third" />
+</kbase>
+<kbase name="celne2006-query-conjunction" packages="kie.celne2006.query.conjunction">
+<ksession name="ks-celne2006-query-conjunction" />
+</kbase>
+<kbase name="celne2006-validator-before" packages="kie.celne2006.validator.before">
+<ksession name="ks-celne2006-validator-before" />
+</kbase>
+<kbase name="celne2006-validator-after" packages="kie.celne2006.validator.after">
+<ksession name="ks-celne2006-validator-after" />
+</kbase>
+<!-- 仪器库存celne2006 end -->
 	
 </kmodule>

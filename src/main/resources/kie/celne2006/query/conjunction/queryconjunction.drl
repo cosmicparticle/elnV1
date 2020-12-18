@@ -1,0 +1,23 @@
+package cho.carbon.fg.eln.rule.celne2006.queryconjunction
+import cho.carbon.fuse.improve.attribute.FuseAttributeFactory;
+import cho.carbon.rrc.record.FGAttribute;
+import cho.carbon.meta.enun.AttributeValueType;
+import cho.carbon.fuse.improve.attribute.FuseAttribute;
+import cho.carbon.ops.builder.RecordRelationOpsBuilder;
+import cho.carbon.ops.builder.RecordRelationOpsBuilder;
+import cho.carbon.sysdate.SystemDateTimeManager;
+import cho.carbon.rrc.builder.FGRootRecordBuilder;
+import cho.carbon.rrc.record.FGRootRecord;
+import cho.carbon.relation.RecordRelation;
+import cho.carbon.fuse.improve.attribute.mline.FuseMLineAttr;
+import cho.carbon.fg.eln.constant.EnumKeyValue;
+import cho.carbon.fg.eln.constant.RelationType;
+import cho.carbon.message.MessageFactory;
+import cho.carbon.fg.eln.constant.BaseConstant;
+import cho.carbon.fg.eln.constant.item.CELNE2006Item;
+
+global java.lang.String userCode;
+global java.lang.String recordName;
+global cho.carbon.meta.criteria.model.ModelConJunction modelConJunction;
+global cho.carbon.ops.builder.ConJunctionOpsBuilder conJunctionOpsBuilder;
+

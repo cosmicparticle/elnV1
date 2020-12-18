@@ -1,0 +1,81 @@
+package cho.carbon.fg.eln.rule.celne2006.f2imp
+
+import cho.carbon.relation.RelationCorrelation;
+import cho.carbon.fuse.improve.attribute.FuseAttributeFactory;
+import cho.carbon.rrc.record.FGAttribute;
+import cho.carbon.meta.enun.AttributeValueType;
+import cho.carbon.relation.RecordRelation;
+import cho.carbon.fuse.improve.attribute.FuseAttribute;
+import cho.carbon.fuse.improve.attribute.OpsAttribute;
+import cho.carbon.fuse.improve.attribute.mline.OpsMLineAttr;
+import cho.carbon.message.MessageFactory;
+import cho.carbon.fg.eln.common.CommonCalculation;
+import cho.carbon.fg.eln.constant.BaseConstant;
+import cho.carbon.fg.eln.constant.EnumKeyValue;
+import cho.carbon.fg.eln.constant.RelationType;
+import cho.carbon.fg.eln.constant.item.CELNE2006Item;
+import cho.carbon.fg.eln.algorithm.eln.Stock;
+
+global java.lang.String recordCode;
+global java.lang.String userCode;
+global java.lang.String recordName;
+global java.lang.String hostCode; 
+global java.lang.String hostName;
+global cho.carbon.rrc.record.FGRootRecord record;
+global cho.carbon.complexus.FGRecordComplexus recordComplexus;
+global cho.carbon.fuse.improve.ops.builder.FGRecordOpsBuilder recordOpsBuilder;
+global java.util.List<FGRootRecord> relatedRecordList;
+global java.util.List<Updatable> updateBeans;
+global java.util.List<RemoveRecordInfo> removeRecordInfoList;
+global java.util.List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList;
+global cho.carbon.ops.builder.RecordRelationOpsBuilder relationOpsBuilder;
+global java.util.List<Message> messageList;
+
+
+rule "确保存量"
+	salience 100
+when
+	not FuseAttribute(name==CELNE2006Item.基本信息_库存量);
+then 
+	FGAttribute allCountAttr=FuseAttributeFactory.buildAttribute(CELNE2006Item.基本信息_库存量, 0);
+	insert(new FuseAttribute(recordCode,allCountAttr));
+end
+
+rule "更新库存量之入库"
+	salience 15
+when
+	$opstypeAttr:FuseAttribute(name==CELNE2006Item.出入库表单_操作类型,getValue(AttributeValueType.INT)==EnumKeyValue.ENUM_进出库类型_进库操作);
+	$addCountAttr:FuseAttribute(name==CELNE2006Item.出入库表单_数量 ,getValue(AttributeValueType.INT)!=null);
+	$allCountAttr:FuseAttribute(name==CELNE2006Item.基本信息_库存量);
+then 
+	FGAttribute allCountAttr=FuseAttributeFactory.buildAttribute(CELNE2006Item.基本信息_库存量, (Integer)$allCountAttr.getValue(AttributeValueType.INT)+(Integer)$addCountAttr.getValue(AttributeValueType.INT));
+		recordOpsBuilder.addUpdateAttr(allCountAttr);
+	//构建入库记录 and 清除入库信息
+	String code=Stock.buildAddLeaf(record,recordOpsBuilder);
+end
+
+rule "更新库存量之出清库"
+	salience 15
+when
+	FuseAttribute(name==CELNE2006Item.出入库表单_操作类型,getValue(AttributeValueType.INT)==EnumKeyValue.ENUM_进出库类型_出库操作)
+	$addCountAttr:FuseAttribute(name==CELNE2006Item.出入库表单_数量 ,getValue(AttributeValueType.INT)!=null);
+	$allCountAttr:FuseAttribute(name==CELNE2006Item.基本信息_库存量);
+then  
+	FGAttribute allCountAttr=FuseAttributeFactory.buildAttribute(CELNE2006Item.基本信息_库存量, (Integer)$allCountAttr.getValue(AttributeValueType.INT)-(Integer)$addCountAttr.getValue(AttributeValueType.INT));
+	recordOpsBuilder.addUpdateAttr(allCountAttr);
+	//构建入库记录 and 清除入库信息
+	String code=Stock.buildAddLeaf(record,recordOpsBuilder);
+end
+
+rule "更新库存量之出清库2"
+	salience 15
+when
+	FuseAttribute(name==CELNE2006Item.出入库表单_操作类型,getValue(AttributeValueType.INT)==EnumKeyValue.ENUM_进出库类型_清仓操作)
+	$addCountAttr:FuseAttribute(name==CELNE2006Item.出入库表单_数量 ,getValue(AttributeValueType.INT)!=null);
+	$allCountAttr:FuseAttribute(name==CELNE2006Item.基本信息_库存量);
+then  
+	FGAttribute allCountAttr=FuseAttributeFactory.buildAttribute(CELNE2006Item.基本信息_库存量, (Integer)$allCountAttr.getValue(AttributeValueType.INT)-(Integer)$addCountAttr.getValue(AttributeValueType.INT));
+	recordOpsBuilder.addUpdateAttr(allCountAttr);
+	//构建入库记录 and 清除入库信息
+	String code=Stock.buildAddLeaf(record,recordOpsBuilder);
+end

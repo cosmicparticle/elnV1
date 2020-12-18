@@ -18,7 +18,7 @@
 		<version.proxool>0.9.1</version.proxool>
 		<version.kie>7.10.0.Final</version.kie>
 		<version.kie.ci>7.10.0.Final</version.kie.ci>
-		<version.carboncore>0.43</version.carboncore>
+		<version.carbon-core>1.0.135-SNAPSHOT</version.carbon-core>
 		<!-- <version.kieutil>0.0.5</version.kieutil> -->
 		
 		<project.builder.sourcesEncoding>UTF-8</project.builder.sourcesEncoding>
@@ -37,7 +37,7 @@
 		<dependency>
 			<groupId>cho.carbon</groupId>
 			<artifactId>carbon-core</artifactId>
-			<version>${version.carboncore}</version>
+			<version>${version.carbon-core}</version>
 		</dependency>
 		
 		<dependency>

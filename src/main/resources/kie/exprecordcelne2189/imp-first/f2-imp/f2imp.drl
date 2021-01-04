@@ -1,0 +1,43 @@
+package cho.carbon.fg.eln.rule.exprecordcelne2189.f2imp
+
+import cho.carbon.relation.RelationCorrelation;
+import cho.carbon.fuse.improve.attribute.FuseAttributeFactory;
+import cho.carbon.rrc.record.FGAttribute;
+import cho.carbon.meta.enun.AttributeValueType;
+import cho.carbon.relation.RecordRelation;
+import cho.carbon.fuse.improve.attribute.FuseAttribute;
+import cho.carbon.fuse.improve.attribute.OpsAttribute;
+import cho.carbon.fuse.improve.attribute.mline.OpsMLineAttr;
+import cho.carbon.message.MessageFactory;
+import cho.carbon.fg.eln.common.CommonCalculation;
+import cho.carbon.fg.eln.constant.BaseConstant;
+import cho.carbon.fg.eln.constant.EnumKeyValue;
+import cho.carbon.fg.eln.constant.RelationType;
+import cho.carbon.fg.eln.constant.item.ExpRecordCELNE2189Item;
+
+
+global java.lang.String recordCode;
+global java.lang.String userCode;
+global java.lang.String recordName;
+global java.lang.String hostCode; 
+global java.lang.String hostName;
+global cho.carbon.rrc.record.FGRootRecord record;
+global cho.carbon.complexus.FGRecordComplexus recordComplexus;
+global cho.carbon.fuse.improve.ops.builder.FGRecordOpsBuilder recordOpsBuilder;
+global java.util.List<FGRootRecord> relatedRecordList;
+global java.util.List<Updatable> updateBeans;
+global java.util.List<RemoveRecordInfo> removeRecordInfoList;
+global java.util.List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList;
+global cho.carbon.ops.builder.RecordRelationOpsBuilder relationOpsBuilder;
+global java.util.List<Message> messageList;
+
+
+rule "默认实验记录状态"
+	salience 20
+	when
+		not FuseAttribute(name==ExpRecordCELNE2189Item.基本属性组_记录状态) or FuseAttribute(name==ExpRecordCELNE2189Item.基本属性组_记录状态,CommonCalculation.isNotBasicLawful(getValue(AttributeValueType.STRING)));
+	then
+		// 生成实验记录状态
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(ExpRecordCELNE2189Item.基本属性组_记录状态, EnumKeyValue.ENUM_实验记录状态_实验中);
+		recordOpsBuilder.addUpdateAttr(attr);	
+end

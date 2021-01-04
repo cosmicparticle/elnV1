@@ -1,6 +1,5 @@
 package cho.carbon.fg.eln.common;
 
-import org.apache.log4j.Logger;
 import org.kie.api.KieServices;
 import org.kie.api.KieServices.Factory;
 import org.kie.api.event.rule.AfterMatchFiredEvent;
@@ -14,9 +13,12 @@ import org.kie.api.event.rule.RuleFlowGroupActivatedEvent;
 import org.kie.api.event.rule.RuleFlowGroupDeactivatedEvent;
 import org.kie.api.runtime.KieContainer;
 import org.kie.api.runtime.KieSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class SessionFactory {
-	private static Logger logger = Logger.getLogger(SessionFactory.class);
+	private static Logger logger = LoggerFactory.getLogger(SessionFactory.class);
 	
 	//findKeepSession
 	public static KieSession findScannerSession(String sessionName) {
@@ -27,22 +29,22 @@ public class SessionFactory {
 		
 		kSession.addEventListener(new AgendaEventListener() {
             public void matchCreated(MatchCreatedEvent event) {
-                System.out.println("The rule "
+            	logger.info("The rule "
                         + event.getMatch().getRule().getName()
                         + " can be fired in agenda");
             }
             public void matchCancelled(MatchCancelledEvent event) {
-                System.out.println("The rule "
+            	logger.info("The rule "
                         + event.getMatch().getRule().getName()
                         + " cannot b in agenda");
             }
             public void beforeMatchFired(BeforeMatchFiredEvent event) {
-                System.out.println("The rule "
+            	logger.info("The rule "
                         + event.getMatch().getRule().getName()
                         + " will be fired");
             }
             public void afterMatchFired(AfterMatchFiredEvent event) {
-                System.out.println("The rule "
+            	logger.info("The rule "
                         + event.getMatch().getRule().getName()
                         + " has be fired");
             }

@@ -1,10 +1,11 @@
 package cho.carbon.fg.eln.common;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class OutputDisplay {
 	
-	private static Logger logger = Logger.getLogger(OutputDisplay.class);
+	static Logger logger = LoggerFactory.getLogger(OutputDisplay.class);
 	public static void showText(Object text) {
 		logger.debug("【【【【" + text + "】】】】");
 	}

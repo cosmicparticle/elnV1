@@ -1,0 +1,61 @@
+package cho.carbon.fg.eln.rule.exprecordcelne2189.impsecond
+
+import cho.carbon.relation.RelationCorrelation;
+import cho.carbon.fuse.improve.attribute.FuseAttributeFactory;
+import cho.carbon.rrc.record.FGAttribute;
+import cho.carbon.meta.enun.AttributeValueType;
+import cho.carbon.relation.RecordRelation;
+import cho.carbon.fuse.improve.attribute.FuseAttribute;
+import cho.carbon.fuse.improve.attribute.OpsAttribute;
+import cho.carbon.fuse.improve.attribute.mline.OpsMLineAttr;
+import cho.carbon.message.MessageFactory;
+import cho.carbon.fg.eln.common.CommonCalculation;
+import cho.carbon.fg.eln.constant.BaseConstant;
+import cho.carbon.fg.eln.constant.EnumKeyValue;
+import cho.carbon.fg.eln.constant.RelationType;
+import cho.carbon.fg.eln.constant.item.ExpRecordCELNE2189Item;
+import cho.carbon.fg.eln.algorithm.eln.ExpRecordAlgorithm;
+
+global java.lang.String recordCode;
+global java.lang.String userCode;
+global java.lang.String recordName;
+global java.lang.String hostCode; 
+global java.lang.String hostName;
+global cho.carbon.rrc.record.FGRootRecord record;
+global cho.carbon.complexus.FGRecordComplexus recordComplexus;
+global cho.carbon.fuse.improve.ops.builder.FGRecordOpsBuilder recordOpsBuilder;
+global java.util.List<FGRootRecord> relatedRecordList;
+global java.util.List<Updatable> updateBeans;
+global java.util.List<RemoveRecordInfo> removeRecordInfoList;
+global java.util.List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList;
+global cho.carbon.ops.builder.RecordRelationOpsBuilder relationOpsBuilder;
+global java.util.List<Message> messageList;
+
+rule "创建实验记录的实验员"
+	salience 30 
+	when
+		not RecordRelation(type == RelationType.RR_实验记录_实验员_系统用户);
+	then  
+		relationOpsBuilder.putRelation(RelationType.RR_实验记录_实验员_系统用户, userCode);
+end
+
+rule "执行实验记录计算投料总量命令"
+	salience 20
+	when
+		FuseAttribute(name==ExpRecordCELNE2189Item.基本属性组_实验记录命令,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_实验记录命令_计算投料总量);
+	then  
+		// 计算投料总量命令
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(ExpRecordCELNE2189Item.基本属性组_实验记录命令, null);
+		recordOpsBuilder.addUpdateAttr(attr);	
+		// 计算投料总量命令
+		messageList.add(ExpRecordAlgorithm.computeMaterialGross(recordComplexus,  recordCode, recordOpsBuilder, relatedRecordList,  relatedRelationOpsBuilderList));
+end
+
+rule "实验记录提请归档后， 需要制定审核人"
+	salience 30 
+	when
+		FuseAttribute(name==ExpRecordCELNE2189Item.基本属性组_记录状态,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_实验记录状态_待归档);
+	then  
+		// 增加实验记录的审核人
+		messageList.add(ExpRecordAlgorithm.addVerifier(recordComplexus,  recordCode, relationOpsBuilder));
+end

@@ -33,5 +33,132 @@
 <ksession name="ks-celne2006-validator-after" />
 </kbase>
 <!-- 仪器库存celne2006 end -->
-	
+	<!-- 实验记录ExpRecordcelne2189 start -->
+<kbase name="exprecordcelne2189-identity-query" packages="kie.exprecordcelne2189.identity.query">
+<ksession name="ks-celne2189-identity-query" />
+</kbase>
+<kbase name="exprecordcelne2189-imp-fetch" packages="kie.exprecordcelne2189.imp-fetch">
+<ksession name="ks-celne2189-imp-fetch" />
+</kbase>
+<kbase name="exprecordcelne2189-f1-pre" packages="kie.exprecordcelne2189.imp-first.f1-pre">
+<ksession name="ks-celne2189-f1-pre" />
+</kbase>
+<kbase name="exprecordcelne2189-f2-imp" packages="kie.exprecordcelne2189.imp-first.f2-imp">
+<ksession name="ks-celne2189-f2-imp" />
+</kbase>
+<kbase name="exprecordcelne2189-f3-post" packages="kie.exprecordcelne2189.imp-first.f3-post">
+<ksession name="ks-celne2189-f3-post" />
+</kbase>
+<kbase name="exprecordcelne2189-imp-second" packages="kie.exprecordcelne2189.imp-second">
+<ksession name="ks-celne2189-imp-second" />
+</kbase>
+<kbase name="exprecordcelne2189-imp-third" packages="kie.exprecordcelne2189.imp-third">
+<ksession name="ks-celne2189-imp-third" />
+</kbase>
+<kbase name="exprecordcelne2189-query-conjunction" packages="kie.exprecordcelne2189.query.conjunction">
+<ksession name="ks-celne2189-query-conjunction" />
+</kbase>
+<kbase name="exprecordcelne2189-validator-before" packages="kie.exprecordcelne2189.validator.before">
+<ksession name="ks-celne2189-validator-before" />
+</kbase>
+<kbase name="exprecordcelne2189-validator-after" packages="kie.exprecordcelne2189.validator.after">
+<ksession name="ks-celne2189-validator-after" />
+</kbase>
+<!-- 实验记录ExpRecordcelne2189 end -->
+<!-- 实验操作过程ExpProcesscelne3433 start -->
+<kbase name="expprocesscelne3433-identity-query" packages="kie.expprocesscelne3433.identity.query">
+<ksession name="ks-celne3433-identity-query" />
+</kbase>
+<kbase name="expprocesscelne3433-imp-fetch" packages="kie.expprocesscelne3433.imp-fetch">
+<ksession name="ks-celne3433-imp-fetch" />
+</kbase>
+<kbase name="expprocesscelne3433-f1-pre" packages="kie.expprocesscelne3433.imp-first.f1-pre">
+<ksession name="ks-celne3433-f1-pre" />
+</kbase>
+<kbase name="expprocesscelne3433-f2-imp" packages="kie.expprocesscelne3433.imp-first.f2-imp">
+<ksession name="ks-celne3433-f2-imp" />
+</kbase>
+<kbase name="expprocesscelne3433-f3-post" packages="kie.expprocesscelne3433.imp-first.f3-post">
+<ksession name="ks-celne3433-f3-post" />
+</kbase>
+<kbase name="expprocesscelne3433-imp-second" packages="kie.expprocesscelne3433.imp-second">
+<ksession name="ks-celne3433-imp-second" />
+</kbase>
+<kbase name="expprocesscelne3433-imp-third" packages="kie.expprocesscelne3433.imp-third">
+<ksession name="ks-celne3433-imp-third" />
+</kbase>
+<kbase name="expprocesscelne3433-query-conjunction" packages="kie.expprocesscelne3433.query.conjunction">
+<ksession name="ks-celne3433-query-conjunction" />
+</kbase>
+<kbase name="expprocesscelne3433-validator-before" packages="kie.expprocesscelne3433.validator.before">
+<ksession name="ks-celne3433-validator-before" />
+</kbase>
+<kbase name="expprocesscelne3433-validator-after" packages="kie.expprocesscelne3433.validator.after">
+<ksession name="ks-celne3433-validator-after" />
+</kbase>
+<!-- 实验操作过程ExpProcesscelne3433 end -->
+<!-- 投料信息MaterialRatiocelne3466 start -->
+<kbase name="materialratiocelne3466-identity-query" packages="kie.materialratiocelne3466.identity.query">
+<ksession name="ks-celne3466-identity-query" />
+</kbase>
+<kbase name="materialratiocelne3466-imp-fetch" packages="kie.materialratiocelne3466.imp-fetch">
+<ksession name="ks-celne3466-imp-fetch" />
+</kbase>
+<kbase name="materialratiocelne3466-f1-pre" packages="kie.materialratiocelne3466.imp-first.f1-pre">
+<ksession name="ks-celne3466-f1-pre" />
+</kbase>
+<kbase name="materialratiocelne3466-f2-imp" packages="kie.materialratiocelne3466.imp-first.f2-imp">
+<ksession name="ks-celne3466-f2-imp" />
+</kbase>
+<kbase name="materialratiocelne3466-f3-post" packages="kie.materialratiocelne3466.imp-first.f3-post">
+<ksession name="ks-celne3466-f3-post" />
+</kbase>
+<kbase name="materialratiocelne3466-imp-second" packages="kie.materialratiocelne3466.imp-second">
+<ksession name="ks-celne3466-imp-second" />
+</kbase>
+<kbase name="materialratiocelne3466-imp-third" packages="kie.materialratiocelne3466.imp-third">
+<ksession name="ks-celne3466-imp-third" />
+</kbase>
+<kbase name="materialratiocelne3466-query-conjunction" packages="kie.materialratiocelne3466.query.conjunction">
+<ksession name="ks-celne3466-query-conjunction" />
+</kbase>
+<kbase name="materialratiocelne3466-validator-before" packages="kie.materialratiocelne3466.validator.before">
+<ksession name="ks-celne3466-validator-before" />
+</kbase>
+<kbase name="materialratiocelne3466-validator-after" packages="kie.materialratiocelne3466.validator.after">
+<ksession name="ks-celne3466-validator-after" />
+</kbase>
+<!-- 投料信息MaterialRatiocelne3466 end -->
+<!-- 实验项目Elnprojectcelne2244 start -->
+<kbase name="elnprojectcelne2244-identity-query" packages="kie.elnprojectcelne2244.identity.query">
+<ksession name="ks-celne2244-identity-query" />
+</kbase>
+<kbase name="elnprojectcelne2244-imp-fetch" packages="kie.elnprojectcelne2244.imp-fetch">
+<ksession name="ks-celne2244-imp-fetch" />
+</kbase>
+<kbase name="elnprojectcelne2244-f1-pre" packages="kie.elnprojectcelne2244.imp-first.f1-pre">
+<ksession name="ks-celne2244-f1-pre" />
+</kbase>
+<kbase name="elnprojectcelne2244-f2-imp" packages="kie.elnprojectcelne2244.imp-first.f2-imp">
+<ksession name="ks-celne2244-f2-imp" />
+</kbase>
+<kbase name="elnprojectcelne2244-f3-post" packages="kie.elnprojectcelne2244.imp-first.f3-post">
+<ksession name="ks-celne2244-f3-post" />
+</kbase>
+<kbase name="elnprojectcelne2244-imp-second" packages="kie.elnprojectcelne2244.imp-second">
+<ksession name="ks-celne2244-imp-second" />
+</kbase>
+<kbase name="elnprojectcelne2244-imp-third" packages="kie.elnprojectcelne2244.imp-third">
+<ksession name="ks-celne2244-imp-third" />
+</kbase>
+<kbase name="elnprojectcelne2244-query-conjunction" packages="kie.elnprojectcelne2244.query.conjunction">
+<ksession name="ks-celne2244-query-conjunction" />
+</kbase>
+<kbase name="elnprojectcelne2244-validator-before" packages="kie.elnprojectcelne2244.validator.before">
+<ksession name="ks-celne2244-validator-before" />
+</kbase>
+<kbase name="elnprojectcelne2244-validator-after" packages="kie.elnprojectcelne2244.validator.after">
+<ksession name="ks-celne2244-validator-after" />
+</kbase>
+<!-- 实验项目Elnprojectcelne2244 end -->
 </kmodule>

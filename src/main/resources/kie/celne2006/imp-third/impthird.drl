@@ -31,8 +31,7 @@ global java.util.List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList;
 global cho.carbon.ops.builder.RecordRelationOpsBuilder relationOpsBuilder;
 global java.util.List<Message> messageList;
 
-
-
+/*
 rule "设置库存状态-高库存"
 	salience 15
 when
@@ -77,3 +76,4 @@ then
 	FGAttribute attr=FuseAttributeFactory.buildAttribute(CELNE2006Item.基本信息_库存状态, EnumKeyValue.ENUM_库存状态_正常);
 		recordOpsBuilder.addUpdateAttr(attr);
 end
+*/

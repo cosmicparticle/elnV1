@@ -9,8 +9,6 @@ import cho.carbon.fg.eln.common.SessionFactory;
 import cho.carbon.complexus.FGRecordComplexus;
 import cho.carbon.context.fg.FuncGroupContext;
 import cho.carbon.fuse.fg.ConJunctionFGResult;
-import cho.carbon.fuse.fg.FetchFGResult;
-import cho.carbon.fuse.fg.FetchFuncGroup;
 import cho.carbon.fuse.fg.FunctionGroup;
 import cho.carbon.fuse.fg.FuseCallBackFuncGroup;
 import cho.carbon.fuse.fg.IdentityQueryFuncGroup;
@@ -21,7 +19,6 @@ import cho.carbon.fuse.fg.ValidatorFGResult;
 import cho.carbon.meta.criteria.model.ModelConJunction;
 import cho.carbon.meta.criteria.model.ModelCriterion;
 import cho.carbon.ops.complexus.OpsComplexus;
-import cho.carbon.rrc.record.FGRootRecord;
 
 @Repository(value = "celne2244")
 public class ElnprojectCELNE2244BNB implements FunctionGroup, IdentityQueryFuncGroup, ValidatorFuncGroup, ThirdRoundImproveFuncGroup,

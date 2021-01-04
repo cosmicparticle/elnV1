@@ -16,7 +16,6 @@ import org.kie.api.runtime.KieSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-
 public class SessionFactory {
 	private static Logger logger = LoggerFactory.getLogger(SessionFactory.class);
 	

@@ -23,7 +23,7 @@ import cho.carbon.meta.criteria.model.ModelCriterion;
 import cho.carbon.ops.complexus.OpsComplexus;
 import cho.carbon.rrc.record.FGRootRecord;
 
-@Repository(value = "celne2006")
+//@Repository(value = "celne2006")
 public class CELNE2006BNB implements FunctionGroup, IdentityQueryFuncGroup, ValidatorFuncGroup, ThirdRoundImproveFuncGroup,
 	FuseCallBackFuncGroup, /* FetchFuncGroup, */QueryJunctionFuncGroup {
 

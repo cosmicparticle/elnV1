@@ -13,6 +13,7 @@ import cho.carbon.fg.eln.algorithm.pojo.PutMaterialRatio;
 import cho.carbon.fg.eln.constant.BaseConstant;
 import cho.carbon.fg.eln.constant.RelationType;
 import cho.carbon.fg.eln.constant.item.ExpProcessCELNE3433Item;
+import cho.carbon.fg.eln.constant.item.MateriaInfoCELNE3393Item;
 import cho.carbon.fg.eln.constant.item.MaterialRatioCELNE3466Item;
 import cho.carbon.fuse.improve.ops.builder.FGRecordOpsBuilder;
 import cho.carbon.message.Message;
@@ -73,6 +74,10 @@ public class ExpRecordAlgorithm {
 						// 没有物料结束当前循环
 						continue;
 					}
+					// 获取物料code
+					String materialCode = materialRelaList.get(0).getRightCode();
+					String materialName = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_物料基础信息, materialCode, MateriaInfoCELNE3393Item.基本属性组_物料名称);
+					
 					//  获取投料实体
 					FGRootRecord putMaterial = CommonAlgorithm.getRootRecord(recordComplexus, BaseConstant.TYPE_投料信息, putMaterialCode);
 					
@@ -80,10 +85,11 @@ public class ExpRecordAlgorithm {
 					String actualAmount = CommonAlgorithm.getDataValue(putMaterial, MaterialRatioCELNE3466Item.基本属性组_实际投料量);
 					String putMateriaUnit = CommonAlgorithm.getDataValue(putMaterial, MaterialRatioCELNE3466Item.基本属性组_投料量单位);
 
-					PutMaterialRatio putMaterialRatio = new PutMaterialRatio(putMaterialCode,materialRelaList.get(0).getRightCode(), planAmount, actualAmount, putMateriaUnit, expProcessTime);
+					PutMaterialRatio putMaterialRatio = new PutMaterialRatio(putMaterialCode, materialCode, planAmount, actualAmount, putMateriaUnit, expProcessTime);
+					putMaterialRatio.setMaterialName(materialName);
+					
 					putMaterialRatioList.add(putMaterialRatio);
 				}
-				
 			}
 			
 			// 汇总物料实际投入量
@@ -96,12 +102,18 @@ public class ExpRecordAlgorithm {
 				if (pm == null) {
 					pm = putMaterialRatio;
 				} else {
-					// 没有计算计划量总和
+					// 没有 计算实际投料量总和
 					String actualAmount = putMaterialRatio.getActualAmount();
+					String putMateriaUnit = putMaterialRatio.getPutMateriaUnit();
+					
 					String actualAmountSum = pm.getActualAmount();
+					String putMateriaUnit2 = pm.getPutMateriaUnit();
+					
+					if (!putMateriaUnit.equals(putMateriaUnit2)) {
+						return MessageFactory.buildRefuseMessage("computeMaterialGrossFailed", "计算投料总量失败-", BaseConstant.TYPE_实验记录, "实验记录对应操作过程中投料信息相同物料【"+pm.getMaterialName()+"】单位必须一致");
+					}
 					
 					Double sum = Double.parseDouble(actualAmountSum) + Double.parseDouble(actualAmount);
-					
 					pm.setActualAmount(sum+"");
 				}
 				map.put(materiaCode, pm);
@@ -111,7 +123,6 @@ public class ExpRecordAlgorithm {
 			List<RecordRelation> materialRatioRelaList = (List)CommonAlgorithm.getAppointRecordRelation(recordComplexus, BaseConstant.TYPE_实验记录, recordCode, RelationType.RR_实验记录_物料配比_投料信息);
 //			if (materialRatioRelaList.isEmpty()) {
 //				// 生成所有方案
-//				
 //			}
 			
 			// 有方案的补充方案， 没有方案的新增方案
@@ -123,7 +134,7 @@ public class ExpRecordAlgorithm {
 				List<RecordRelation> materialRelaList = (List)CommonAlgorithm.getAppointRecordRelation(recordComplexus, BaseConstant.TYPE_投料信息, putMaterialCode, RelationType.RR_投料信息_物料信息_物料基础信息);
 				if (materialRelaList.isEmpty()) {
 					// 没有物料结束当前循环
-					continue;
+					return MessageFactory.buildInfoMessage("computeMaterialGrossSucceeded", "投料方案", BaseConstant.TYPE_实验记录, "没有物料基础信息");
 				}
 				// 获取物料唯一编码
 				String materialCode = materialRelaList.get(0).getRightCode();
@@ -137,6 +148,12 @@ public class ExpRecordAlgorithm {
 					String actualAmount = putMaterialRatio.getActualAmount();
 					FGRootRecordBuilder builder =FGRootRecordBuilder.getInstance(BaseConstant.TYPE_投料信息,putMaterialCode);
 					builder.putAttribute(MaterialRatioCELNE3466Item.基本属性组_实际投料量, actualAmount);
+					
+					relatedRecordList.add(builder.getRootRecord());
+				} else {
+					// 实际投料量 设置为0
+					FGRootRecordBuilder builder =FGRootRecordBuilder.getInstance(BaseConstant.TYPE_投料信息,putMaterialCode);
+					builder.putAttribute(MaterialRatioCELNE3466Item.基本属性组_实际投料量, 0);
 					
 					relatedRecordList.add(builder.getRootRecord());
 				}
@@ -160,7 +177,7 @@ public class ExpRecordAlgorithm {
 				FGRootRecord materialRatioRecord = materialRatioBuilder.getRootRecord();
 				relatedRecordList.add(materialRatioRecord);
 				
-				RecordRelationOpsBuilder putMaterialRelaOpsBuilder = RecordRelationOpsBuilder.getInstance(BaseConstant.TYPE_投料信息, pm.getPutMateriaCode());
+				RecordRelationOpsBuilder putMaterialRelaOpsBuilder = RecordRelationOpsBuilder.getInstance(BaseConstant.TYPE_投料信息, longUID);
 				// 
 				putMaterialRelaOpsBuilder.putRelation(RelationType.RR_投料信息_实验记录_实验记录, recordCode);
 				putMaterialRelaOpsBuilder.putRelation(RelationType.RR_投料信息_物料信息_物料基础信息, pm.getMateriaCode());

@@ -4,12 +4,12 @@
 
 	<groupId>cho.carbon.fg</groupId>
 	<artifactId>elnV1</artifactId>
-	<version>0.0.5-SNAPSHOT</version>
+	<version>0.0.7-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	
 	<url>http://maven.apache.org</url>
-
-		<properties>
+	
+	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<version.spring>5.2.1.RELEASE</version.spring>
 		<version.jackson>2.8.5</version.jackson>
@@ -26,8 +26,15 @@
 		<maven.compiler.encoding>UTF-8</maven.compiler.encoding>
 		<argLine>-Dfile.encoding=UTF-8</argLine>
 	</properties>
-
+	
 	<dependencies>
+	
+		<dependency>
+			<groupId>cho.carbon.fg</groupId>
+			<artifactId>authority135</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+	
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
 		<dependency>
 		    <groupId>org.slf4j</groupId>
@@ -41,6 +48,7 @@
 		    <artifactId>logback-classic</artifactId>
 		    <version>1.2.3</version>
 		</dependency>
+	
 
 		<dependency>
 			<groupId>cho.carbon</groupId>
@@ -287,7 +295,7 @@
 			<version>8.0.16</version>
 		</dependency>
 	</dependencies>
-	<distributionManagement>
+<distributionManagement>
 			<repository>
 				<id>rdc-snapshots</id>
 				<url>https://repo.rdc.aliyun.com/repository/105761-snapshot-OEIytT/</url>

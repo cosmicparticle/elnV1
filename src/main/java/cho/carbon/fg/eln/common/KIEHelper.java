@@ -183,7 +183,7 @@ public class KIEHelper {
 //		BizzAttributeTransfer.transfer(currentRecord).forEach(fuseAttribute -> kSession.insert(fuseAttribute));
 //
 //		// 这里需要改
-//		FGRelationCorrelation relationCorrelation = recordComplexus.getRelationCorrelation(recordCode);
+//		FGRelationCorrelation relationCorrelation = recordComplexus.getRelationCorrelation(recordName, recordCode);
 //
 //		if (relationCorrelation != null) {
 //
@@ -338,7 +338,7 @@ public class KIEHelper {
 		BizzAttributeTransfer.transfer(record).forEach(fuseAttribute -> kSession.insert(fuseAttribute));
 
 		// 这里需要改
-		FGRelationCorrelation relationCorrelation = recordComplexus.getRelationCorrelation(recordCode);
+		FGRelationCorrelation relationCorrelation = recordComplexus.getRelationCorrelation(recordName, recordCode);
 
 		if (relationCorrelation != null) {
 
@@ -454,7 +454,7 @@ public class KIEHelper {
 		BizzAttributeTransfer.transfer(record).forEach(fuseAttribute -> kSession.insert(fuseAttribute));
 
 		// 这里需要改
-		FGRelationCorrelation relationCorrelation = recordComplexus.getRelationCorrelation(recordCode);
+		FGRelationCorrelation relationCorrelation = recordComplexus.getRelationCorrelation(recordName,recordCode);
 
 		if (relationCorrelation != null) {
 			relationCorrelation.getRecordRelation().forEach(recordRelation -> kSession.insert(recordRelation));

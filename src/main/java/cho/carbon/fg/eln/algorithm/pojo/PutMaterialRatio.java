@@ -21,6 +21,8 @@ public class PutMaterialRatio {
 	private String putMateriaCode;
 	// 物料唯一编码
 	private String materiaCode;
+	// 物料名称
+	private String materialName;
 	//投料方式
 	private String putMateriaWay;
 	// 计划投料量
@@ -74,6 +76,14 @@ public class PutMaterialRatio {
 	}
 	public void setPutMateriaTime(String putMateriaTime) {
 		this.putMateriaTime = putMateriaTime;
+	}
+
+	public String getMaterialName() {
+		return materialName;
+	}
+
+	public void setMaterialName(String materialName) {
+		this.materialName = materialName;
 	}
 	
 }

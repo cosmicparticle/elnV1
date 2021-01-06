@@ -24,10 +24,3 @@ global cho.carbon.rrc.record.FGRootRecord record;
 global cho.carbon.complexus.FGRecordComplexus recordComplexus;
 global java.util.List<Message> messageList;
 
-rule "实验记录关联项目必填"
-	salience 25 
-	when
-		not RecordRelation(type == RelationType.RR_实验记录_关联项目_实验项目);
-	then
-		messageList.add(MessageFactory.buildRefuseMessage("Failed", "实验记录", BaseConstant.TYPE_实验记录, "实验记录关联实验项目必填"));
-end

@@ -31,10 +31,3 @@ global java.util.List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList;
 global cho.carbon.ops.builder.RecordRelationOpsBuilder relationOpsBuilder;
 global java.util.List<Message> messageList;
 
-rule "物料信息必填"
-	salience 25 
-	when
-		not RecordRelation(type == RelationType.RR_投料信息_物料信息_物料基础信息);
-	then
-		messageList.add(MessageFactory.buildRefuseMessage("Failed", "投料信息", BaseConstant.TYPE_投料信息, "投料信息中的物料基础信息必填"));
-end

@@ -29,7 +29,7 @@ global java.util.List<RemoveRecordInfo> removeRecordInfoList;
 global java.util.List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList;
 global cho.carbon.ops.builder.RecordRelationOpsBuilder relationOpsBuilder;
 global java.util.List<Message> messageList;
-/**
+
 
 rule "设置实验项目状态"
 	salience 20
@@ -40,4 +40,3 @@ rule "设置实验项目状态"
 		FGAttribute attr=FuseAttributeFactory.buildAttribute(ElnprojectCELNE2244Item.基本属性组_项目状态, EnumKeyValue.ENUM_项目状态_筹划中);
 		recordOpsBuilder.addUpdateAttr(attr);	
 end
-*/

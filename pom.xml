@@ -29,12 +29,6 @@
 	
 	<dependencies>
 	
-		<dependency>
-			<groupId>cho.carbon.fg</groupId>
-			<artifactId>authority135</artifactId>
-			<version>0.0.1</version>
-		</dependency>
-	
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
 		<dependency>
 		    <groupId>org.slf4j</groupId>

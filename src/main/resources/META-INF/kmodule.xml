@@ -161,4 +161,69 @@
 <ksession name="ks-celne2244-validator-after" />
 </kbase>
 <!-- 实验项目Elnprojectcelne2244 end -->
+
+<!-- 物料基础信息MateriaInfocelne3393 start -->
+<kbase name="materiainfocelne3393-identity-query" packages="kie.materiainfocelne3393.identity.query">
+<ksession name="ks-celne3393-identity-query" />
+</kbase>
+<kbase name="materiainfocelne3393-imp-fetch" packages="kie.materiainfocelne3393.imp-fetch">
+<ksession name="ks-celne3393-imp-fetch" />
+</kbase>
+<kbase name="materiainfocelne3393-f1-pre" packages="kie.materiainfocelne3393.imp-first.f1-pre">
+<ksession name="ks-celne3393-f1-pre" />
+</kbase>
+<kbase name="materiainfocelne3393-f2-imp" packages="kie.materiainfocelne3393.imp-first.f2-imp">
+<ksession name="ks-celne3393-f2-imp" />
+</kbase>
+<kbase name="materiainfocelne3393-f3-post" packages="kie.materiainfocelne3393.imp-first.f3-post">
+<ksession name="ks-celne3393-f3-post" />
+</kbase>
+<kbase name="materiainfocelne3393-imp-second" packages="kie.materiainfocelne3393.imp-second">
+<ksession name="ks-celne3393-imp-second" />
+</kbase>
+<kbase name="materiainfocelne3393-imp-third" packages="kie.materiainfocelne3393.imp-third">
+<ksession name="ks-celne3393-imp-third" />
+</kbase>
+<kbase name="materiainfocelne3393-query-conjunction" packages="kie.materiainfocelne3393.query.conjunction">
+<ksession name="ks-celne3393-query-conjunction" />
+</kbase>
+<kbase name="materiainfocelne3393-validator-before" packages="kie.materiainfocelne3393.validator.before">
+<ksession name="ks-celne3393-validator-before" />
+</kbase>
+<kbase name="materiainfocelne3393-validator-after" packages="kie.materiainfocelne3393.validator.after">
+<ksession name="ks-celne3393-validator-after" />
+</kbase>
+<!-- 物料基础信息MateriaInfocelne3393 end -->
+<!-- 物料库存信息MaterialStockInfocelne3551 start -->
+<kbase name="materialstockinfocelne3551-identity-query" packages="kie.materialstockinfocelne3551.identity.query">
+<ksession name="ks-celne3551-identity-query" />
+</kbase>
+<kbase name="materialstockinfocelne3551-imp-fetch" packages="kie.materialstockinfocelne3551.imp-fetch">
+<ksession name="ks-celne3551-imp-fetch" />
+</kbase>
+<kbase name="materialstockinfocelne3551-f1-pre" packages="kie.materialstockinfocelne3551.imp-first.f1-pre">
+<ksession name="ks-celne3551-f1-pre" />
+</kbase>
+<kbase name="materialstockinfocelne3551-f2-imp" packages="kie.materialstockinfocelne3551.imp-first.f2-imp">
+<ksession name="ks-celne3551-f2-imp" />
+</kbase>
+<kbase name="materialstockinfocelne3551-f3-post" packages="kie.materialstockinfocelne3551.imp-first.f3-post">
+<ksession name="ks-celne3551-f3-post" />
+</kbase>
+<kbase name="materialstockinfocelne3551-imp-second" packages="kie.materialstockinfocelne3551.imp-second">
+<ksession name="ks-celne3551-imp-second" />
+</kbase>
+<kbase name="materialstockinfocelne3551-imp-third" packages="kie.materialstockinfocelne3551.imp-third">
+<ksession name="ks-celne3551-imp-third" />
+</kbase>
+<kbase name="materialstockinfocelne3551-query-conjunction" packages="kie.materialstockinfocelne3551.query.conjunction">
+<ksession name="ks-celne3551-query-conjunction" />
+</kbase>
+<kbase name="materialstockinfocelne3551-validator-before" packages="kie.materialstockinfocelne3551.validator.before">
+<ksession name="ks-celne3551-validator-before" />
+</kbase>
+<kbase name="materialstockinfocelne3551-validator-after" packages="kie.materialstockinfocelne3551.validator.after">
+<ksession name="ks-celne3551-validator-after" />
+</kbase>
+<!-- 物料库存信息MaterialStockInfocelne3551 end -->
 </kmodule>

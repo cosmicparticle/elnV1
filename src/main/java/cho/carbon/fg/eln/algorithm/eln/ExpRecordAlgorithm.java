@@ -31,7 +31,6 @@ import cho.carbon.rrc.record.FGRootRecord;
  */
 public class ExpRecordAlgorithm {
 
-	private static final String List = null;
 	/**
 	 *	 计算投料总量
 	 * @param recordComplexus

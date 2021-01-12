@@ -29,4 +29,7 @@ public static final String TYPE_客户信息="celne3588";
 public static final String TYPE_收发货地址信息="celne3597";
 public static final String TYPE_附件资料="celne3610";
 public static final String TYPE_订单物料目录="celne3629";
+public static final String TYPE_项目执行计划="celne3705";
+public static final String TYPE_项目日报="celne3729";
+public static final String TYPE_物料预定="celne3756";
 }

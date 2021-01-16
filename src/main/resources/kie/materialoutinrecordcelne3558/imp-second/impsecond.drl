@@ -1,0 +1,155 @@
+package cho.carbon.fg.eln.rule.materialoutinrecordcelne3558.impsecond
+
+import cho.carbon.relation.RelationCorrelation;
+import cho.carbon.fuse.improve.attribute.FuseAttributeFactory;
+import cho.carbon.rrc.record.FGAttribute;
+import cho.carbon.meta.enun.AttributeValueType;
+import cho.carbon.relation.RecordRelation;
+import cho.carbon.fuse.improve.attribute.FuseAttribute;
+import cho.carbon.fuse.improve.attribute.OpsAttribute;
+import cho.carbon.fuse.improve.attribute.mline.OpsMLineAttr;
+import cho.carbon.message.MessageFactory;
+import cho.carbon.fg.eln.common.CommonCalculation;
+import cho.carbon.fg.eln.constant.BaseConstant;
+import cho.carbon.fg.eln.constant.EnumKeyValue;
+import cho.carbon.fg.eln.constant.RelationType;
+import cho.carbon.fg.eln.constant.item.MaterialOutInRecordCELNE3558Item;
+import cho.carbon.fg.eln.algorithm.eln.MaterialOutInRecordAlgorithm;
+
+
+global java.lang.String recordCode;
+global java.lang.String userCode;
+global java.lang.String recordName;
+global java.lang.String hostCode; 
+global java.lang.String hostName;
+global cho.carbon.rrc.record.FGRootRecord record;
+global cho.carbon.complexus.FGRecordComplexus recordComplexus;
+global cho.carbon.fuse.improve.ops.builder.FGRecordOpsBuilder recordOpsBuilder;
+global java.util.List<FGRootRecord> relatedRecordList;
+global java.util.List<Updatable> updateBeans;
+global java.util.List<RemoveRecordInfo> removeRecordInfoList;
+global java.util.List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList;
+global cho.carbon.ops.builder.RecordRelationOpsBuilder relationOpsBuilder;
+global java.util.List<Message> messageList;
+
+rule "出入库记录关联物料基础信息"
+	salience 40
+	when
+		eval( true )
+	then
+		// 关联物料基础信息
+		messageList.add(MaterialOutInRecordAlgorithm.addMaterialRela(recordComplexus, recordCode, relationOpsBuilder));
+end
+
+rule "采购入库命令"
+	salience 30 
+	when
+		FuseAttribute( name == MaterialOutInRecordCELNE3558Item.基本属性组_类型,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_出入库业务类型_采购入库);
+		FuseAttribute( name == MaterialOutInRecordCELNE3558Item.基本属性组_物料出入库命令,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_物料出入库命令_采购入库命令);
+	then
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(MaterialOutInRecordCELNE3558Item.基本属性组_状态, EnumKeyValue.ENUM_出入库记录状态_完成);
+		recordOpsBuilder.addUpdateAttr(attr);  
+		FGAttribute attr2=FuseAttributeFactory.buildAttribute(MaterialOutInRecordCELNE3558Item.基本属性组_物料出入库命令, null);
+		recordOpsBuilder.addUpdateAttr(attr2); 
+		// 执行入库命令
+		messageList.add(MaterialOutInRecordAlgorithm.procurementInStorageCommand(recordComplexus, recordCode, relatedRecordList,  relatedRelationOpsBuilderList, relationOpsBuilder));
+end
+
+rule "采购撤销入库命令"
+	salience 30 
+	when
+		FuseAttribute( name == MaterialOutInRecordCELNE3558Item.基本属性组_类型,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_出入库业务类型_采购入库);
+		FuseAttribute( name == MaterialOutInRecordCELNE3558Item.基本属性组_物料出入库命令,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_物料出入库命令_采购撤销入库命令);
+	then 
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(MaterialOutInRecordCELNE3558Item.基本属性组_状态, EnumKeyValue.ENUM_出入库记录状态_编辑中);
+		recordOpsBuilder.addUpdateAttr(attr);
+		FGAttribute attr2=FuseAttributeFactory.buildAttribute(MaterialOutInRecordCELNE3558Item.基本属性组_物料出入库命令, null);
+		recordOpsBuilder.addUpdateAttr(attr2); 
+		// 执行撤销入库命令
+		messageList.add(MaterialOutInRecordAlgorithm.procurementRevocationInStorageCommand(recordComplexus, recordCode, relatedRecordList,  relatedRelationOpsBuilderList));
+end
+
+
+rule "销售出库命令"
+	salience 30 
+	when
+		FuseAttribute( name == MaterialOutInRecordCELNE3558Item.基本属性组_类型,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_出入库业务类型_销售出库);
+		FuseAttribute( name == MaterialOutInRecordCELNE3558Item.基本属性组_物料出入库命令,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_物料出入库命令_销售出库命令);
+	then 
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(MaterialOutInRecordCELNE3558Item.基本属性组_状态, EnumKeyValue.ENUM_出入库记录状态_完成);
+		recordOpsBuilder.addUpdateAttr(attr);
+		FGAttribute attr2=FuseAttributeFactory.buildAttribute(MaterialOutInRecordCELNE3558Item.基本属性组_物料出入库命令, null);
+		recordOpsBuilder.addUpdateAttr(attr2); 
+		// 执行销售出库命令
+		messageList.add(MaterialOutInRecordAlgorithm.sellOutStorageCommand(recordComplexus, recordCode, relatedRecordList,  relatedRelationOpsBuilderList));
+end
+
+rule "销售撤销出库命令"
+	salience 30 
+	when
+		FuseAttribute( name == MaterialOutInRecordCELNE3558Item.基本属性组_类型,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_出入库业务类型_销售出库);
+		FuseAttribute( name == MaterialOutInRecordCELNE3558Item.基本属性组_物料出入库命令,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_物料出入库命令_销售撤销出库命令);
+	then  
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(MaterialOutInRecordCELNE3558Item.基本属性组_状态, EnumKeyValue.ENUM_出入库记录状态_编辑中);
+		recordOpsBuilder.addUpdateAttr(attr);
+		FGAttribute attr2=FuseAttributeFactory.buildAttribute(MaterialOutInRecordCELNE3558Item.基本属性组_物料出入库命令, null);
+		recordOpsBuilder.addUpdateAttr(attr2); 
+		// 执行销售出库命令
+		messageList.add(MaterialOutInRecordAlgorithm.sellRevocationOutStorageCommand(recordComplexus, recordCode, relatedRecordList,  relatedRelationOpsBuilderList));
+end
+
+rule "项目领用出库命令"
+	salience 30 
+	when
+		FuseAttribute( name == MaterialOutInRecordCELNE3558Item.基本属性组_类型,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_出入库业务类型_领用出库);
+		FuseAttribute( name == MaterialOutInRecordCELNE3558Item.基本属性组_物料出入库命令,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_物料出入库命令_项目领用出库命令);
+	then  
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(MaterialOutInRecordCELNE3558Item.基本属性组_状态, EnumKeyValue.ENUM_出入库记录状态_完成);
+		recordOpsBuilder.addUpdateAttr(attr);
+		FGAttribute attr2=FuseAttributeFactory.buildAttribute(MaterialOutInRecordCELNE3558Item.基本属性组_物料出入库命令, null);
+		recordOpsBuilder.addUpdateAttr(attr2); 
+		// 项目领用出库命令
+		messageList.add(MaterialOutInRecordAlgorithm.projecdtOutStorageCommand(recordComplexus, recordCode, relatedRecordList,  relatedRelationOpsBuilderList));
+end
+
+rule "项目领用撤销出库命令"
+	salience 30 
+	when
+		FuseAttribute( name == MaterialOutInRecordCELNE3558Item.基本属性组_类型,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_出入库业务类型_领用出库);
+		FuseAttribute( name == MaterialOutInRecordCELNE3558Item.基本属性组_物料出入库命令,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_物料出入库命令_项目领用撤销出库命令);
+	then  
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(MaterialOutInRecordCELNE3558Item.基本属性组_状态, EnumKeyValue.ENUM_出入库记录状态_编辑中);
+		recordOpsBuilder.addUpdateAttr(attr);
+		FGAttribute attr2=FuseAttributeFactory.buildAttribute(MaterialOutInRecordCELNE3558Item.基本属性组_物料出入库命令, null);
+		recordOpsBuilder.addUpdateAttr(attr2); 
+		// 项目领用撤销出库命令
+		messageList.add(MaterialOutInRecordAlgorithm.projecdtRevocationOutStorageCommand(recordComplexus, recordCode, relatedRecordList,  relatedRelationOpsBuilderList));
+end
+
+rule "归还入库命令"
+	salience 30 
+	when
+		FuseAttribute( name == MaterialOutInRecordCELNE3558Item.基本属性组_类型,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_出入库业务类型_归还入库);
+		FuseAttribute( name == MaterialOutInRecordCELNE3558Item.基本属性组_物料出入库命令,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_物料出入库命令_归还入库命令);
+	then  
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(MaterialOutInRecordCELNE3558Item.基本属性组_状态, EnumKeyValue.ENUM_出入库记录状态_完成);
+		recordOpsBuilder.addUpdateAttr(attr);
+		FGAttribute attr2=FuseAttributeFactory.buildAttribute(MaterialOutInRecordCELNE3558Item.基本属性组_物料出入库命令, null);
+		recordOpsBuilder.addUpdateAttr(attr2); 
+		// 归还入库命令
+		messageList.add(MaterialOutInRecordAlgorithm.projectGiveBackStorageCommand(recordComplexus, recordCode, relatedRecordList,  relatedRelationOpsBuilderList));
+end
+
+rule "撤销归还入库命令"
+	salience 30 
+	when
+		FuseAttribute( name == MaterialOutInRecordCELNE3558Item.基本属性组_类型,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_出入库业务类型_归还入库);
+		FuseAttribute( name == MaterialOutInRecordCELNE3558Item.基本属性组_物料出入库命令,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_物料出入库命令_归还撤销入库命令);
+	then  
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(MaterialOutInRecordCELNE3558Item.基本属性组_状态, EnumKeyValue.ENUM_出入库记录状态_编辑中);
+		recordOpsBuilder.addUpdateAttr(attr);
+		FGAttribute attr2=FuseAttributeFactory.buildAttribute(MaterialOutInRecordCELNE3558Item.基本属性组_物料出入库命令, null);
+		recordOpsBuilder.addUpdateAttr(attr2); 
+		// 归还入库命令
+		messageList.add(MaterialOutInRecordAlgorithm.projectGiveBackStorageCommand(recordComplexus, recordCode, relatedRecordList,  relatedRelationOpsBuilderList));
+end

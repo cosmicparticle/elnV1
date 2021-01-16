@@ -1,4 +1,4 @@
-package cho.carbon.fg.eln.rule.materialstockinfocelne3551.f2imp
+package cho.carbon.fg.eln.rule.materialoutinrecordcelne3558.f1pre
 
 import cho.carbon.relation.RelationCorrelation;
 import cho.carbon.fuse.improve.attribute.FuseAttributeFactory;
@@ -13,7 +13,7 @@ import cho.carbon.fg.eln.common.CommonCalculation;
 import cho.carbon.fg.eln.constant.BaseConstant;
 import cho.carbon.fg.eln.constant.EnumKeyValue;
 import cho.carbon.fg.eln.constant.RelationType;
-import cho.carbon.fg.eln.constant.item.MaterialStockInfoCELNE3551Item;
+import cho.carbon.fg.eln.constant.item.MaterialOutInRecordCELNE3558Item;
 
 
 global java.lang.String recordCode;
@@ -31,11 +31,4 @@ global java.util.List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList;
 global cho.carbon.ops.builder.RecordRelationOpsBuilder relationOpsBuilder;
 global java.util.List<Message> messageList;
 
-rule "计算高低库存"
-	when
-		FuseAttribute( name == MaterialStockInfoCELNE3551Item.基本属性组_是否更新阈值, getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_是否_是)
-	then 
-		FGAttribute attr=FuseAttributeFactory.buildAttribute(MaterialStockInfoCELNE3551Item.基本属性组_是否更新阈值, null);
-		recordOpsBuilder.addUpdateAttr(attr);	
-		messageList.add(MaterialStockAlgorithm.calculateMaterialStockInfo(recordComplexus, recordCode, relatedRecordList));
-end
+

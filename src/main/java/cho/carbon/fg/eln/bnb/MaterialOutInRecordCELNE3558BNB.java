@@ -23,13 +23,8 @@ import cho.carbon.meta.criteria.model.ModelCriterion;
 import cho.carbon.ops.complexus.OpsComplexus;
 import cho.carbon.rrc.record.FGRootRecord;
 
-/**
- * 物料库存信息	
- * @author lhb
- *
- */
-@Repository(value = "celne3551")
-public class MaterialStockInfoCELNE3551BNB implements FunctionGroup, IdentityQueryFuncGroup, ValidatorFuncGroup, ThirdRoundImproveFuncGroup,
+@Repository(value = "celne3558")
+public class MaterialOutInRecordCELNE3558BNB implements FunctionGroup, IdentityQueryFuncGroup, ValidatorFuncGroup, ThirdRoundImproveFuncGroup,
 	FuseCallBackFuncGroup, /* FetchFuncGroup, */QueryJunctionFuncGroup {
 
 	@Override
@@ -37,13 +32,13 @@ public class MaterialStockInfoCELNE3551BNB implements FunctionGroup, IdentityQue
 			FGRecordComplexus recordComplexus) {
 		
 		return KIEHelper.getImproveFGResultFromKIE(context, recordCode, opsComplexus, recordComplexus,
-				SessionFactory.findScannerSession("ks-celne3551-f1-pre"));
+				SessionFactory.findScannerSession("ks-celne3558-f1-pre"));
 	}
 
 	@Override
 	public ImproveFGResult improve(FuncGroupContext context, String recordCode, FGRecordComplexus recordComplexus) {
 		return KIEHelper.getImproveFGResultFromKIE(context, recordCode, recordComplexus,
-				SessionFactory.findScannerSession("ks-celne3551-f2-imp"));
+				SessionFactory.findScannerSession("ks-celne3558-f2-imp"));
 
 	}
 
@@ -56,49 +51,49 @@ public class MaterialStockInfoCELNE3551BNB implements FunctionGroup, IdentityQue
 	@Override
 	public ImproveFGResult postImprove(FuncGroupContext context, String recordCode, FGRecordComplexus recordComplexus) {
 		return KIEHelper.getImproveFGResultFromKIE(context, recordCode, recordComplexus,
-				SessionFactory.findScannerSession("ks-celne3551-f3-post"));
+				SessionFactory.findScannerSession("ks-celne3558-f3-post"));
 	}
 
 	@Override
 	public ImproveFGResult secondImprove(FuncGroupContext context, String recordCode, FGRecordComplexus recordComplexus) {
 		return KIEHelper.getImproveFGResultFromKIE(context, recordCode, recordComplexus,
-				SessionFactory.findScannerSession("ks-celne3551-imp-second"));
+				SessionFactory.findScannerSession("ks-celne3558-imp-second"));
 	}
 
 	@Override
 	public ImproveFGResult thirdImprove(FuncGroupContext context, String recordCode, FGRecordComplexus recordComplexus) {
 		return KIEHelper.getImproveFGResultFromKIE(context, recordCode, recordComplexus,
-				SessionFactory.findScannerSession("ks-celne3551-imp-third"));
+				SessionFactory.findScannerSession("ks-celne3558-imp-third"));
 	}
 
 	@Override
 	public ValidatorFGResult afterValidate(FuncGroupContext context, String recordCode, FGRecordComplexus recordComplexus) {
 		return KIEHelper.getValidatorInfoFromKIE(context, recordCode, recordComplexus, 
-				SessionFactory.findScannerSession("ks-celne3551-validator-after"));
+				SessionFactory.findScannerSession("ks-celne3558-validator-after"));
 	}
 
 	@Override
 	public ValidatorFGResult beforeValidate(FuncGroupContext context, String recordCode, FGRecordComplexus recordComplexus) {
 		return KIEHelper.getValidatorInfoFromKIE(context, recordCode, recordComplexus, 
-				SessionFactory.findScannerSession("ks-celne3551-validator-before"));
+				SessionFactory.findScannerSession("ks-celne3558-validator-before"));
 	}
 
 	@Override
 	public Collection<ModelCriterion> getCriterions(FuncGroupContext context,String recordCode, FGRecordComplexus recordComplexus) {
 		return KIEHelper.getBizCriteriaListFromKIE(recordCode, recordComplexus,
-				SessionFactory.findScannerSession("ks-celne3551-identity-query"));
+				SessionFactory.findScannerSession("ks-celne3558-identity-query"));
 	}
 
 //	@Override
 //	public FetchFGResult fetchImprove(FuncGroupContext context, FGRootRecord record) {
 //		return KIEHelper.getFetchImproveResultFromKIE(context, record,
-//				SessionFactory.findScannerSession("ks-celne3551-imp-fetch"));
+//				SessionFactory.findScannerSession("ks-celne3558-imp-fetch"));
 //	}
 
 	@Override
 	public ConJunctionFGResult junctionImprove(FuncGroupContext context, ModelConJunction modelConJunction) {
 		return KIEHelper.getConJunctionImproveResultFromKIE(context, modelConJunction,
-				SessionFactory.findScannerSession("ks-celne3551-query-conjunction"));
+				SessionFactory.findScannerSession("ks-celne3558-query-conjunction"));
 	}
 
 }

@@ -10,6 +10,7 @@ import cho.carbon.fg.eln.constant.EnumKeyValue;
 import cho.carbon.fg.eln.constant.RelationType;
 import cho.carbon.fg.eln.constant.item.MaterialStockInfoCELNE3551Item;
 import cho.carbon.fuse.improve.attribute.FuseAttributeFactory;
+import cho.carbon.fuse.improve.ops.builder.FGRecordOpsBuilder;
 import cho.carbon.message.Message;
 import cho.carbon.message.MessageFactory;
 import cho.carbon.model.uid.UidManager;
@@ -32,7 +33,7 @@ public class MaterialStockAlgorithm {
 	 * @param recordOpsBuilder
 	 * @return
 	 */
-	public static Message calculateMaterialStockInfo(FGRecordComplexus recordComplexus, String recordCode, List<FGRootRecord> relatedRecordList) {
+	public static Message calculateMaterialStockInfo(FGRecordComplexus recordComplexus, String recordCode, FGRecordOpsBuilder recordOpsBuilder) {
 		try {
 			// 获取当前物料库存信息
 			FGRootRecord rootRecord = CommonAlgorithm.getRootRecord(recordComplexus, BaseConstant.TYPE_物料库存信息, recordCode);
@@ -64,21 +65,24 @@ public class MaterialStockAlgorithm {
 					// 这个就是高库存
 					stock = EnumKeyValue.ENUM_库存预警状态_高库存;
 					flag = true;
-				}
-				if (minStockCount != null && stockCount < minStockCount) {
+				} else 	if (minStockCount != null && stockCount < minStockCount) {
 					// 这个就是低库存
 					stock = EnumKeyValue.ENUM_库存预警状态_低库存;
+					flag = true;
+				} else 	if (minStockCount != null && maxStockCount != null) {
+					// 这个就是低库存
+					stock = EnumKeyValue.ENUM_库存预警状态_正常;
 					flag = true;
 				}
 			}
 			if (flag && stock != null) {
 				// 增加高低库存
-				relatedRecordList.add((FGRootRecord) FuseAttributeFactory.buildFGAttribute(MaterialStockInfoCELNE3551Item.基本属性组_库存量状态, stock));
+				recordOpsBuilder.addUpdateAttr(FuseAttributeFactory.buildAttribute(MaterialStockInfoCELNE3551Item.基本属性组_库存量状态, stock));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			return MessageFactory.buildRefuseMessage("Failed", "高低库存", BaseConstant.TYPE_物料基础信息, "计算失败");
+			return MessageFactory.buildRefuseMessage("Failed", "高低库存", BaseConstant.TYPE_物料库存信息, "计算失败");
 		}
-		return MessageFactory.buildInfoMessage("Succeeded", "高低库存", BaseConstant.TYPE_物料基础信息, "成功");
+		return MessageFactory.buildInfoMessage("Succeeded", "高低库存", BaseConstant.TYPE_物料库存信息, "成功");
 	}
 }

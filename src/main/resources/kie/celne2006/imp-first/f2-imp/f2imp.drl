@@ -31,7 +31,7 @@ global java.util.List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList;
 global cho.carbon.ops.builder.RecordRelationOpsBuilder relationOpsBuilder;
 global java.util.List<Message> messageList;
 
-
+/*
 rule "确保存量"
 	salience 100
 when
@@ -79,3 +79,5 @@ then
 	//构建入库记录 and 清除入库信息
 	String code=Stock.buildAddLeaf(record,recordOpsBuilder);
 end
+
+*/

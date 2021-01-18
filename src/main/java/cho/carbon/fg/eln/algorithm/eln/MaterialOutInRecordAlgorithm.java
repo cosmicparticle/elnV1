@@ -6,6 +6,7 @@ import org.apache.commons.lang.StringUtils;
 import cho.carbon.complexus.FGRecordComplexus;
 import cho.carbon.fg.eln.algorithm.ComputeSign;
 import cho.carbon.fg.eln.constant.BaseConstant;
+import cho.carbon.fg.eln.constant.EnumKeyValue;
 import cho.carbon.fg.eln.constant.RelationType;
 import cho.carbon.fg.eln.constant.item.MaterialBatchInfoCELNE3571Item;
 import cho.carbon.fg.eln.constant.item.MaterialOutInRecordCELNE3558Item;
@@ -259,6 +260,7 @@ public class MaterialOutInRecordAlgorithm {
 		FGRootRecordBuilder kuCunBuilder =FGRootRecordBuilder.getInstance(BaseConstant.TYPE_物料库存信息, materialStockInfoCode);
 		//设置记录属性。第一个参数为模型属性的编码，第二个参数为模型属性的取值
 		kuCunBuilder.putAttribute(MaterialStockInfoCELNE3551Item.基本属性组_库存量, kucunCount);
+		kuCunBuilder.putAttribute(MaterialStockInfoCELNE3551Item.基本属性组_是否更新阈值, EnumKeyValue.ENUM_是否_是);
 		//放入到kie预设的全局变量中
 		relatedRecordList.add(kuCunBuilder.getRootRecord());
 	}

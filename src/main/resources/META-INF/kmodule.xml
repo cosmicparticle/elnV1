@@ -258,4 +258,37 @@
 <ksession name="ks-celne3558-validator-after" />
 </kbase>
 <!-- 物料出入库记录MaterialOutInRecordcelne3558 end -->
+
+<!-- 物料预定MaterialReservationcelne3756 start -->
+<kbase name="materialreservationcelne3756-identity-query" packages="kie.materialreservationcelne3756.identity.query">
+<ksession name="ks-celne3756-identity-query" />
+</kbase>
+<kbase name="materialreservationcelne3756-imp-fetch" packages="kie.materialreservationcelne3756.imp-fetch">
+<ksession name="ks-celne3756-imp-fetch" />
+</kbase>
+<kbase name="materialreservationcelne3756-f1-pre" packages="kie.materialreservationcelne3756.imp-first.f1-pre">
+<ksession name="ks-celne3756-f1-pre" />
+</kbase>
+<kbase name="materialreservationcelne3756-f2-imp" packages="kie.materialreservationcelne3756.imp-first.f2-imp">
+<ksession name="ks-celne3756-f2-imp" />
+</kbase>
+<kbase name="materialreservationcelne3756-f3-post" packages="kie.materialreservationcelne3756.imp-first.f3-post">
+<ksession name="ks-celne3756-f3-post" />
+</kbase>
+<kbase name="materialreservationcelne3756-imp-second" packages="kie.materialreservationcelne3756.imp-second">
+<ksession name="ks-celne3756-imp-second" />
+</kbase>
+<kbase name="materialreservationcelne3756-imp-third" packages="kie.materialreservationcelne3756.imp-third">
+<ksession name="ks-celne3756-imp-third" />
+</kbase>
+<kbase name="materialreservationcelne3756-query-conjunction" packages="kie.materialreservationcelne3756.query.conjunction">
+<ksession name="ks-celne3756-query-conjunction" />
+</kbase>
+<kbase name="materialreservationcelne3756-validator-before" packages="kie.materialreservationcelne3756.validator.before">
+<ksession name="ks-celne3756-validator-before" />
+</kbase>
+<kbase name="materialreservationcelne3756-validator-after" packages="kie.materialreservationcelne3756.validator.after">
+<ksession name="ks-celne3756-validator-after" />
+</kbase>
+<!-- 物料预定MaterialReservationcelne3756 end -->
 </kmodule>

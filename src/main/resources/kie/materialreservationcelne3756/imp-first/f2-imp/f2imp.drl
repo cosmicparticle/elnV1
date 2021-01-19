@@ -1,4 +1,4 @@
-package cho.carbon.fg.eln.rule.materialratiocelne3466.impthird
+package cho.carbon.fg.eln.rule.materialreservationcelne3756.f2imp
 
 import cho.carbon.relation.RelationCorrelation;
 import cho.carbon.fuse.improve.attribute.FuseAttributeFactory;
@@ -13,7 +13,7 @@ import cho.carbon.fg.eln.common.CommonCalculation;
 import cho.carbon.fg.eln.constant.BaseConstant;
 import cho.carbon.fg.eln.constant.EnumKeyValue;
 import cho.carbon.fg.eln.constant.RelationType;
-import cho.carbon.fg.eln.constant.item.MaterialRatioCELNE3466Item;
+import cho.carbon.fg.eln.constant.item.MaterialReservationCELNE3756Item;
 
 
 global java.lang.String recordCode;
@@ -31,10 +31,4 @@ global java.util.List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList;
 global cho.carbon.ops.builder.RecordRelationOpsBuilder relationOpsBuilder;
 global java.util.List<Message> messageList;
 
-rule "物料信息必填"
-	salience 25 
-	when
-		not RecordRelation(type == RelationType.RR_投料信息_物料信息_物料基础信息);
-	then
-		messageList.add(MessageFactory.buildRefuseMessage("Failed", "投料信息", BaseConstant.TYPE_投料信息, "投料信息中的物料基础信息必填"));
-end
+

@@ -19,4 +19,5 @@ public static final String 基本属性组_气体相对密度="celn3414";
 public static final String 基本属性组_临界温度="celn3415";
 public static final String 基本属性组_临界压力="celn3416";
 public static final String 基本属性组_物料名称="celn3463";
+public static final String 基本属性组_基础计量单位="celn3880";
 }

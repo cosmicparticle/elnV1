@@ -14,7 +14,8 @@ import cho.carbon.fg.eln.constant.BaseConstant;
 import cho.carbon.fg.eln.constant.EnumKeyValue;
 import cho.carbon.fg.eln.constant.RelationType;
 import cho.carbon.fg.eln.constant.item.MaterialReservationCELNE3756Item;
-
+import cho.carbon.fg.eln.algorithm.eln.MaterialReservationAlgorithm;
+import cho.carbon.fg.eln.algorithm.ComputeSign;
 
 global java.lang.String recordCode;
 global java.lang.String userCode;
@@ -31,13 +32,12 @@ global java.util.List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList;
 global cho.carbon.ops.builder.RecordRelationOpsBuilder relationOpsBuilder;
 global java.util.List<Message> messageList;
 
-
 rule "物料预订人"
 	salience 30 
 	when
 		not RecordRelation(type == RelationType.RR_物料预定_预定人_系统用户);
 	then  
-		relationOpsBuilder.putRelation(RelationType.RR_实验项目_创建人_系统用户, userCode);
+		relationOpsBuilder.putRelation(RelationType.RR_物料预定_预定人_系统用户, userCode);
 end
 
 rule "实验项目必填"
@@ -48,10 +48,44 @@ rule "实验项目必填"
 		messageList.add(MessageFactory.buildRefuseMessage("Failed", "实验项目", BaseConstant.TYPE_物料预定, "实验项目必填"));
 end
 
+/*
+rule "同一个项目不能预定相同物料"
+	salience 28 
+	when
+		RecordRelation(type == RelationType.RR_物料预定_所属项目_实验项目);
+	then  
+		messageList.add(MaterialReservationAlgorithm.checkMaterialBase(recordComplexus, recordCode, recordOpsBuilder,relatedRecordList));
+end
+*/
+
 rule "预定物料必填"
 	salience 30 
 	when
 		not RecordRelation(type == RelationType.RR_物料预定_预定物料_投料信息);
 	then  
 		messageList.add(MessageFactory.buildRefuseMessage("Failed", "预定物料", BaseConstant.TYPE_物料预定, "预定物料必填"));
+end
+
+rule "执行提交预定命令"
+	salience 20
+	when
+		FuseAttribute(name==MaterialReservationCELNE3756Item.基本属性组_物料预定命令,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_物料预定命令_提交预定);
+	then  
+		// 置空预料预定命令
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(MaterialReservationCELNE3756Item.基本属性组_物料预定命令, null);
+		recordOpsBuilder.addUpdateAttr(attr);
+		// 执行预定命令
+		messageList.add(MaterialReservationAlgorithm.reservationcommand(recordComplexus, recordCode, recordOpsBuilder, relatedRecordList, relatedRelationOpsBuilderList, ComputeSign.add));
+end
+
+rule "执行撤销预定命令"
+	salience 20
+	when
+		FuseAttribute(name==MaterialReservationCELNE3756Item.基本属性组_物料预定命令,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_物料预定命令_撤销预订);
+	then  
+		// 置空预料预定命令
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(MaterialReservationCELNE3756Item.基本属性组_物料预定命令, null);
+		recordOpsBuilder.addUpdateAttr(attr);
+		// 执行撤销命令
+		messageList.add(MaterialReservationAlgorithm.reservationcommand(recordComplexus, recordCode, recordOpsBuilder, relatedRecordList, relatedRelationOpsBuilderList, ComputeSign.minus));
 end

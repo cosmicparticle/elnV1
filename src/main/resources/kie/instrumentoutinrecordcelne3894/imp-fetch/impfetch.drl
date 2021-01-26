@@ -1,0 +1,31 @@
+package cho.carbon.fg.eln.rule.instrumentoutinrecordcelne3894.impfetch
+
+import java.util.Date;
+import cho.carbon.fuse.improve.attribute.FuseAttributeFactory;
+import cho.carbon.rrc.record.*;
+import cho.carbon.relation.RecordRelation;
+import cho.carbon.meta.enun.AttributeValueType;
+import cho.carbon.fuse.improve.attribute.FuseAttribute;
+import cho.carbon.ops.builder.RecordRelationOpsBuilder;
+import cho.carbon.ops.builder.RecordRelationOpsBuilder;
+import cho.carbon.sysdate.SystemDateTimeManager;
+import cho.carbon.rrc.builder.FGRootRecordBuilder;
+import cho.carbon.rrc.record.FGRootRecord;
+import cho.carbon.fuse.improve.attribute.mline.FuseMLineAttr;
+import cho.carbon.fg.eln.constant.EnumKeyValue;
+import cho.carbon.fg.eln.constant.RelationType;
+import cho.carbon.message.MessageFactory;
+import cho.carbon.fg.eln.constant.BaseConstant;
+import cho.carbon.fg.eln.constant.item.InstrumentOutInRecordCELNE3894Item;
+
+global java.lang.String recordCode;
+global java.lang.String userCode;
+global java.lang.String recordName;
+global cho.carbon.rrc.record.FGRootRecord record;
+global cho.carbon.fuse.improve.ops.builder.FGRecordOpsBuilder recordOpsBuilder;
+
+
+
+
+
+

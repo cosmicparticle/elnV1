@@ -38,8 +38,8 @@ public class MateriaInfoAlgorithm {
 			String materialStockCode = UidManager.getLongUID() + "";
 			FGRootRecordBuilder msbuilder =FGRootRecordBuilder.getInstance(BaseConstant.TYPE_物料库存信息, materialStockCode);
 			//设置记录属性。第一个参数为模型属性的编码，第二个参数为模型属性的取值
-			msbuilder.putAttribute(MaterialStockInfoCELNE3551Item.基本属性组_库存量, 0);
-			msbuilder.putAttribute(MaterialStockInfoCELNE3551Item.基本属性组_已预订, 0);
+			msbuilder.putAttribute(MaterialStockInfoCELNE3551Item.基本属性组_库存总量, 0);
+			msbuilder.putAttribute(MaterialStockInfoCELNE3551Item.基本属性组_已预订量, 0);
 			msbuilder.putAttribute(MaterialStockInfoCELNE3551Item.基本属性组_低库存阈值, 0);
 			msbuilder.putAttribute(MaterialStockInfoCELNE3551Item.基本属性组_高库存阈值, 0);
 			msbuilder.putAttribute(MaterialStockInfoCELNE3551Item.基本属性组_库存量状态, EnumKeyValue.ENUM_库存预警状态_零库存);

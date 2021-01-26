@@ -1,22 +1,15 @@
 package cho.carbon.fg.eln.algorithm.eln;
 
-import java.util.List;
-
-import com.google.protobuf.Descriptors.EnumValueDescriptor;
+import java.math.BigDecimal;
 
 import cho.carbon.complexus.FGRecordComplexus;
 import cho.carbon.fg.eln.constant.BaseConstant;
 import cho.carbon.fg.eln.constant.EnumKeyValue;
-import cho.carbon.fg.eln.constant.RelationType;
 import cho.carbon.fg.eln.constant.item.MaterialStockInfoCELNE3551Item;
 import cho.carbon.fuse.improve.attribute.FuseAttributeFactory;
 import cho.carbon.fuse.improve.ops.builder.FGRecordOpsBuilder;
 import cho.carbon.message.Message;
 import cho.carbon.message.MessageFactory;
-import cho.carbon.model.uid.UidManager;
-import cho.carbon.ops.builder.RecordRelationOpsBuilder;
-import cho.carbon.rrc.builder.FGRootRecordBuilder;
-import cho.carbon.rrc.record.FGAttribute;
 import cho.carbon.rrc.record.FGRootRecord;
 
 /**
@@ -39,33 +32,41 @@ public class MaterialStockAlgorithm {
 			FGRootRecord rootRecord = CommonAlgorithm.getRootRecord(recordComplexus, BaseConstant.TYPE_物料库存信息, recordCode);
 			
 			// 库存量的值
-			String stockCountStr = CommonAlgorithm.getDataValue(rootRecord, MaterialStockInfoCELNE3551Item.基本属性组_库存量);
-			Double stockCount = null;
+			String stockCountStr = CommonAlgorithm.getDataValue(rootRecord, MaterialStockInfoCELNE3551Item.基本属性组_库存总量);
+			BigDecimal stockCount = new BigDecimal("0");
 			if (stockCountStr != null) {
-				stockCount = Double.parseDouble(stockCountStr);
+				stockCount =  new BigDecimal(stockCountStr);
 			}
+			
+			// 已预订的值
+			String reserveCountStr = CommonAlgorithm.getDataValue(rootRecord, MaterialStockInfoCELNE3551Item.基本属性组_已预订量);
+			BigDecimal reserveCount = new BigDecimal("0");
+			if (reserveCountStr != null) {
+				reserveCount =  new BigDecimal(reserveCountStr);
+			}
+			
 			// 高库存的值
 			String maxStockCountStr = CommonAlgorithm.getDataValue(rootRecord, MaterialStockInfoCELNE3551Item.基本属性组_高库存阈值);
-			Double maxStockCount = null;
+			BigDecimal maxStockCount  = new BigDecimal("0");
 			if (maxStockCountStr != null) {
-				maxStockCount = Double.parseDouble(maxStockCountStr);
+				maxStockCount =  new BigDecimal(maxStockCountStr);
 			}
 			
 			// 低库存的值
 			String minStockCountStr = CommonAlgorithm.getDataValue(rootRecord, MaterialStockInfoCELNE3551Item.基本属性组_低库存阈值);
-			Double minStockCount = null;
+			BigDecimal minStockCount = new BigDecimal("0");
 			if (minStockCountStr != null) {
-				minStockCount = Double.parseDouble(minStockCountStr);
+				minStockCount =  new BigDecimal(minStockCountStr);
 			}
 			
 			boolean flag = false;
 			Integer stock = null;
 			if (stockCount != null) {
-				if (maxStockCount != null && stockCount >= maxStockCount) {
+				if (maxStockCount != null && stockCount.compareTo(maxStockCount) > -1) {
 					// 这个就是高库存
 					stock = EnumKeyValue.ENUM_库存预警状态_高库存;
 					flag = true;
-				} else 	if (minStockCount != null && stockCount < minStockCount) {
+				} else 	if (minStockCount != null && stockCount.compareTo(minStockCount) == -1 ) {
 					// 这个就是低库存
 					stock = EnumKeyValue.ENUM_库存预警状态_低库存;
 					flag = true;
@@ -78,6 +79,9 @@ public class MaterialStockAlgorithm {
 			if (flag && stock != null) {
 				// 增加高低库存
 				recordOpsBuilder.addUpdateAttr(FuseAttributeFactory.buildAttribute(MaterialStockInfoCELNE3551Item.基本属性组_库存量状态, stock));
+				// 计算余量
+				BigDecimal subtract = stockCount.subtract(reserveCount);
+				recordOpsBuilder.addUpdateAttr(FuseAttributeFactory.buildAttribute(MaterialStockInfoCELNE3551Item.基本属性组_可用量, subtract));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

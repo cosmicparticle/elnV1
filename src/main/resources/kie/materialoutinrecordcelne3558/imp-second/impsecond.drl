@@ -109,7 +109,7 @@ rule "项目领用出库命令"
 		FGAttribute attr2=FuseAttributeFactory.buildAttribute(MaterialOutInRecordCELNE3558Item.基本属性组_物料出入库命令, null);
 		recordOpsBuilder.addUpdateAttr(attr2); 
 		// 项目领用出库命令
-		messageList.add(MaterialOutInRecordAlgorithm.projecdtOutStorageCommand(recordComplexus, recordCode, relatedRecordList,  relatedRelationOpsBuilderList));
+		messageList.add(MaterialOutInRecordAlgorithm.projecdtOutStorageCommand(recordComplexus, recordCode, relatedRecordList,  relatedRelationOpsBuilderList, recordOpsBuilder));
 end
 
 rule "项目领用撤销出库命令"
@@ -123,7 +123,7 @@ rule "项目领用撤销出库命令"
 		FGAttribute attr2=FuseAttributeFactory.buildAttribute(MaterialOutInRecordCELNE3558Item.基本属性组_物料出入库命令, null);
 		recordOpsBuilder.addUpdateAttr(attr2); 
 		// 项目领用撤销出库命令
-		messageList.add(MaterialOutInRecordAlgorithm.projecdtRevocationOutStorageCommand(recordComplexus, recordCode, relatedRecordList,  relatedRelationOpsBuilderList));
+		messageList.add(MaterialOutInRecordAlgorithm.projecdtRevocationOutStorageCommand(recordComplexus, recordCode, relatedRecordList,  relatedRelationOpsBuilderList, recordOpsBuilder));
 end
 
 rule "归还入库命令"

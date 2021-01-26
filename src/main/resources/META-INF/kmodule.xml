@@ -291,4 +291,68 @@
 <ksession name="ks-celne3756-validator-after" />
 </kbase>
 <!-- 物料预定MaterialReservationcelne3756 end -->
+<!-- 仪器出入库记录InstrumentOutInRecordcelne3894 start -->
+<kbase name="instrumentoutinrecordcelne3894-identity-query" packages="kie.instrumentoutinrecordcelne3894.identity.query">
+<ksession name="ks-celne3894-identity-query" />
+</kbase>
+<kbase name="instrumentoutinrecordcelne3894-imp-fetch" packages="kie.instrumentoutinrecordcelne3894.imp-fetch">
+<ksession name="ks-celne3894-imp-fetch" />
+</kbase>
+<kbase name="instrumentoutinrecordcelne3894-f1-pre" packages="kie.instrumentoutinrecordcelne3894.imp-first.f1-pre">
+<ksession name="ks-celne3894-f1-pre" />
+</kbase>
+<kbase name="instrumentoutinrecordcelne3894-f2-imp" packages="kie.instrumentoutinrecordcelne3894.imp-first.f2-imp">
+<ksession name="ks-celne3894-f2-imp" />
+</kbase>
+<kbase name="instrumentoutinrecordcelne3894-f3-post" packages="kie.instrumentoutinrecordcelne3894.imp-first.f3-post">
+<ksession name="ks-celne3894-f3-post" />
+</kbase>
+<kbase name="instrumentoutinrecordcelne3894-imp-second" packages="kie.instrumentoutinrecordcelne3894.imp-second">
+<ksession name="ks-celne3894-imp-second" />
+</kbase>
+<kbase name="instrumentoutinrecordcelne3894-imp-third" packages="kie.instrumentoutinrecordcelne3894.imp-third">
+<ksession name="ks-celne3894-imp-third" />
+</kbase>
+<kbase name="instrumentoutinrecordcelne3894-query-conjunction" packages="kie.instrumentoutinrecordcelne3894.query.conjunction">
+<ksession name="ks-celne3894-query-conjunction" />
+</kbase>
+<kbase name="instrumentoutinrecordcelne3894-validator-before" packages="kie.instrumentoutinrecordcelne3894.validator.before">
+<ksession name="ks-celne3894-validator-before" />
+</kbase>
+<kbase name="instrumentoutinrecordcelne3894-validator-after" packages="kie.instrumentoutinrecordcelne3894.validator.after">
+<ksession name="ks-celne3894-validator-after" />
+</kbase>
+<!-- 仪器出入库记录InstrumentOutInRecordcelne3894 end -->
+<!-- 仪器库存Instrumentcelne3900 start -->
+<kbase name="instrumentcelne3900-identity-query" packages="kie.instrumentcelne3900.identity.query">
+<ksession name="ks-celne3900-identity-query" />
+</kbase>
+<kbase name="instrumentcelne3900-imp-fetch" packages="kie.instrumentcelne3900.imp-fetch">
+<ksession name="ks-celne3900-imp-fetch" />
+</kbase>
+<kbase name="instrumentcelne3900-f1-pre" packages="kie.instrumentcelne3900.imp-first.f1-pre">
+<ksession name="ks-celne3900-f1-pre" />
+</kbase>
+<kbase name="instrumentcelne3900-f2-imp" packages="kie.instrumentcelne3900.imp-first.f2-imp">
+<ksession name="ks-celne3900-f2-imp" />
+</kbase>
+<kbase name="instrumentcelne3900-f3-post" packages="kie.instrumentcelne3900.imp-first.f3-post">
+<ksession name="ks-celne3900-f3-post" />
+</kbase>
+<kbase name="instrumentcelne3900-imp-second" packages="kie.instrumentcelne3900.imp-second">
+<ksession name="ks-celne3900-imp-second" />
+</kbase>
+<kbase name="instrumentcelne3900-imp-third" packages="kie.instrumentcelne3900.imp-third">
+<ksession name="ks-celne3900-imp-third" />
+</kbase>
+<kbase name="instrumentcelne3900-query-conjunction" packages="kie.instrumentcelne3900.query.conjunction">
+<ksession name="ks-celne3900-query-conjunction" />
+</kbase>
+<kbase name="instrumentcelne3900-validator-before" packages="kie.instrumentcelne3900.validator.before">
+<ksession name="ks-celne3900-validator-before" />
+</kbase>
+<kbase name="instrumentcelne3900-validator-after" packages="kie.instrumentcelne3900.validator.after">
+<ksession name="ks-celne3900-validator-after" />
+</kbase>
+<!-- 仪器库存Instrumentcelne3900 end -->
 </kmodule>

@@ -1,0 +1,92 @@
+package cho.carbon.fg.eln.rule.instrumentoutinrecordcelne3894.impsecond
+
+import cho.carbon.relation.RelationCorrelation;
+import cho.carbon.fuse.improve.attribute.FuseAttributeFactory;
+import cho.carbon.rrc.record.FGAttribute;
+import cho.carbon.meta.enun.AttributeValueType;
+import cho.carbon.relation.RecordRelation;
+import cho.carbon.fuse.improve.attribute.FuseAttribute;
+import cho.carbon.fuse.improve.attribute.OpsAttribute;
+import cho.carbon.fuse.improve.attribute.mline.OpsMLineAttr;
+import cho.carbon.message.MessageFactory;
+import cho.carbon.fg.eln.common.CommonCalculation;
+import cho.carbon.fg.eln.constant.BaseConstant;
+import cho.carbon.fg.eln.constant.EnumKeyValue;
+import cho.carbon.fg.eln.constant.RelationType;
+import cho.carbon.fg.eln.constant.item.InstrumentOutInRecordCELNE3894Item;
+import cho.carbon.fg.eln.algorithm.ComputeSign;
+import cho.carbon.fg.eln.algorithm.eln.InstrumentOutInRecordAlgorithm;
+
+global java.lang.String recordCode;
+global java.lang.String userCode;
+global java.lang.String recordName;
+global java.lang.String hostCode; 
+global java.lang.String hostName;
+global cho.carbon.rrc.record.FGRootRecord record;
+global cho.carbon.complexus.FGRecordComplexus recordComplexus;
+global cho.carbon.fuse.improve.ops.builder.FGRecordOpsBuilder recordOpsBuilder;
+global java.util.List<FGRootRecord> relatedRecordList;
+global java.util.List<Updatable> updateBeans;
+global java.util.List<RemoveRecordInfo> removeRecordInfoList;
+global java.util.List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList;
+global cho.carbon.ops.builder.RecordRelationOpsBuilder relationOpsBuilder;
+global java.util.List<Message> messageList;
+
+rule "仪器入库命令"
+	salience 30 
+	when
+		FuseAttribute( name == InstrumentOutInRecordCELNE3894Item.基本属性组_出入库类型,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_仪器出入库类型_仪器入库);
+		FuseAttribute( name == InstrumentOutInRecordCELNE3894Item.基本属性组_仪器出入库命令,getValue(AttributeValueType.INT) ==  EnumKeyValue.ENUM_仪器出入库命令_仪器入库命令);
+	then
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(InstrumentOutInRecordCELNE3894Item.基本属性组_仪器出入库状态, EnumKeyValue.ENUM_仪器出入库状态_已完成);
+		recordOpsBuilder.addUpdateAttr(attr);  
+		FGAttribute attr2=FuseAttributeFactory.buildAttribute(InstrumentOutInRecordCELNE3894Item.基本属性组_仪器出入库命令, null);
+		recordOpsBuilder.addUpdateAttr(attr2); 
+		// 执行入库命令
+		messageList.add(InstrumentOutInRecordAlgorithm.inStorageCommand(recordComplexus, recordCode, relatedRecordList,  relatedRelationOpsBuilderList, relationOpsBuilder, ComputeSign.add));
+end
+
+rule "撤销仪器入库命令"
+	salience 30 
+	when
+		FuseAttribute( name == InstrumentOutInRecordCELNE3894Item.基本属性组_出入库类型,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_仪器出入库类型_仪器入库);
+		FuseAttribute( name == InstrumentOutInRecordCELNE3894Item.基本属性组_仪器出入库命令,getValue(AttributeValueType.INT) ==  EnumKeyValue.ENUM_仪器出入库命令_仪器撤销入库命令);
+	then 
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(InstrumentOutInRecordCELNE3894Item.基本属性组_仪器出入库状态, EnumKeyValue.ENUM_仪器出入库状态_编辑中);
+		recordOpsBuilder.addUpdateAttr(attr);  
+		FGAttribute attr2=FuseAttributeFactory.buildAttribute(InstrumentOutInRecordCELNE3894Item.基本属性组_仪器出入库命令, null);
+		recordOpsBuilder.addUpdateAttr(attr2); 
+		// 执行入库命令
+		messageList.add(InstrumentOutInRecordAlgorithm.inStorageCommand(recordComplexus, recordCode, relatedRecordList,  relatedRelationOpsBuilderList, relationOpsBuilder, ComputeSign.minus));
+end
+
+rule "仪器出库命令"
+	salience 30 
+	when
+		FuseAttribute( name == InstrumentOutInRecordCELNE3894Item.基本属性组_出入库类型,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_仪器出入库类型_仪器出库);
+		FuseAttribute( name == InstrumentOutInRecordCELNE3894Item.基本属性组_仪器出入库命令,getValue(AttributeValueType.INT) ==  EnumKeyValue.ENUM_仪器出入库命令_仪器出库命令);
+	then 
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(InstrumentOutInRecordCELNE3894Item.基本属性组_仪器出入库状态, EnumKeyValue.ENUM_仪器出入库状态_已完成);
+		recordOpsBuilder.addUpdateAttr(attr);  
+		FGAttribute attr2=FuseAttributeFactory.buildAttribute(InstrumentOutInRecordCELNE3894Item.基本属性组_仪器出入库命令, null);
+		recordOpsBuilder.addUpdateAttr(attr2); 
+		// 执行出库命令
+		messageList.add(InstrumentOutInRecordAlgorithm.inStorageCommand(recordComplexus, recordCode, relatedRecordList,  relatedRelationOpsBuilderList, relationOpsBuilder, ComputeSign.minus));
+end
+
+
+rule "撤销仪器出库命令"
+	salience 30 
+	when
+		FuseAttribute( name == InstrumentOutInRecordCELNE3894Item.基本属性组_出入库类型,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_仪器出入库类型_仪器出库);
+		FuseAttribute( name == InstrumentOutInRecordCELNE3894Item.基本属性组_仪器出入库命令,getValue(AttributeValueType.INT) ==  EnumKeyValue.ENUM_仪器出入库命令_仪器撤销出库命令);
+	then 
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(InstrumentOutInRecordCELNE3894Item.基本属性组_仪器出入库状态, EnumKeyValue.ENUM_仪器出入库状态_编辑中);
+		recordOpsBuilder.addUpdateAttr(attr);  
+		FGAttribute attr2=FuseAttributeFactory.buildAttribute(InstrumentOutInRecordCELNE3894Item.基本属性组_仪器出入库命令, null);
+		recordOpsBuilder.addUpdateAttr(attr2); 
+		// 执行出库命令
+		messageList.add(InstrumentOutInRecordAlgorithm.inStorageCommand(recordComplexus, recordCode, relatedRecordList,  relatedRelationOpsBuilderList, relationOpsBuilder, ComputeSign.add));
+end
+
+

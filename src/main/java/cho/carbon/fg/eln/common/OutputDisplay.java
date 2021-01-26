@@ -7,6 +7,6 @@ public class OutputDisplay {
 	
 	static Logger logger = LoggerFactory.getLogger(OutputDisplay.class);
 	public static void showText(Object text) {
-		logger.debug("【【【【" + text + "】】】】");
+		logger.info("【【【【" + text + "】】】】");
 	}
 }

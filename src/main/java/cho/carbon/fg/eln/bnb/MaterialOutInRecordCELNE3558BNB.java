@@ -3,14 +3,12 @@ package cho.carbon.fg.eln.bnb;
 import java.util.Collection;
 
 import org.springframework.stereotype.Repository;
-import cho.carbon.fuse.fg.ValidatorFuncGroup;
-import cho.carbon.fg.eln.common.KIEHelper;
-import cho.carbon.fg.eln.common.SessionFactory;
+
 import cho.carbon.complexus.FGRecordComplexus;
 import cho.carbon.context.fg.FuncGroupContext;
+import cho.carbon.fg.eln.common.KIEHelper;
+import cho.carbon.fg.eln.common.SessionFactory;
 import cho.carbon.fuse.fg.ConJunctionFGResult;
-import cho.carbon.fuse.fg.FetchFGResult;
-import cho.carbon.fuse.fg.FetchFuncGroup;
 import cho.carbon.fuse.fg.FunctionGroup;
 import cho.carbon.fuse.fg.FuseCallBackFuncGroup;
 import cho.carbon.fuse.fg.IdentityQueryFuncGroup;
@@ -18,10 +16,10 @@ import cho.carbon.fuse.fg.ImproveFGResult;
 import cho.carbon.fuse.fg.QueryJunctionFuncGroup;
 import cho.carbon.fuse.fg.ThirdRoundImproveFuncGroup;
 import cho.carbon.fuse.fg.ValidatorFGResult;
+import cho.carbon.fuse.fg.ValidatorFuncGroup;
 import cho.carbon.meta.criteria.model.ModelConJunction;
 import cho.carbon.meta.criteria.model.ModelCriterion;
 import cho.carbon.ops.complexus.OpsComplexus;
-import cho.carbon.rrc.record.FGRootRecord;
 
 @Repository(value = "celne3558")
 public class MaterialOutInRecordCELNE3558BNB implements FunctionGroup, IdentityQueryFuncGroup, ValidatorFuncGroup, ThirdRoundImproveFuncGroup,

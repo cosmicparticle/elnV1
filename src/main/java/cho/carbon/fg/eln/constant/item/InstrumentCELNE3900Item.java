@@ -11,4 +11,5 @@ public static final String 基本属性组_型号="celn3910";
 public static final String 基本属性组_名称="celn3911";
 public static final String 基本属性组_厂家="celn3912";
 public static final String 基本属性组_低库存阈值="celn3913";
+public static final String 基本属性组_是否更新阈值="celn3921";
 }

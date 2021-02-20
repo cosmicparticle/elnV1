@@ -1,0 +1,27 @@
+package cho.carbon.fg.eln.rule.projectexecutionplancelne3705.valiafter
+
+import cho.carbon.relation.RelationCorrelation;
+import cho.carbon.fuse.improve.attribute.FuseAttributeFactory;
+import cho.carbon.rrc.record.FGAttribute;
+import cho.carbon.meta.enun.AttributeValueType;
+import cho.carbon.relation.RecordRelation;
+import cho.carbon.fuse.improve.attribute.FuseAttribute;
+import cho.carbon.fuse.improve.attribute.OpsAttribute;
+import cho.carbon.fuse.improve.attribute.mline.OpsMLineAttr;
+import cho.carbon.fg.eln.constant.EnumKeyValue;
+import cho.carbon.fg.eln.constant.RelationType;
+import cho.carbon.fg.eln.common.CommonCalculation;
+import cho.carbon.message.MessageFactory;
+import cho.carbon.fg.eln.constant.item.ProjectExecutionPlanCELNE3705Item;
+import cho.carbon.fg.eln.constant.BaseConstant;
+
+global java.lang.String recordCode;
+global java.lang.String userCode;
+global java.lang.String recordName;
+global java.lang.String hostCode; 
+global java.lang.String hostName;
+global cho.carbon.rrc.record.FGRootRecord record;
+global cho.carbon.complexus.FGRecordComplexus recordComplexus;
+global java.util.List<Message> messageList;
+
+

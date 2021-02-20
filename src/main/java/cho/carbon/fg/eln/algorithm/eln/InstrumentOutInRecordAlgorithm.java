@@ -9,6 +9,7 @@ import cho.carbon.complexus.FGRecordComplexus;
 import cho.carbon.fg.eln.algorithm.ComputeSign;
 import cho.carbon.fg.eln.algorithm.MaterialUnitUtil;
 import cho.carbon.fg.eln.constant.BaseConstant;
+import cho.carbon.fg.eln.constant.EnumKeyValue;
 import cho.carbon.fg.eln.constant.RelationType;
 import cho.carbon.fg.eln.constant.item.InstrumentCELNE3900Item;
 import cho.carbon.fg.eln.constant.item.InstrumentOutInRecordCELNE3894Item;
@@ -69,7 +70,7 @@ public class InstrumentOutInRecordAlgorithm {
 				
 				
 				if(stockCount.compareTo(inventoryCount) == -1) {
-					return MessageFactory.buildRefuseMessage("Failed", "入库操作", BaseConstant.TYPE_仪器出入库记录, "库存太少， 不能撤销");
+					return MessageFactory.buildRefuseMessage("Failed", "入库操作", BaseConstant.TYPE_仪器出入库记录, "库存太少");
 				}
 				
 				stockCount = stockCount.subtract(inventoryCount);
@@ -79,6 +80,7 @@ public class InstrumentOutInRecordAlgorithm {
 			FGRootRecordBuilder builder =FGRootRecordBuilder.getInstance(BaseConstant.TYPE_仪器库存, stockInfoCode);
 			//设置记录属性。第一个参数为模型属性的编码，第二个参数为模型属性的取值
 			builder.putAttribute(InstrumentCELNE3900Item.基本属性组_库存量, stockCount);
+			builder.putAttribute(InstrumentCELNE3900Item.基本属性组_是否更新阈值, EnumKeyValue.ENUM_是否_是);
 			//放入到kie预设的全局变量中
 			relatedRecordList.add(builder.getRootRecord());
 		} catch (Exception e) {

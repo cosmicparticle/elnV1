@@ -72,14 +72,29 @@ public class MaterialOutInRecordAlgorithm {
 		return MessageFactory.buildInfoMessage("Succeeded", "成功", BaseConstant.TYPE_物料出入库记录, "关联物料基础信息成功");
 	}
 	
+	
+	
 	/**
-	 * 采购入库命令
+	 * 订单入库命令
 	 * @param recordComplexus
 	 * @param recordCode
 	 * @param relatedRecordList
 	 * @return
 	 */
 	public static Message procurementInStorageCommand(FGRecordComplexus recordComplexus, String recordCode, List<FGRootRecord> relatedRecordList, List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList, RecordRelationOpsBuilder relationOpsBuilder) {
+			// 此处判断订单必填
+			// 执行入库操作
+			return	inStorageCommand(recordComplexus, recordCode, relatedRecordList, relatedRelationOpsBuilderList, relationOpsBuilder);
+	}
+	
+	/**
+	 * 入库命令， 针对订单入库和产品入库
+	 * @param recordComplexus
+	 * @param recordCode
+	 * @param relatedRecordList
+	 * @return
+	 */
+	public static Message inStorageCommand(FGRecordComplexus recordComplexus, String recordCode, List<FGRootRecord> relatedRecordList, List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList, RecordRelationOpsBuilder relationOpsBuilder) {
 		try {
 			// 获取当前物料库存信息
 			FGRootRecord rootRecord = CommonAlgorithm.getRootRecord(recordComplexus, BaseConstant.TYPE_物料出入库记录, recordCode);
@@ -143,13 +158,12 @@ public class MaterialOutInRecordAlgorithm {
 			if (materialStockInfoRela != null && materialStockInfoRela.size() != 1) {
 				return MessageFactory.buildRefuseMessage("Failed", "入库失败", BaseConstant.TYPE_物料出入库记录, "物料没有对应的库存");
 			}
-			
 			// 获取库存的唯一code
 			String materialStockInfoCode = materialStockInfoRela.get(0).getRightCode();
 			// 构件批次和库存的关系
-//			RecordRelationOpsBuilder relatedRelationOpsBuilder = RecordRelationOpsBuilder.getInstance(BaseConstant.TYPE_物料批次信息, batchCode);
-//			relatedRelationOpsBuilder.putRelation(RelationType.RR_物料批次信息_关联物料库存_物料库存信息, materialStockInfoCode);
-//			relatedRelationOpsBuilderList.add(relatedRelationOpsBuilder);
+			RecordRelationOpsBuilder relatedRelationOpsBuilder = RecordRelationOpsBuilder.getInstance(BaseConstant.TYPE_物料批次信息, batchCode);
+			relatedRelationOpsBuilder.putRelation(RelationType.RR_物料批次信息_关联物料库存_物料库存信息, materialStockInfoCode);
+			relatedRelationOpsBuilderList.add(relatedRelationOpsBuilder);
 		
 			// 更改库存量
 			updateMaterialCount(recordComplexus, relatedRecordList, inventoryCount, materialStockInfoCode, ComputeSign.add);
@@ -157,10 +171,8 @@ public class MaterialOutInRecordAlgorithm {
 			e.printStackTrace();
 			return MessageFactory.buildRefuseMessage("Failed", "入库操作", BaseConstant.TYPE_物料出入库记录, "失败");
 		}
-		
 		return MessageFactory.buildInfoMessage("Succeeded", "成功", BaseConstant.TYPE_物料出入库记录, "入库成功");
 	}
-
 	/**
 	 * 根据批次code， 获取物料基础信息的code
 	 * @param recordComplexus
@@ -176,6 +188,8 @@ public class MaterialOutInRecordAlgorithm {
 		return materiaInfoRela.get(0).getRightCode();
 	}
 	
+	
+	
 	/**
 	 * 采购撤销入库命令
 	 * @param recordComplexus
@@ -183,7 +197,36 @@ public class MaterialOutInRecordAlgorithm {
 	 * @param relatedRecordList
 	 * @return
 	 */
-	public static Message procurementRevocationInStorageCommand(FGRecordComplexus recordComplexus, String recordCode, List<FGRootRecord> relatedRecordList, List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList) {
+	public static Message procurementRevocationInStorageCommand(FGRecordComplexus recordComplexus, String recordCode, List<FGRootRecord> relatedRecordList, List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList) {	
+			// 此处判断订单必填
+		
+		// 执行入库操作
+		return	revocationInStorageCommand(recordComplexus, recordCode, relatedRecordList, relatedRelationOpsBuilderList);
+	}
+	
+	
+	/**
+	 * 产品撤销入库命令
+	 * @param recordComplexus
+	 * @param recordCode
+	 * @param relatedRecordList
+	 * @return
+	 */
+	public static Message productRevocationInStorageCommand(FGRecordComplexus recordComplexus, String recordCode, List<FGRootRecord> relatedRecordList, List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList) {	
+			// 此处判断项目必填
+			
+			// 执行入库操作
+		return	revocationInStorageCommand(recordComplexus, recordCode, relatedRecordList, relatedRelationOpsBuilderList);
+		
+	}
+	/**
+	 * 撤销入库命令, 针对订单撤销和产品入库撤销
+	 * @param recordComplexus
+	 * @param recordCode
+	 * @param relatedRecordList
+	 * @return
+	 */
+	public static Message revocationInStorageCommand(FGRecordComplexus recordComplexus, String recordCode, List<FGRootRecord> relatedRecordList, List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList) {
 		try {
 			// 获取当前物料库存信息
 			FGRootRecord rootRecord = CommonAlgorithm.getRootRecord(recordComplexus, BaseConstant.TYPE_物料出入库记录, recordCode);
@@ -245,8 +288,12 @@ public class MaterialOutInRecordAlgorithm {
 			//放入到kie预设的全局变量中
 			relatedRecordList.add(builder.getRootRecord());
 			
-			String materialStockInfoCode = getMaterialStockCode(recordComplexus, batchCode);
-			// 更改库存量
+			String materialStockInfoCode = null;
+			try {
+				materialStockInfoCode = getMaterialStockCode(recordComplexus, batchCode);
+			} catch (Exception e) {
+				return MessageFactory.buildRefuseMessage("Failed", "失败", BaseConstant.TYPE_物料出入库记录, "批次对应的物料库存不唯一");
+			}// 更改库存量
 			updateMaterialCount(recordComplexus, relatedRecordList, inventoryCount, materialStockInfoCode, ComputeSign.minus);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -373,7 +420,12 @@ public class MaterialOutInRecordAlgorithm {
 			//放入到kie预设的全局变量中
 			relatedRecordList.add(builder.getRootRecord());
 			// 获取库存唯一code
-			String materialStockInfoCode = getMaterialStockCode(recordComplexus, batchCode);
+			String materialStockInfoCode = null;
+			try {
+				materialStockInfoCode = getMaterialStockCode(recordComplexus, batchCode);
+			} catch (Exception e) {
+				return MessageFactory.buildRefuseMessage("Failed", "失败", BaseConstant.TYPE_物料出入库记录, "批次对应的物料库存不唯一");
+			}
 			
 			// 更改库存量
 			updateMaterialCount(recordComplexus, relatedRecordList, inventoryCount, materialStockInfoCode, ComputeSign.minus);
@@ -453,8 +505,13 @@ public class MaterialOutInRecordAlgorithm {
 			//放入到kie预设的全局变量中
 			relatedRecordList.add(builder.getRootRecord());
 			
-			// 获取库存唯一code
-			String materialStockInfoCode = getMaterialStockCode(recordComplexus, batchCode);
+			String materialStockInfoCode = null;
+			try {
+				materialStockInfoCode = getMaterialStockCode(recordComplexus, batchCode);
+			} catch (Exception e) {
+				return MessageFactory.buildRefuseMessage("Failed", "失败", BaseConstant.TYPE_物料出入库记录, "批次对应的物料库存不唯一");
+			}
+			
 			// 更改库存量
 			updateMaterialCount(recordComplexus, relatedRecordList, inventoryCount, materialStockInfoCode, ComputeSign.add);
 		} catch (Exception e) {
@@ -523,9 +580,12 @@ public class MaterialOutInRecordAlgorithm {
 			builder.putAttribute(MaterialBatchInfoCELNE3571Item.基本属性组_存量, batchStock);
 			//放入到kie预设的全局变量中
 			relatedRecordList.add(builder.getRootRecord());
-			// 获取库存唯一code
-			String materialStockInfoCode = getMaterialStockCode(recordComplexus, batchCode);
-			
+			String materialStockInfoCode = null;
+			try {
+				materialStockInfoCode = getMaterialStockCode(recordComplexus, batchCode);
+			} catch (Exception e) {
+				return MessageFactory.buildRefuseMessage("Failed", "失败", BaseConstant.TYPE_物料出入库记录, "批次对应的物料库存不唯一");
+			}
 			// 更改库存量
 			updateMaterialCount(recordComplexus, relatedRecordList, inventoryCount, materialStockInfoCode, ComputeSign.minus);
 			
@@ -733,8 +793,12 @@ public class MaterialOutInRecordAlgorithm {
 			//放入到kie预设的全局变量中
 			relatedRecordList.add(builder.getRootRecord());
 			
-			// 获取库存唯一code
-			String materialStockInfoCode = getMaterialStockCode(recordComplexus, batchCode);
+			String materialStockInfoCode = null;
+			try {
+				materialStockInfoCode = getMaterialStockCode(recordComplexus, batchCode);
+			} catch (Exception e) {
+				return MessageFactory.buildRefuseMessage("Failed", "失败", BaseConstant.TYPE_物料出入库记录, "批次对应的物料库存不唯一");
+			}
 			// 更改库存量
 			updateMaterialCount(recordComplexus, relatedRecordList, inventoryCount, materialStockInfoCode, ComputeSign.add);
 			
@@ -773,13 +837,13 @@ public class MaterialOutInRecordAlgorithm {
 			// 获取撤销入库数量
 			String inventoryCountStr = CommonAlgorithm.getDataValue(rootRecord, MaterialOutInRecordCELNE3558Item.基本属性组_数量);
 			if (StringUtils.isBlank(inventoryCountStr)) {
-				return MessageFactory.buildRefuseMessage("Failed", "出库失败", BaseConstant.TYPE_物料出入库记录, "出库数量必填");
+				return MessageFactory.buildRefuseMessage("Failed", "入库失败", BaseConstant.TYPE_物料出入库记录, "入库数量必填");
 			}
 			BigDecimal inventoryCount = new BigDecimal(inventoryCountStr);
 			// 获取入库单位
 			String inventoryUnitStr = CommonAlgorithm.getDataValue(rootRecord, MaterialOutInRecordCELNE3558Item.基本属性组_单位);
 			if (StringUtils.isBlank(inventoryUnitStr)) {
-				return MessageFactory.buildRefuseMessage("Failed", "出库失败", BaseConstant.TYPE_物料出入库记录, "出库单位必填");
+				return MessageFactory.buildRefuseMessage("Failed", "入库失败", BaseConstant.TYPE_物料出入库记录, "入库单位必填");
 			}
 			Integer inventoryUnit = Integer.parseInt(inventoryUnitStr);
 			
@@ -788,7 +852,7 @@ public class MaterialOutInRecordAlgorithm {
 			try {
 				batchCode = getBatchCode(recordComplexus, recordCode);
 			} catch (Exception e1) {
-				return MessageFactory.buildRefuseMessage("Failed", "入库失败", BaseConstant.TYPE_物料出入库记录, "出库对应的批次不唯一");
+				return MessageFactory.buildRefuseMessage("Failed", "入库失败", BaseConstant.TYPE_物料出入库记录, "入库对应的批次不唯一");
 			}
 			// 批次总量
 //			String batchGrossStr = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_物料批次信息, batchCode, MaterialBatchInfoCELNE3571Item.基本属性组_总量);
@@ -822,16 +886,19 @@ public class MaterialOutInRecordAlgorithm {
 			//放入到kie预设的全局变量中
 			relatedRecordList.add(builder.getRootRecord());
 			
-			// 获取库存唯一code
-			String materialStockInfoCode = getMaterialStockCode(recordComplexus, batchCode);
-			// 更改库存量
+			String materialStockInfoCode = null;
+			try {
+				materialStockInfoCode = getMaterialStockCode(recordComplexus, batchCode);
+			} catch (Exception e) {
+				return MessageFactory.buildRefuseMessage("Failed", "失败", BaseConstant.TYPE_物料出入库记录, "批次对应的物料库存不唯一");
+			}// 更改库存量
 			updateMaterialCount(recordComplexus, relatedRecordList, inventoryCount, materialStockInfoCode, ComputeSign.add);
 					
 		} catch (Exception e) {
 			e.printStackTrace();
 			return MessageFactory.buildRefuseMessage("Failed", "入库操作", BaseConstant.TYPE_物料出入库记录, "失败");
 		}
-		return MessageFactory.buildInfoMessage("Succeeded", "成功", BaseConstant.TYPE_物料出入库记录, "出库成功");
+		return MessageFactory.buildInfoMessage("Succeeded", "成功", BaseConstant.TYPE_物料出入库记录, "入库成功");
 	}
 	
 	/**
@@ -900,14 +967,35 @@ public class MaterialOutInRecordAlgorithm {
 			//放入到kie预设的全局变量中
 			relatedRecordList.add(builder.getRootRecord());
 			
-			// 获取库存唯一code
-			String materialStockInfoCode = getMaterialStockCode(recordComplexus, batchCode);
-			// 更改库存量
+			String materialStockInfoCode = null;
+			try {
+				materialStockInfoCode = getMaterialStockCode(recordComplexus, batchCode);
+			} catch (Exception e) {
+				return MessageFactory.buildRefuseMessage("Failed", "失败", BaseConstant.TYPE_物料出入库记录, "批次对应的物料库存不唯一");
+			}// 更改库存量
 			updateMaterialCount(recordComplexus, relatedRecordList, inventoryCount, materialStockInfoCode, ComputeSign.minus);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return MessageFactory.buildRefuseMessage("Failed", "出库操作", BaseConstant.TYPE_物料出入库记录, "失败");
 		}
 		return MessageFactory.buildInfoMessage("Succeeded", "成功", BaseConstant.TYPE_物料出入库记录, "出库成功");
+	}
+	
+	
+	
+	/**
+	 * 产品入库命令
+	 * @param recordComplexus
+	 * @param recordCode
+	 * @param relatedRecordList
+	 * @return
+	 */
+	public static Message productInStorageCommand(FGRecordComplexus recordComplexus, String recordCode, List<FGRootRecord> relatedRecordList, List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList, RecordRelationOpsBuilder relationOpsBuilder) {
+			// 此处判断项目必填
+			
+			// 执行入库操作
+			return inStorageCommand(recordComplexus, recordCode, relatedRecordList, relatedRelationOpsBuilderList, relationOpsBuilder);
+			
+			
 	}
 }

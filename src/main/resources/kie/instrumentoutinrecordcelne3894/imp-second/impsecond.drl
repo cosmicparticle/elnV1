@@ -32,6 +32,13 @@ global java.util.List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList;
 global cho.carbon.ops.builder.RecordRelationOpsBuilder relationOpsBuilder;
 global java.util.List<Message> messageList;
 
+rule "仪器出入库操作人"
+	when
+		not RecordRelation(type == RelationType.RR_仪器出入库记录_操作人_系统用户);
+	then
+		relationOpsBuilder.putRelation(RelationType.RR_仪器出入库记录_操作人_系统用户, userCode);
+end
+
 rule "仪器入库命令"
 	salience 30 
 	when

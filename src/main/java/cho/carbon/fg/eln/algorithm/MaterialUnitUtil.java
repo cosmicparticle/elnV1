@@ -34,9 +34,14 @@ public class MaterialUnitUtil {
 	 * @param materiaCode    物料基础信息唯一编码
 	 */
 	public static BigDecimal convertBaseUnit(FGRecordComplexus recordComplexus, Integer convertUnit, BigDecimal convertCount, String materiaCode) throws Exception {
-		Integer baseUnit = getMaterialBaseUnit(recordComplexus, materiaCode);
-		// 进行转换
-		BigDecimal convert = getConvertCount(convertUnit, convertCount, baseUnit);
+		BigDecimal convert = null;
+		try {
+			Integer baseUnit = getMaterialBaseUnit(recordComplexus, materiaCode);
+			// 进行转换
+			convert = getConvertCount(convertUnit, convertCount, baseUnit);
+		} catch (Exception e) {
+			throw new RuntimeException("物料基础单位不能为空");
+		}
 		return convert;
 	}
 

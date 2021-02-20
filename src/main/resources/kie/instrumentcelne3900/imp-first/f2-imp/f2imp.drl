@@ -14,6 +14,7 @@ import cho.carbon.fg.eln.constant.BaseConstant;
 import cho.carbon.fg.eln.constant.EnumKeyValue;
 import cho.carbon.fg.eln.constant.RelationType;
 import cho.carbon.fg.eln.constant.item.InstrumentCELNE3900Item;
+import cho.carbon.fg.eln.algorithm.eln.InstrumentAlgorithm;
 
 
 global java.lang.String recordCode;
@@ -31,4 +32,11 @@ global java.util.List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList;
 global cho.carbon.ops.builder.RecordRelationOpsBuilder relationOpsBuilder;
 global java.util.List<Message> messageList;
 
-
+rule "计算高低库存"
+	when
+		FuseAttribute( name == InstrumentCELNE3900Item.基本属性组_是否更新阈值, getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_是否_是)
+	then 
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(InstrumentCELNE3900Item.基本属性组_是否更新阈值, null);
+		recordOpsBuilder.addUpdateAttr(attr);	
+		messageList.add(InstrumentAlgorithm.calculateStockInfo(recordComplexus, recordCode, recordOpsBuilder));
+end

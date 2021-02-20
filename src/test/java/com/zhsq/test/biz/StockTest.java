@@ -1,7 +1,13 @@
 package com.zhsq.test.biz;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mvel2.optimizers.impl.refl.nodes.ArrayLength;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
 import cho.carbon.context.core.FusionContext;
 import cho.carbon.context.hc.HCFusionContext;
 import cho.carbon.entity.entity.Entity;
@@ -56,6 +62,21 @@ public class StockTest {
 		return entity;
 	}
 
+	
+	@Test
+	public void ab() {
+		
+		List<Integer> list = new ArrayList<Integer>();
+//		list.add(8);
+		list.add(11);
+		Integer scope = 01;
+		
+		for (int i = 0; i < list.size(); i++) {
+			scope = (scope | list.get(i));
+		}
+		System.out.println("=========scope: " + scope);
+		System.out.println( (8 & scope));
+	}
 	
 	
 }

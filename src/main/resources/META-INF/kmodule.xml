@@ -355,4 +355,103 @@
 <ksession name="ks-celne3900-validator-after" />
 </kbase>
 <!-- 仪器库存Instrumentcelne3900 end -->
+
+<!-- 项目日报ProjectDailycelne3729 start -->
+<kbase name="projectdailycelne3729-identity-query" packages="kie.projectdailycelne3729.identity.query">
+<ksession name="ks-celne3729-identity-query" />
+</kbase>
+<kbase name="projectdailycelne3729-imp-fetch" packages="kie.projectdailycelne3729.imp-fetch">
+<ksession name="ks-celne3729-imp-fetch" />
+</kbase>
+<kbase name="projectdailycelne3729-f1-pre" packages="kie.projectdailycelne3729.imp-first.f1-pre">
+<ksession name="ks-celne3729-f1-pre" />
+</kbase>
+<kbase name="projectdailycelne3729-f2-imp" packages="kie.projectdailycelne3729.imp-first.f2-imp">
+<ksession name="ks-celne3729-f2-imp" />
+</kbase>
+<kbase name="projectdailycelne3729-f3-post" packages="kie.projectdailycelne3729.imp-first.f3-post">
+<ksession name="ks-celne3729-f3-post" />
+</kbase>
+<kbase name="projectdailycelne3729-imp-second" packages="kie.projectdailycelne3729.imp-second">
+<ksession name="ks-celne3729-imp-second" />
+</kbase>
+<kbase name="projectdailycelne3729-imp-third" packages="kie.projectdailycelne3729.imp-third">
+<ksession name="ks-celne3729-imp-third" />
+</kbase>
+<kbase name="projectdailycelne3729-query-conjunction" packages="kie.projectdailycelne3729.query.conjunction">
+<ksession name="ks-celne3729-query-conjunction" />
+</kbase>
+<kbase name="projectdailycelne3729-validator-before" packages="kie.projectdailycelne3729.validator.before">
+<ksession name="ks-celne3729-validator-before" />
+</kbase>
+<kbase name="projectdailycelne3729-validator-after" packages="kie.projectdailycelne3729.validator.after">
+<ksession name="ks-celne3729-validator-after" />
+</kbase>
+<!-- 项目日报ProjectDailycelne3729 end -->
+
+<!-- 项目报告ExpProjectReportcelne3499 start -->
+<kbase name="expprojectreportcelne3499-identity-query" packages="kie.expprojectreportcelne3499.identity.query">
+<ksession name="ks-celne3499-identity-query" />
+</kbase>
+<kbase name="expprojectreportcelne3499-imp-fetch" packages="kie.expprojectreportcelne3499.imp-fetch">
+<ksession name="ks-celne3499-imp-fetch" />
+</kbase>
+<kbase name="expprojectreportcelne3499-f1-pre" packages="kie.expprojectreportcelne3499.imp-first.f1-pre">
+<ksession name="ks-celne3499-f1-pre" />
+</kbase>
+<kbase name="expprojectreportcelne3499-f2-imp" packages="kie.expprojectreportcelne3499.imp-first.f2-imp">
+<ksession name="ks-celne3499-f2-imp" />
+</kbase>
+<kbase name="expprojectreportcelne3499-f3-post" packages="kie.expprojectreportcelne3499.imp-first.f3-post">
+<ksession name="ks-celne3499-f3-post" />
+</kbase>
+<kbase name="expprojectreportcelne3499-imp-second" packages="kie.expprojectreportcelne3499.imp-second">
+<ksession name="ks-celne3499-imp-second" />
+</kbase>
+<kbase name="expprojectreportcelne3499-imp-third" packages="kie.expprojectreportcelne3499.imp-third">
+<ksession name="ks-celne3499-imp-third" />
+</kbase>
+<kbase name="expprojectreportcelne3499-query-conjunction" packages="kie.expprojectreportcelne3499.query.conjunction">
+<ksession name="ks-celne3499-query-conjunction" />
+</kbase>
+<kbase name="expprojectreportcelne3499-validator-before" packages="kie.expprojectreportcelne3499.validator.before">
+<ksession name="ks-celne3499-validator-before" />
+</kbase>
+<kbase name="expprojectreportcelne3499-validator-after" packages="kie.expprojectreportcelne3499.validator.after">
+<ksession name="ks-celne3499-validator-after" />
+</kbase>
+<!-- 项目报告ExpProjectReportcelne3499 end -->
+
+<!-- 项目执行计划ProjectExecutionPlancelne3705 start -->
+<kbase name="projectexecutionplancelne3705-identity-query" packages="kie.projectexecutionplancelne3705.identity.query">
+<ksession name="ks-celne3705-identity-query" />
+</kbase>
+<kbase name="projectexecutionplancelne3705-imp-fetch" packages="kie.projectexecutionplancelne3705.imp-fetch">
+<ksession name="ks-celne3705-imp-fetch" />
+</kbase>
+<kbase name="projectexecutionplancelne3705-f1-pre" packages="kie.projectexecutionplancelne3705.imp-first.f1-pre">
+<ksession name="ks-celne3705-f1-pre" />
+</kbase>
+<kbase name="projectexecutionplancelne3705-f2-imp" packages="kie.projectexecutionplancelne3705.imp-first.f2-imp">
+<ksession name="ks-celne3705-f2-imp" />
+</kbase>
+<kbase name="projectexecutionplancelne3705-f3-post" packages="kie.projectexecutionplancelne3705.imp-first.f3-post">
+<ksession name="ks-celne3705-f3-post" />
+</kbase>
+<kbase name="projectexecutionplancelne3705-imp-second" packages="kie.projectexecutionplancelne3705.imp-second">
+<ksession name="ks-celne3705-imp-second" />
+</kbase>
+<kbase name="projectexecutionplancelne3705-imp-third" packages="kie.projectexecutionplancelne3705.imp-third">
+<ksession name="ks-celne3705-imp-third" />
+</kbase>
+<kbase name="projectexecutionplancelne3705-query-conjunction" packages="kie.projectexecutionplancelne3705.query.conjunction">
+<ksession name="ks-celne3705-query-conjunction" />
+</kbase>
+<kbase name="projectexecutionplancelne3705-validator-before" packages="kie.projectexecutionplancelne3705.validator.before">
+<ksession name="ks-celne3705-validator-before" />
+</kbase>
+<kbase name="projectexecutionplancelne3705-validator-after" packages="kie.projectexecutionplancelne3705.validator.after">
+<ksession name="ks-celne3705-validator-after" />
+</kbase>
+<!-- 项目执行计划ProjectExecutionPlancelne3705 end -->
 </kmodule>

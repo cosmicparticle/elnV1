@@ -2,19 +2,27 @@ package cho.carbon.fg.eln.algorithm.eln;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.activemq.command.Command;
+import org.apache.commons.lang.StringUtils;
+
 import cho.carbon.complexus.FGRecordComplexus;
 import cho.carbon.fg.eln.algorithm.pojo.PutMaterialRatio;
 import cho.carbon.fg.eln.constant.BaseConstant;
 import cho.carbon.fg.eln.constant.RelationType;
+import cho.carbon.fg.eln.constant.item.ABCBE002Item;
 import cho.carbon.fg.eln.constant.item.ExpProcessCELNE3433Item;
+import cho.carbon.fg.eln.constant.item.ExpRecordCELNE2189Item;
+import cho.carbon.fg.eln.constant.item.ExpSafetyAnalysisCELNE3447Item;
 import cho.carbon.fg.eln.constant.item.MateriaInfoCELNE3393Item;
 import cho.carbon.fg.eln.constant.item.MaterialRatioCELNE3466Item;
+import cho.carbon.fuse.improve.attribute.FuseAttributeFactory;
 import cho.carbon.fuse.improve.ops.builder.FGRecordOpsBuilder;
 import cho.carbon.message.Message;
 import cho.carbon.message.MessageFactory;
@@ -22,6 +30,7 @@ import cho.carbon.model.uid.UidManager;
 import cho.carbon.ops.builder.RecordRelationOpsBuilder;
 import cho.carbon.relation.RecordRelation;
 import cho.carbon.rrc.builder.FGRootRecordBuilder;
+import cho.carbon.rrc.record.FGAttribute;
 import cho.carbon.rrc.record.FGRootRecord;
 
 /**
@@ -235,4 +244,185 @@ public class ExpRecordAlgorithm {
 		}
 		return MessageFactory.buildInfoMessage("computeMaterialGrossSucceeded", "计算投料总量成功", BaseConstant.TYPE_实验记录, "计算投料总量成功");
 	}
+	
+	/**
+	 * 设置实验记录中的实验员名称
+	 * @param recordComplexus
+	 * @param recordCode
+	 * @param relationOpsBuilder
+	 * @return
+	 */
+	public static Message setLaboratoryName(FGRecordComplexus recordComplexus, String recordCode, FGRecordOpsBuilder recordOpsBuilder) {
+		try {
+			// 获取当前实验记录
+			FGRootRecord rootRecord = CommonAlgorithm.getRootRecord(recordComplexus, BaseConstant.TYPE_实验记录, recordCode);
+			// 获取实验记录的实验员
+			List<RecordRelation> laboratoryList = (List)CommonAlgorithm.getAppointRecordRelation(recordComplexus, BaseConstant.TYPE_实验记录, recordCode, RelationType.RR_实验记录_实验员_系统用户);
+			String laboratoryNameStr = "";
+			for (RecordRelation recordRelation : laboratoryList) {
+				
+				String laboratoryCode = recordRelation.getRightCode();
+				
+				String name = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_系统用户, laboratoryCode, ABCBE002Item.基本信息_实名);
+				
+				if (StringUtils.isBlank(name)) {
+					name = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_系统用户, laboratoryCode, ABCBE002Item.基本信息_用户名);
+				}
+				
+				laboratoryNameStr = laboratoryNameStr + name;
+			}
+			
+			FGAttribute attr2=FuseAttributeFactory.buildAttribute(ExpRecordCELNE2189Item.基本属性组_实验员名称, laboratoryNameStr);
+			recordOpsBuilder.addUpdateAttr(attr2); 
+		} catch (Exception e) {
+			e.printStackTrace();
+			return MessageFactory.buildRefuseMessage("Failed", "设置实验记录实验员名称失败", BaseConstant.TYPE_实验记录, "");
+		}
+		return MessageFactory.buildInfoMessage("Succeeded", "设置实验记录实验员名称成功", BaseConstant.TYPE_实验记录, "");
+	}
+	
+	/**
+	 * 复制实验记录
+	 * @param recordComplexus
+	 * @param recordCode
+	 * @param recordOpsBuilder
+	 * @return
+	 */
+	public static Message copyExpRecord(FGRecordComplexus recordComplexus, String recordCode, FGRecordOpsBuilder recordOpsBuilder, List<FGRootRecord> relatedRecordList, List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList) {
+		try {
+			// 获取当前实验记录
+			FGRootRecord rootRecord = CommonAlgorithm.getRootRecord(recordComplexus, BaseConstant.TYPE_实验记录, recordCode);
+			// 对实验记录进行复制
+			
+			String expRecordNameOld = CommonAlgorithm.getDataValue(rootRecord, ExpRecordCELNE2189Item.基本属性组_名称);
+//			String expRecordGoalOld = CommonAlgorithm.getDataValue(rootRecord, ExpRecordCELNE2189Item.基本属性组_实验目的);
+			
+			// 生成一条新的实验记录
+			String expRecordCode = UidManager.getLongUID() + "";
+			FGRootRecordBuilder builder =FGRootRecordBuilder.getInstance(BaseConstant.TYPE_实验记录,expRecordCode);
+			//设置记录属性，第一个参数为模型属性的编码，第二个参数为模型属性的取值
+			builder.putAttribute(ExpRecordCELNE2189Item.基本属性组_名称, "复制自【" + expRecordNameOld+"】");
+//			builder.putAttribute("实验目的", expRecordGoalOld);
+//			builder.putAttribute("实验日期", new Date());
+			//融合实验记录对象
+			relatedRecordList.add(builder.getRootRecord());
+			
+			// 构件新实验记录的关系
+			RecordRelationOpsBuilder expRecordOpsBuilder = RecordRelationOpsBuilder.getInstance(BaseConstant.TYPE_实验记录, expRecordCode);
+			
+			// 查询出实验记录关联的项目， 并和新的实验记录进行关联
+			List<RecordRelation> projectRelaList = (List)CommonAlgorithm.getAppointRecordRelation(recordComplexus, BaseConstant.TYPE_实验记录, recordCode, RelationType.RR_实验记录_关联项目_实验项目);
+			
+			if (!projectRelaList.isEmpty()) {
+				// 获取到项目code
+				String projectCode = projectRelaList.get(0).getRightCode();
+				// 实验记录和项目进行关系关联
+				expRecordOpsBuilder.putRelation(RelationType.RR_实验记录_关联项目_实验项目, projectCode);
+			}
+			// 给新的实验记录增加安全分析
+			// 查询出当前实验记录的所有实验分析数据
+			List<RecordRelation> expSafetyAnalysisList = (List<RecordRelation>)CommonAlgorithm.getAppointRecordRelation(recordComplexus, BaseConstant.TYPE_实验记录, recordCode, RelationType.RR_实验记录_实验安全分析_实验安全分析);
+			for (RecordRelation expSafetyAnalyRela : expSafetyAnalysisList) {
+				// 获取到实验安全分析的code
+				String expSafetyAnalyCodeOld = expSafetyAnalyRela.getRightCode();
+				
+				String hazardAnaylsisOld = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验安全分析, expSafetyAnalyCodeOld, ExpSafetyAnalysisCELNE3447Item.基本属性组_危险性分析);
+				String harmOld = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验安全分析, expSafetyAnalyCodeOld, ExpSafetyAnalysisCELNE3447Item.基本属性组_生产的危害);
+				String measureOld = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验安全分析, expSafetyAnalyCodeOld, ExpSafetyAnalysisCELNE3447Item.基本属性组_采取的措施);
+				
+				String expSafetyAnalyCode = UidManager.getLongUID() + "";
+				FGRootRecordBuilder expSafetyAnalyBuilder =FGRootRecordBuilder.getInstance(BaseConstant.TYPE_实验安全分析,expSafetyAnalyCode);
+				//设置记录属性，第一个参数为模型属性的编码，第二个参数为模型属性的取值
+				expSafetyAnalyBuilder.putAttribute(ExpSafetyAnalysisCELNE3447Item.基本属性组_采取的措施, measureOld);
+				expSafetyAnalyBuilder.putAttribute(ExpSafetyAnalysisCELNE3447Item.基本属性组_生产的危害, harmOld);
+				expSafetyAnalyBuilder.putAttribute(ExpSafetyAnalysisCELNE3447Item.基本属性组_危险性分析, hazardAnaylsisOld);
+				//融合实验记录对象
+				relatedRecordList.add(expSafetyAnalyBuilder.getRootRecord());
+				// 新的安全分析， 需要和新的实验记录建立关系
+				expRecordOpsBuilder.putRelation(RelationType.RR_实验记录_实验安全分析_实验安全分析, expSafetyAnalyCode);
+			}
+			
+			// 查询当前实验记录的 实验过程
+			List<RecordRelation> expProcessList = (List<RecordRelation>)CommonAlgorithm.getAppointRecordRelation(recordComplexus, BaseConstant.TYPE_实验记录, recordCode, RelationType.RR_实验记录_实验操作过程_实验操作过程);
+			for (RecordRelation expProcessRela : expProcessList) {
+				// 旧的 实验过程 code  
+				String expProcessCodeOld = expProcessRela.getRightCode();
+				// 实验过程描述
+				String expProcessDescription = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验操作过程, expProcessCodeOld, ExpProcessCELNE3433Item.基本属性组_过程描述);
+				// 实验过程备注
+				String expProcessNote = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验操作过程, expProcessCodeOld, ExpProcessCELNE3433Item.基本属性组_备注);
+				// 构件新的实验过程
+				
+			// 构件新的实验过程code
+			String expProcessCode = UidManager.getLongUID() + "";
+				FGRootRecordBuilder expProcessBuilder =FGRootRecordBuilder.getInstance(BaseConstant.TYPE_实验操作过程,expProcessCode);
+				//设置记录属性，第一个参数为模型属性的编码，第二个参数为模型属性的取值
+				expProcessBuilder.putAttribute(ExpProcessCELNE3433Item.基本属性组_过程描述, expProcessDescription);
+				expProcessBuilder.putAttribute(ExpProcessCELNE3433Item.基本属性组_备注, expProcessNote);
+				//融合实验过程
+				relatedRecordList.add(expProcessBuilder.getRootRecord());
+				
+				// 构件新实验过程的关系的关系
+				RecordRelationOpsBuilder expProcessRelaBuilder = RecordRelationOpsBuilder.getInstance(BaseConstant.TYPE_实验操作过程, expProcessCode);
+				
+				// 查询出 实验过程 的所有投料配比信息
+				List<RecordRelation> putMateriaInfoList = (List<RecordRelation>)CommonAlgorithm.getAppointRecordRelation(recordComplexus, BaseConstant.TYPE_实验操作过程, expProcessCodeOld, RelationType.RR_实验操作过程_投料信息_投料信息);
+				
+				for (RecordRelation putMateriaInRela : putMateriaInfoList) {
+				// 获取投料信息的code
+				String putMateriaCodeOld = putMateriaInRela.getRightCode();
+					// 获取投料方式
+					String putMateriaType = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_投料信息, putMateriaCodeOld, MaterialRatioCELNE3466Item.基本属性组_投料方式);
+					// 获取投料单位
+					String putMateriaUnit = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_投料信息, putMateriaCodeOld, MaterialRatioCELNE3466Item.基本属性组_投料量单位);
+					// 获取计划投料量
+					String putMateriaPlan = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_投料信息, putMateriaCodeOld, MaterialRatioCELNE3466Item.基本属性组_计划投料量);
+					// 获取投料实体类型
+					String putMateriaEntityType = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_投料信息, putMateriaCodeOld, MaterialRatioCELNE3466Item.基本属性组_投料实体类型);
+					
+					
+					// 获取投料信息的物料
+					List<RecordRelation> materiaInfoList = (List<RecordRelation>)CommonAlgorithm.getAppointRecordRelation(recordComplexus, BaseConstant.TYPE_投料信息, putMateriaCodeOld, RelationType.RR_投料信息_物料信息_物料基础信息);
+					// 物料的code， 
+					String materiaInfoCode = materiaInfoList.get(0).getRightCode();
+					
+					// 构件新的投料信息， 并和实验过程关联
+					String putMateriaCode = UidManager.getLongUID() + "";
+					FGRootRecordBuilder putMateriaBuilder =FGRootRecordBuilder.getInstance(BaseConstant.TYPE_投料信息,putMateriaCode);
+					//设置记录属性，第一个参数为模型属性的编码，第二个参数为模型属性的取值
+					putMateriaBuilder.putAttribute(MaterialRatioCELNE3466Item.基本属性组_投料方式, putMateriaType);
+					putMateriaBuilder.putAttribute(MaterialRatioCELNE3466Item.基本属性组_投料量单位, putMateriaUnit);
+					putMateriaBuilder.putAttribute(MaterialRatioCELNE3466Item.基本属性组_计划投料量, putMateriaPlan);
+					putMateriaBuilder.putAttribute(MaterialRatioCELNE3466Item.基本属性组_投料实体类型, putMateriaEntityType);
+					
+					//融合投料信息
+					relatedRecordList.add(putMateriaBuilder.getRootRecord());
+					
+					// 构件新投料信息的关系
+					RecordRelationOpsBuilder putMateriaRelaBuilder = RecordRelationOpsBuilder.getInstance(BaseConstant.TYPE_投料信息, putMateriaCode);
+					// 建立投料信息和物料基础信息的关系
+					putMateriaRelaBuilder.putRelation(RelationType.RR_投料信息_物料信息_物料基础信息, materiaInfoCode);
+					// 建立投料信息和实验过程的关系
+//					putMateriaRelaBuilder.putRelation(RelationType.RR_投料信息_关联实验过程_实验操作过程, expProcessCode);
+					
+					// 融合投料关系信息
+					relatedRelationOpsBuilderList.add(putMateriaRelaBuilder);
+					
+					expProcessRelaBuilder.putRelation(RelationType.RR_实验操作过程_投料信息_投料信息, putMateriaCode);
+				}
+				// 融合实验过程的关系
+				relatedRelationOpsBuilderList.add(expProcessRelaBuilder);
+				// 实验记录和实验过程进行关联
+				expRecordOpsBuilder.putRelation(RelationType.RR_实验记录_实验操作过程_实验操作过程, expProcessCode);
+			}
+			
+			// 融合实验记录的关系
+			relatedRelationOpsBuilderList.add(expRecordOpsBuilder);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return MessageFactory.buildRefuseMessage("Failed", "设置实验记录实验员名称失败", BaseConstant.TYPE_实验记录, "");
+		}
+		return MessageFactory.buildInfoMessage("Succeeded", "设置实验记录实验员名称成功", BaseConstant.TYPE_实验记录, "");
+	}
+	
 }

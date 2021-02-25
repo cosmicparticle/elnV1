@@ -39,14 +39,14 @@ rule "投料量单位必填"
 		MessageFactory.buildRefuseMessage("Failed", "投料信息", BaseConstant.TYPE_实验记录, "投料单位必填");
 end
 
-rule "默认实际投料"
+rule "默认计划投料量"
 	salience 20
 	when
-		not FuseAttribute(name==MaterialRatioCELNE3466Item.基本属性组_实际投料量) 
-		or FuseAttribute(name==MaterialRatioCELNE3466Item.基本属性组_实际投料量,CommonCalculation.isNotBasicLawful(getValue(AttributeValueType.STRING)));
-		 FuseAttribute(name==MaterialRatioCELNE3466Item.基本属性组_计划投料量,  value:getValue(AttributeValueType.STRING)) 
+		not FuseAttribute(name==MaterialRatioCELNE3466Item.基本属性组_计划投料量) 
+		or FuseAttribute(name==MaterialRatioCELNE3466Item.基本属性组_计划投料量,CommonCalculation.isNotBasicLawful(getValue(AttributeValueType.STRING)));
+		 FuseAttribute(name==MaterialRatioCELNE3466Item.基本属性组_实际投料量,  value:getValue(AttributeValueType.STRING)) 
 	then 
-		// 生成实验项目状态
-		FGAttribute attr=FuseAttributeFactory.buildAttribute(MaterialRatioCELNE3466Item.基本属性组_实际投料量, value);
+		// 计划投料量为空， 那么把实际投料量赋值给计划
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(MaterialRatioCELNE3466Item.基本属性组_计划投料量, value);
 		recordOpsBuilder.addUpdateAttr(attr);	
 end

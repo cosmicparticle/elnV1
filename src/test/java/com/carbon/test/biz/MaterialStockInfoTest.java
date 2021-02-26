@@ -1,4 +1,4 @@
-package com.zhsq.test.biz;
+package com.carbon.test.biz;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -15,15 +15,15 @@ import cho.carbon.panel.IntegrationMsg;
 import cho.carbon.panel.PanelFactory;
 
 /**
- * 物料基础信息测试
+ * 物料库存信息测试
  * @author lhb
  */
 @ContextConfiguration(locations = "classpath*:spring-core.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class MateriaInfoTest {
+public class MaterialStockInfoTest {
 	
-	Logger logger = LoggerFactory.getLogger(MateriaInfoTest.class);
-	protected String mapperName = "默认物料基础信息";// 结构体的名称
+	Logger logger = LoggerFactory.getLogger(MaterialStockInfoTest.class);
+	protected String mapperName = "默认物料库存信息";// 结构体的名称
 	
 	
 	@Test
@@ -64,8 +64,8 @@ public class MateriaInfoTest {
 	private Entity createEntity(String mappingName) {
 		
 		Entity entity = new Entity(mappingName);
-		entity.putValue("唯一编码", "136644779660058626");
-		entity.putValue("安全性描述", "");
+		entity.putValue("唯一编码", "140534643493216257");
+		entity.putValue("是否更新阈值", "是");
 		
 		return entity;
 	}

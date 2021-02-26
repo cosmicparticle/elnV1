@@ -1,4 +1,4 @@
-package com.zhsq.test.biz;
+package com.carbon.test.biz;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -9,22 +9,22 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import cho.carbon.context.core.FusionContext;
 import cho.carbon.context.hc.HCFusionContext;
 import cho.carbon.entity.entity.Entity;
+import cho.carbon.fg.eln.constant.EnumKeyValue;
 import cho.carbon.panel.Discoverer;
 import cho.carbon.panel.Integration;
 import cho.carbon.panel.IntegrationMsg;
 import cho.carbon.panel.PanelFactory;
 
 /**
- * 物料库存信息测试
+ * 物料出入库测试
  * @author lhb
  */
 @ContextConfiguration(locations = "classpath*:spring-core.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class MaterialStockInfoTest {
+public class MaterialOutInRecordTest {
 	
-	Logger logger = LoggerFactory.getLogger(MaterialStockInfoTest.class);
-	protected String mapperName = "默认物料库存信息";// 结构体的名称
-	
+	Logger logger = LoggerFactory.getLogger(MaterialOutInRecordTest.class);
+	protected String mapperName = "默认物料出入库记录";// 结构体的名称
 	
 	@Test
 	public void readData() {
@@ -60,12 +60,11 @@ public class MaterialStockInfoTest {
 			
 			
 	}
-	// 客户下单
 	private Entity createEntity(String mappingName) {
 		
 		Entity entity = new Entity(mappingName);
-		entity.putValue("唯一编码", "140534643493216257");
-		entity.putValue("是否更新阈值", "是");
+		entity.putValue("唯一编码", "140922573529325572");
+		entity.putValue("物料出入库命令", EnumKeyValue.ENUM_物料出入库命令_销售出库命令);
 		
 		return entity;
 	}

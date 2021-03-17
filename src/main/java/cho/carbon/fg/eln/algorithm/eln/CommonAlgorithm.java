@@ -14,6 +14,9 @@ import cho.carbon.complexus.FGRecordComplexus;
 import cho.carbon.complexus.RecordComplexus;
 import cho.carbon.context.core.PersistentContext;
 import cho.carbon.context.hc.HCFusionContext;
+import cho.carbon.fg.eln.algorithm.MyFileUtils;
+import cho.carbon.fuse.improve.attribute.FuseAttributeFactory;
+import cho.carbon.fuse.improve.ops.builder.FGRecordOpsBuilder;
 import cho.carbon.meta.enun.operator.UnaryOperator;
 import cho.carbon.panel.Integration;
 import cho.carbon.panel.IntegrationMsg;
@@ -26,6 +29,7 @@ import cho.carbon.rrc.query.SimpleRecordQueryPanel;
 import cho.carbon.rrc.record.FGAttribute;
 import cho.carbon.rrc.record.FGRootRecord;
 import cho.carbon.rrc.record.LeafRecord;
+import cho.carbon.util.MD5Util;
 
 /**
  * carbon通用算法
@@ -288,5 +292,23 @@ public class CommonAlgorithm {
         return result;
     }
 
-    
+    /**
+	 * 进行文件的上传
+	 * @param recordOpsBuilder
+	 * @param filePath  文件路径 + 文件名
+	 * @param itemCode  需要上传到的itemCode
+	 * @param fn      文件名称    ----> "工作总结.doc"
+	 * @param fsf     文件后缀   -----> .doc
+	 */
+	public static void uploadFile(FGRecordOpsBuilder recordOpsBuilder, String filePath, String itemCode, String fn, String fsf) {
+		// 文件上传到服务器
+	    FGAttribute attribute = FuseAttributeFactory.buildAttribute(itemCode+"_fn", fn);
+	    byte[] bytes=MyFileUtils.readFileToByteArray(filePath);
+	    String strKey = MD5Util.encryptMD5(bytes);
+	    FGAttribute attributekf = FuseAttributeFactory.buildAttribute(itemCode+"_fk", strKey);
+	    recordOpsBuilder.addFileBytes(strKey, bytes);
+	    FGAttribute fileSuffix = FuseAttributeFactory.buildAttribute(itemCode+"_fsf", fsf);
+	    FGAttribute bAttribute=FuseAttributeFactory.buildBytesAttribute(itemCode,attribute,attributekf,null,null);
+		recordOpsBuilder.addUpdateAttr(bAttribute);	
+	}
 }

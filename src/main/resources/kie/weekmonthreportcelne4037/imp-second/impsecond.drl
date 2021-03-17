@@ -49,6 +49,6 @@ rule "生成周月总结报告"
 		FGAttribute attr=FuseAttributeFactory.buildAttribute(WeekMonthReportCELNE4037Item.基本属性组_周月总结命令, null);
 		recordOpsBuilder.addUpdateAttr(attr);	
 		// 记性报告的生成
-		messageList.add(WeekMonthReportAlgorithm.createWeekMonthReport(recordComplexus, recordCode, relationOpsBuilder, relatedRecordList, userCode));
+		messageList.add(WeekMonthReportAlgorithm.createWeekMonthReport(recordComplexus, recordCode, recordOpsBuilder, relatedRecordList, userCode));
 end
 

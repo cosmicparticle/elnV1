@@ -4,7 +4,7 @@
 
 	<groupId>cho.carbon.fg</groupId>
 	<artifactId>elnV1</artifactId>
-	<version>0.0.9-SNAPSHOT</version>
+	<version>0.0.10-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	
 	<url>http://maven.apache.org</url>
@@ -13,12 +13,12 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<version.spring>5.2.1.RELEASE</version.spring>
 		<version.jackson>2.8.5</version.jackson>
-		<version.hibernate>5.0.7.Final</version.hibernate>
-		<version.hibernate.annotations>3.5.6-Final</version.hibernate.annotations>
+		<version.hibernate>5.4.25.Final</version.hibernate>
+		<version.hibernate.annotations>5.4.25.Final</version.hibernate.annotations>
 		<version.proxool>0.9.1</version.proxool>
 		<version.kie>7.10.0.Final</version.kie>
 		<version.kie.ci>7.10.0.Final</version.kie.ci>
-		<version.carbon-core>1.0.135-SNAPSHOT</version.carbon-core>
+		<version.carbon-core>1.0.137-SNAPSHOT</version.carbon-core>
 		<cxf.version>3.3.4</cxf.version>
 
 		<project.builder.sourcesEncoding>UTF-8</project.builder.sourcesEncoding>
@@ -28,6 +28,21 @@
 	</properties>
 	
 	<dependencies>
+	
+		<!-- https://mvnrepository.com/artifact/com.lowagie/itext -->
+		<dependency>
+		    <groupId>com.lowagie</groupId>
+		    <artifactId>itext</artifactId>
+		    <version>2.1.7</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.lowagie/itext-rtf -->
+		<dependency>
+		    <groupId>com.lowagie</groupId>
+		    <artifactId>itext-rtf</artifactId>
+		    <version>2.1.7</version>
+		</dependency>
+
+
 	
 		<!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
 		<dependency>

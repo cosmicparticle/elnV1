@@ -454,4 +454,36 @@
 <ksession name="ks-celne3705-validator-after" />
 </kbase>
 <!-- 项目执行计划ProjectExecutionPlancelne3705 end -->
+<!-- 周月总结WeekMonthReportcelne4037 start -->
+<kbase name="weekmonthreportcelne4037-identity-query" packages="kie.weekmonthreportcelne4037.identity.query">
+<ksession name="ks-celne4037-identity-query" />
+</kbase>
+<kbase name="weekmonthreportcelne4037-imp-fetch" packages="kie.weekmonthreportcelne4037.imp-fetch">
+<ksession name="ks-celne4037-imp-fetch" />
+</kbase>
+<kbase name="weekmonthreportcelne4037-f1-pre" packages="kie.weekmonthreportcelne4037.imp-first.f1-pre">
+<ksession name="ks-celne4037-f1-pre" />
+</kbase>
+<kbase name="weekmonthreportcelne4037-f2-imp" packages="kie.weekmonthreportcelne4037.imp-first.f2-imp">
+<ksession name="ks-celne4037-f2-imp" />
+</kbase>
+<kbase name="weekmonthreportcelne4037-f3-post" packages="kie.weekmonthreportcelne4037.imp-first.f3-post">
+<ksession name="ks-celne4037-f3-post" />
+</kbase>
+<kbase name="weekmonthreportcelne4037-imp-second" packages="kie.weekmonthreportcelne4037.imp-second">
+<ksession name="ks-celne4037-imp-second" />
+</kbase>
+<kbase name="weekmonthreportcelne4037-imp-third" packages="kie.weekmonthreportcelne4037.imp-third">
+<ksession name="ks-celne4037-imp-third" />
+</kbase>
+<kbase name="weekmonthreportcelne4037-query-conjunction" packages="kie.weekmonthreportcelne4037.query.conjunction">
+<ksession name="ks-celne4037-query-conjunction" />
+</kbase>
+<kbase name="weekmonthreportcelne4037-validator-before" packages="kie.weekmonthreportcelne4037.validator.before">
+<ksession name="ks-celne4037-validator-before" />
+</kbase>
+<kbase name="weekmonthreportcelne4037-validator-after" packages="kie.weekmonthreportcelne4037.validator.after">
+<ksession name="ks-celne4037-validator-after" />
+</kbase>
+<!-- 周月总结WeekMonthReportcelne4037 end -->
 </kmodule>

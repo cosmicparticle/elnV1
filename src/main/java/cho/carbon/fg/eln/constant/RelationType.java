@@ -98,4 +98,8 @@ public static final Long RR_仪器出入库记录_操作人_系统用户=1432380
 public static final Long RR_系统用户_仪器出入库记录_仪器出入库记录=143238054823108611L;
 public static final Long RR_附件资料_所属批次_物料批次信息=144661492884348930L;
 public static final Long RR_物料批次信息_批次附件_附件资料=144661492884348931L;
+public static final Long RR_物料基础信息_附件信息_附件资料=149447901075775490L;
+public static final Long RR_附件资料_关联物料_物料基础信息=149447901075775491L;
+public static final Long RR_周月总结_创建人_系统用户=152268998804545538L;
+public static final Long RR_系统用户_关联周月总结创建人_周月总结=152268998804545539L;
 }

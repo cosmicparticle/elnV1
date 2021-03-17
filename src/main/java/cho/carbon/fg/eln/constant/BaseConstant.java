@@ -33,4 +33,5 @@ public static final String TYPE_物料预定="celne3756";
 public static final String TYPE_项目预定库存="celne3881";
 public static final String TYPE_仪器出入库记录="celne3894";
 public static final String TYPE_仪器库存="celne3900";
+public static final String TYPE_周月总结="celne4037";
 }

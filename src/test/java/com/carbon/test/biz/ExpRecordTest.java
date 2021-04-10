@@ -25,7 +25,7 @@ public class ExpRecordTest {
 	
 	@Test
 	public void readData() {
-		
+			
 			long startTime = System.currentTimeMillis();
 			HCFusionContext context=new HCFusionContext();
 			context.setSource(FusionContext.SOURCE_COMMON);
@@ -51,8 +51,6 @@ public class ExpRecordTest {
 				long endTime = System.currentTimeMillis();// 记录结束时间
 				logger.debug(( (endTime - startTime) / 1000 ) + "");
 			}
-			
-			
 			
 			// 删除实体
 			

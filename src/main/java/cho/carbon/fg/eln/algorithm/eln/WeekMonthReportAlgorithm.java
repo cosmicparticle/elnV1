@@ -44,7 +44,7 @@ public class WeekMonthReportAlgorithm {
 	
 
 	/**
-	 * 生成周月总结报告
+	 * 	生成周月总结报告
 	 * @param recordComplexus
 	 * @param recordCode
 	 * @param relationOpsBuilder
@@ -58,12 +58,14 @@ public class WeekMonthReportAlgorithm {
 			// 获取周月总结记录
 			FGRootRecord rootRecord = CommonAlgorithm.getRootRecord(recordComplexus, BaseConstant.TYPE_周月总结, recordCode);
 			
-			String startTime = CommonAlgorithm.getDataValue(rootRecord, WeekMonthReportCELNE4037Item.基本属性组_开始日期);
-			String endTime = CommonAlgorithm.getDataValue(rootRecord, WeekMonthReportCELNE4037Item.基本属性组_结束日期);
+			String startTime = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_周月总结, recordCode, WeekMonthReportCELNE4037Item.基本属性组_开始日期);
+			String endTime = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_周月总结, recordCode, WeekMonthReportCELNE4037Item.基本属性组_结束日期);
+			
+//			String startTime = CommonAlgorithm.getDataValue(rootRecord, WeekMonthReportCELNE4037Item.基本属性组_开始日期);
+//			String endTime = CommonAlgorithm.getDataValue(rootRecord, WeekMonthReportCELNE4037Item.基本属性组_结束日期);
 			
 			
 			// 查询实验记录， 按照用户、开始时间、结束时间 进行查询
-			
 			QueryRecordParmFactory queryRecordParmFactory= new QueryRecordParmFactory(BaseConstant.TYPE_实验记录);
 			//设置结构化查询过滤条件，可选项，默认不设任何过滤条件。
 			FGConJunctionFactory conJunctionFactory = queryRecordParmFactory.getConJunctionFactory();
@@ -81,7 +83,6 @@ public class WeekMonthReportAlgorithm {
 			// 执行查询, 获取到所有相关的实验记录
 			List<String> codeList = SimpleRecordQueryPanel.queryCodeList(queryRecordParmFactory.getQueryParameter());
 			
-		System.out.println();
 		
 		// 存放项目code对应的实验记录code
 		Map<String, List> projectMap = new HashMap<String, List>();
@@ -106,23 +107,30 @@ public class WeekMonthReportAlgorithm {
 		
 		// 获取操作系统桌面路径
 		String filePath = CommonAlgorithm.getDesktopPath() + File.separator + "工作总结.doc";
-		// 遍历map， 根据项目和实验记录生成项目日、周、月等报告
-		createWord(recordComplexus, projectMap, filePath);
 		
-		// 上传文件
-		CommonAlgorithm.uploadFile(recordOpsBuilder, filePath,WeekMonthReportCELNE4037Item.基本属性组_附件报告, "工作总结.doc", ".doc");
-		// 删除文件
-		File file = new File(filePath);
-		file.delete();
+		
+		if (!projectMap.isEmpty()) {
+			// 遍历map， 根据项目和实验记录生成项目日、周、月等报告
+			createWord(recordComplexus, projectMap, filePath);
+			
+			// 上传文件
+			CommonAlgorithm.uploadFile(recordOpsBuilder, filePath,WeekMonthReportCELNE4037Item.基本属性组_附件报告, "工作总结.doc", ".doc");
+			// 删除文件
+			File file = new File(filePath);
+			file.delete();
+		} else {
+			return MessageFactory.buildRefuseMessage("Failed", "失败", BaseConstant.TYPE_周月总结, "没有查询到日期范围的实验记录");
+		}
+		
 		} catch (Exception e) {
 			e.printStackTrace();
-			return MessageFactory.buildRefuseMessage("computeMaterialGrossFailed", "计算投料总量失败", BaseConstant.TYPE_实验记录, "计算投料总量失败");
+			return MessageFactory.buildRefuseMessage("computeMaterialGrossFailed", "失败", BaseConstant.TYPE_周月总结, "生成模板报告失败");
 		}
-		return MessageFactory.buildInfoMessage("computeMaterialGrossSucceeded", "计算投料总量成功", BaseConstant.TYPE_实验记录, "计算投料总量成功");
+		return MessageFactory.buildInfoMessage("computeMaterialGrossSucceeded", "成功", BaseConstant.TYPE_周月总结, "生成模板报告成功");
 	}
 
 	/**
-	 * 根据项目code和项目下的实验记录 生成word 文档
+	 * 	根据项目code和项目下的实验记录 生成word 文档
 	 * @param recordComplexus
 	 * @param projectMap
 	 * @throws Exception 
@@ -157,8 +165,8 @@ public class WeekMonthReportAlgorithm {
 	        document.add(context);  
 	        
 	        //设置Table表格,创建一个三列的表格  
-	        Table table = new Table(5);  
-	        int width[] = {25,25,25,25,25};//设置每列宽度比例  
+	        Table table = new Table(6);  
+	        int width[] = {25,25,25,25,25,25};//设置每列宽度比例  
 	        table.setWidths(width);  
 	        table.setWidth(90);//占页面宽度比例  
 	        table.setAlignment(Element.ALIGN_CENTER);//居中  
@@ -166,6 +174,7 @@ public class WeekMonthReportAlgorithm {
 	        table.setAutoFillEmptyCells(true);//自动填满  
 	        table.setBorderWidth(1);//边框宽度  
 	        //设置表头  
+	        table.addCell(new Cell("实验名称"));  
 	        table.addCell(new Cell("批号"));  
 	        table.addCell(new Cell("干品重量"));  
 	        table.addCell(new Cell("湿品重量"));  
@@ -174,12 +183,14 @@ public class WeekMonthReportAlgorithm {
 	        
 			// 获取实验记录的信息
 			for (String expCode : expCodeList) {
+				String expName = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_名称);
 				String expTime = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_实验日期);
 				String piHao = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_批号);
 				String ganpin = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_干品重量);
 				String shipin = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_湿品重量);
 				String zongjie = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_实验总结);
 				
+				table.addCell(new Cell(expName));  
 		        Font fontChinese = new Font(12);  
 		        Cell cell = new Cell(new Paragraph(piHao));  
 		        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);  

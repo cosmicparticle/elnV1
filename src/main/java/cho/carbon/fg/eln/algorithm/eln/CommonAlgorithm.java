@@ -293,7 +293,7 @@ public class CommonAlgorithm {
     }
 
     /**
-	 * 进行文件的上传
+	 * 	进行文件的上传
 	 * @param recordOpsBuilder
 	 * @param filePath  文件路径 + 文件名
 	 * @param itemCode  需要上传到的itemCode
@@ -302,12 +302,12 @@ public class CommonAlgorithm {
 	 */
 	public static void uploadFile(FGRecordOpsBuilder recordOpsBuilder, String filePath, String itemCode, String fn, String fsf) {
 		// 文件上传到服务器
-	    FGAttribute attribute = FuseAttributeFactory.buildAttribute(itemCode+"_fn", fn);
+	    FGAttribute attribute = FuseAttributeFactory.buildFGAttribute(itemCode+"_fn", fn);
 	    byte[] bytes=MyFileUtils.readFileToByteArray(filePath);
 	    String strKey = MD5Util.encryptMD5(bytes);
-	    FGAttribute attributekf = FuseAttributeFactory.buildAttribute(itemCode+"_fk", strKey);
+	    FGAttribute attributekf = FuseAttributeFactory.buildFGAttribute(itemCode+"_fk", strKey);
 	    recordOpsBuilder.addFileBytes(strKey, bytes);
-	    FGAttribute fileSuffix = FuseAttributeFactory.buildAttribute(itemCode+"_fsf", fsf);
+	    FGAttribute fileSuffix = FuseAttributeFactory.buildFGAttribute(itemCode+"_fsf", fsf);
 	    FGAttribute bAttribute=FuseAttributeFactory.buildBytesAttribute(itemCode,attribute,attributekf,null,null);
 		recordOpsBuilder.addUpdateAttr(bAttribute);	
 	}

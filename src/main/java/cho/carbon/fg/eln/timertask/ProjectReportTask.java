@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import cho.carbon.context.hc.HCFusionContext;
 import cho.carbon.fg.eln.constant.BaseConstant;
@@ -27,8 +29,8 @@ import cho.carbon.query.model.QueryRecordParmFactory;
 import cho.carbon.record.query.RecordQueryPanel;
 import cho.carbon.rrc.builder.FGRootRecordBuilder;
 
-@Configuration      //1.主要用于标记配置类，兼备Component的效果。
-@EnableScheduling   // 2.开启定时任务
+@Component
+@Lazy(value=false)
 public class ProjectReportTask {
 	
 	public static void main(String[] args) {

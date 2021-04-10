@@ -15,4 +15,5 @@ public static final String 基本属性组_实验总结="celn3498";
 public static final String 基本属性组_实验记录命令="celn3668";
 public static final String 基本属性组_实验目的="celn3770";
 public static final String 基本属性组_实验员名称="celn3927";
+public static final String 基本属性组_化学结构式="celn4052";
 }

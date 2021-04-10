@@ -66,17 +66,17 @@ public class WeekMonthReportTest {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		java.util.Date startTime = null;
 		try {
-			startTime = sdf.parse("2021-02-10");
+			startTime = sdf.parse("2021-03-028");
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
 		java.util.Date endTime = new java.util.Date();
 		
 		Entity entity = new Entity(mappingName);
-		entity.putValue("唯一编码", "152280844324347904");
-//		entity.putValue("开始时间", startTime); 
-//		entity.putValue("结束时间", endTime); 
-		
+		entity.putValue("唯一编码", "156920710379118594");
+		entity.putValue("开始日期", startTime); 
+//		entity.putValue("结束日期", endTime);
+
 		entity.putValue("周月总结命令", EnumKeyValue.ENUM_周月总结命令_生成报告); 
 //		
 		return entity;

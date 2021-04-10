@@ -31,7 +31,7 @@ global java.util.List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList;
 global cho.carbon.ops.builder.RecordRelationOpsBuilder relationOpsBuilder;
 global java.util.List<Message> messageList;
 
-
+/*
 rule "实验项目组长必填"
 	salience 60 
 	when
@@ -39,6 +39,15 @@ rule "实验项目组长必填"
 	then 
 		messageList.add(MessageFactory.buildRefuseMessage("Failed", "实验项目", BaseConstant.TYPE_投料信息, "组长必填"));
 end
+*/
+
+rule "实验项目项目组长为创建人"
+	salience 60 
+	when
+		not RecordRelation(type == RelationType.RR_实验项目_组长_系统用户);
+	then 
+		relationOpsBuilder.putRelation(RelationType.RR_实验项目_创建人_系统用户, userCode);
+	end
 
 rule "实验项目的创建人"
 	salience 30 

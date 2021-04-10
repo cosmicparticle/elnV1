@@ -14,6 +14,7 @@ import cho.carbon.fg.eln.constant.BaseConstant;
 import cho.carbon.fg.eln.constant.EnumKeyValue;
 import cho.carbon.fg.eln.constant.RelationType;
 import cho.carbon.fg.eln.constant.item.MateriaInfoCELNE3393Item;
+import cho.carbon.fg.eln.algorithm.eln.MateriaInfoAlgorithm;
 
 
 global java.lang.String recordCode;
@@ -31,4 +32,10 @@ global java.util.List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList;
 global cho.carbon.ops.builder.RecordRelationOpsBuilder relationOpsBuilder;
 global java.util.List<Message> messageList;
 
-
+rule "跳转详细资料页面"
+	salience 20
+	when
+		FuseAttribute( name == MateriaInfoCELNE3393Item.基本属性组_物料URL, CommonCalculation.isBasicLawful(getValue(AttributeValueType.STRING)));
+	then
+		messageList.add(MateriaInfoAlgorithm.setDetailURL(recordComplexus, recordCode, recordOpsBuilder));
+end

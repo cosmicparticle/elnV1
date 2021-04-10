@@ -1,7 +1,6 @@
 package cho.carbon.fg.eln.algorithm.eln;
 
 import java.math.BigDecimal;
-import java.util.Collection;
 import java.util.List;
 
 import cho.carbon.complexus.FGRecordComplexus;
@@ -9,19 +8,22 @@ import cho.carbon.fg.eln.algorithm.MaterialUnitUtil;
 import cho.carbon.fg.eln.constant.BaseConstant;
 import cho.carbon.fg.eln.constant.EnumKeyValue;
 import cho.carbon.fg.eln.constant.RelationType;
+import cho.carbon.fg.eln.constant.item.MateriaInfoCELNE3393Item;
 import cho.carbon.fg.eln.constant.item.MaterialStockInfoCELNE3551Item;
+import cho.carbon.fuse.improve.attribute.FuseAttributeFactory;
+import cho.carbon.fuse.improve.ops.builder.FGRecordOpsBuilder;
 import cho.carbon.message.Message;
 import cho.carbon.message.MessageFactory;
 import cho.carbon.model.uid.UidManager;
 import cho.carbon.ops.builder.RecordRelationOpsBuilder;
 import cho.carbon.relation.RecordRelation;
 import cho.carbon.rrc.builder.FGRootRecordBuilder;
+import cho.carbon.rrc.record.FGAttribute;
 import cho.carbon.rrc.record.FGRootRecord;
 
 /**
  * 物料基础信息算法
  * @author lhb
- *
  */
 public class MateriaInfoAlgorithm {
 
@@ -86,14 +88,6 @@ public class MateriaInfoAlgorithm {
 			
 			
 			
-			
-			
-			
-			
-			
-			
-			
-			
 			// 获取当前物料基础信息
 			FGRootRecord rootRecord = CommonAlgorithm.getRootRecord(recordComplexus, BaseConstant.TYPE_物料基础信息, recordCode);
 		
@@ -106,4 +100,37 @@ public class MateriaInfoAlgorithm {
 		}
 		return MessageFactory.buildInfoMessage("Succeeded", "物料基础信息添加物料库存成功", BaseConstant.TYPE_物料基础信息, "物料基础信息添加物料库存成功");
 	}
+	
+	
+	/**
+	 * 	设置详细资料跳转
+	 * @param recordComplexus
+	 * @param recordCode
+	 * @param relatedRecordList
+	 * @param relatedRelationOpsBuilderList
+	 * @param relationOpsBuilder
+	 * @return
+	 */
+	public static Message setDetailURL(FGRecordComplexus recordComplexus, String recordCode, FGRecordOpsBuilder recordOpsBuilder) {
+		try {
+			// 获取当前物料基础信息
+			FGRootRecord rootRecord = CommonAlgorithm.getRootRecord(recordComplexus, BaseConstant.TYPE_物料基础信息, recordCode);
+		
+			String url = CommonAlgorithm.getDataValue(rootRecord, MateriaInfoCELNE3393Item.基本属性组_物料URL);
+			String detailContent = CommonAlgorithm.getDataValue(rootRecord, MateriaInfoCELNE3393Item.基本属性组_详细资料);
+			
+			// 获取物料名称
+			String materiaName = CommonAlgorithm.getDataValue(rootRecord, MateriaInfoCELNE3393Item.基本属性组_物料名称);
+			
+			String content = "<a href=\""+url+"\" target=\"_blank\">"+materiaName+"</a>";
+			FGAttribute attr=FuseAttributeFactory.buildFGAttribute(MateriaInfoCELNE3393Item.基本属性组_详细资料, content);
+			recordOpsBuilder.addUpdateAttr(attr);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return MessageFactory.buildRefuseMessage("Failed", "物料基础信息添加物料库存失败", BaseConstant.TYPE_物料基础信息, "物料基础信息添加物料库存失败");
+		}
+		return MessageFactory.buildInfoMessage("Succeeded", "物料基础信息添加物料库存成功", BaseConstant.TYPE_物料基础信息, "物料基础信息添加物料库存成功");
+	}
+	
+	
 }

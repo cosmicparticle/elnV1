@@ -295,14 +295,18 @@ public class ExpRecordAlgorithm {
 			// 对实验记录进行复制
 			
 			String expRecordNameOld = CommonAlgorithm.getDataValue(rootRecord, ExpRecordCELNE2189Item.基本属性组_名称);
-//			String expRecordGoalOld = CommonAlgorithm.getDataValue(rootRecord, ExpRecordCELNE2189Item.基本属性组_实验目的);
+			String fileFN = CommonAlgorithm.getDataValue(rootRecord, ExpRecordCELNE2189Item.基本属性组_化学结构式+"_fn");
+			String fileFK = CommonAlgorithm.getDataValue(rootRecord, ExpRecordCELNE2189Item.基本属性组_化学结构式+"_fk");
+			String fileFSF = CommonAlgorithm.getDataValue(rootRecord, ExpRecordCELNE2189Item.基本属性组_化学结构式+"_fsf");
 			
 			// 生成一条新的实验记录
 			String expRecordCode = UidManager.getLongUID() + "";
 			FGRootRecordBuilder builder =FGRootRecordBuilder.getInstance(BaseConstant.TYPE_实验记录,expRecordCode);
 			//设置记录属性，第一个参数为模型属性的编码，第二个参数为模型属性的取值
 			builder.putAttribute(ExpRecordCELNE2189Item.基本属性组_名称, "复制自【" + expRecordNameOld+"】");
-//			builder.putAttribute("实验目的", expRecordGoalOld);
+			builder.putAttribute(ExpRecordCELNE2189Item.基本属性组_化学结构式+"_fn", fileFN);
+			builder.putAttribute(ExpRecordCELNE2189Item.基本属性组_化学结构式+"_fk", fileFK);
+			builder.putAttribute(ExpRecordCELNE2189Item.基本属性组_化学结构式+"_fsf", fileFSF);
 //			builder.putAttribute("实验日期", new Date());
 			//融合实验记录对象
 			relatedRecordList.add(builder.getRootRecord());

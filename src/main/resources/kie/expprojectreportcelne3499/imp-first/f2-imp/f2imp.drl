@@ -32,3 +32,13 @@ global cho.carbon.ops.builder.RecordRelationOpsBuilder relationOpsBuilder;
 global java.util.List<Message> messageList;
 
 
+rule "设置项目报告默认状态"
+	salience 20
+	when
+		not FuseAttribute(name==ExpProjectReportCELNE3499Item.基本属性组_状态) 
+		or FuseAttribute(name==ExpProjectReportCELNE3499Item.基本属性组_状态,CommonCalculation.isNotBasicLawful(getValue(AttributeValueType.STRING)));
+	then
+		// 生成实验项目状态
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(ExpProjectReportCELNE3499Item.基本属性组_状态, EnumKeyValue.ENUM_项目报告状态_编辑中);
+		recordOpsBuilder.addUpdateAttr(attr);	
+end

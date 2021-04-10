@@ -64,7 +64,7 @@ public class MateriaInfoTest {
 	private Entity createEntity(String mappingName) {
 		
 		Entity entity = new Entity(mappingName);
-		entity.putValue("唯一编码", "136644779660058626");
+		entity.putValue("唯一编码", "136639488260349957");
 		entity.putValue("安全性描述", "");
 		
 		return entity;

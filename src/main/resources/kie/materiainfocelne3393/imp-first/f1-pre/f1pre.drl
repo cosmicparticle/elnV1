@@ -32,6 +32,7 @@ global java.util.List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList;
 global cho.carbon.ops.builder.RecordRelationOpsBuilder relationOpsBuilder;
 global java.util.List<Message> messageList;
 
+/*
 rule "不能更改基础计量单位"
 	when
 		OpsAttribute( name == MateriaInfoCELNE3393Item.基本属性组_基础计量单位,$opsValue : getValue(AttributeValueType.STRING) );
@@ -41,3 +42,5 @@ rule "不能更改基础计量单位"
 		messageList.add(MateriaInfoAlgorithm.updateBaseUnit( recordComplexus,  recordCode,   relatedRelationOpsBuilderList,  $opsValue,  $fuseValue));
 		 //  messageList.add(MessageFactory.buildRefuseMessage("Failed", "警告", BaseConstant.TYPE_物料基础信息, "物料基础计量单位不允许更改"));
 end
+*/
+

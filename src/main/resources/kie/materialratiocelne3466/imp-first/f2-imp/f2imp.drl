@@ -39,6 +39,7 @@ rule "投料量单位必填"
 		MessageFactory.buildRefuseMessage("Failed", "投料信息", BaseConstant.TYPE_实验记录, "投料单位必填");
 end
 
+/*
 rule "默认计划投料量"
 	salience 20
 	when
@@ -50,3 +51,6 @@ rule "默认计划投料量"
 		FGAttribute attr=FuseAttributeFactory.buildAttribute(MaterialRatioCELNE3466Item.基本属性组_计划投料量, value);
 		recordOpsBuilder.addUpdateAttr(attr);	
 end
+*/
+
+

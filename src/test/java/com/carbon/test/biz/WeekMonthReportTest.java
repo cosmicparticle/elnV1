@@ -73,7 +73,7 @@ public class WeekMonthReportTest {
 		java.util.Date endTime = new java.util.Date();
 		
 		Entity entity = new Entity(mappingName);
-		entity.putValue("唯一编码", "156920710379118594");
+		entity.putValue("唯一编码", "157311389194297346");
 		entity.putValue("开始日期", startTime); 
 //		entity.putValue("结束日期", endTime);
 

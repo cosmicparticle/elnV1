@@ -31,11 +31,11 @@ global java.util.List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList;
 global cho.carbon.ops.builder.RecordRelationOpsBuilder relationOpsBuilder;
 global java.util.List<Message> messageList;
 
-
+/*
 rule "创建物料对应库存实体"
 	when
 		not RecordRelation(type == RelationType.RR_物料基础信息_库存信息_物料库存信息);
 	then
 		messageList.add(MateriaInfoAlgorithm.addMaterialStockInfo(recordComplexus, recordCode, relatedRecordList, relatedRelationOpsBuilderList, relationOpsBuilder));
 end
-
+*/

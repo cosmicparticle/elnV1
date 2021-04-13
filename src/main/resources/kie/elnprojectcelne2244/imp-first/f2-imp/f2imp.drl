@@ -14,6 +14,7 @@ import cho.carbon.fg.eln.constant.BaseConstant;
 import cho.carbon.fg.eln.constant.EnumKeyValue;
 import cho.carbon.fg.eln.constant.RelationType;
 import cho.carbon.fg.eln.constant.item.ElnprojectCELNE2244Item;
+import java.util.Date;
 
 global java.lang.String recordCode;
 global java.lang.String userCode;
@@ -38,5 +39,17 @@ rule "设置实验项目状态"
 	then
 		// 生成实验项目状态
 		FGAttribute attr=FuseAttributeFactory.buildAttribute(ElnprojectCELNE2244Item.基本属性组_项目状态, EnumKeyValue.ENUM_项目状态_筹划中);
+		recordOpsBuilder.addUpdateAttr(attr);	
+end
+
+
+rule "设置实验项目启动日期"
+	salience 20
+	when
+		not FuseAttribute(name == ElnprojectCELNE2244Item.基本属性组_启动日期) 
+		or FuseAttribute(name == ElnprojectCELNE2244Item.基本属性组_启动日期,CommonCalculation.isNotBasicLawful(getValue(AttributeValueType.STRING)));
+	then 
+		// 生成实验项目启动日期
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(ElnprojectCELNE2244Item.基本属性组_启动日期, new Date());
 		recordOpsBuilder.addUpdateAttr(attr);	
 end

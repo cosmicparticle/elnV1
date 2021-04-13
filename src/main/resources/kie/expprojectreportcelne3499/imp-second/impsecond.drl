@@ -39,3 +39,12 @@ rule "项目报告人"
 		relationOpsBuilder.putRelation(RelationType.RR_项目报告_报告人_系统用户, userCode);
 end
 
+
+rule "项目报告中项目必选"
+	salience 40 
+	when
+		not RecordRelation(type == RelationType.RR_项目报告_实验项目_实验项目);
+	then 
+		messageList.add(MessageFactory.buildRefuseMessage("Failed", "项目报告", BaseConstant.TYPE_项目报告, "项目必填"));
+end
+

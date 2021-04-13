@@ -28,7 +28,7 @@ import cho.carbon.rrc.record.FGRootRecord;
  * @author lhb
  *
  */
-@Repository(value = "celne3551")
+//@Repository(value = "celne3551")
 public class MaterialStockInfoCELNE3551BNB implements FunctionGroup, IdentityQueryFuncGroup, ValidatorFuncGroup, ThirdRoundImproveFuncGroup,
 	FuseCallBackFuncGroup, /* FetchFuncGroup, */QueryJunctionFuncGroup {
 

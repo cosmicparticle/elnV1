@@ -89,11 +89,11 @@ public class ExpRecordAlgorithm {
 					//  获取投料实体
 					FGRootRecord putMaterial = CommonAlgorithm.getRootRecord(recordComplexus, BaseConstant.TYPE_投料信息, putMaterialCode);
 					
-					String planAmount = CommonAlgorithm.getDataValue(putMaterial, MaterialRatioCELNE3466Item.基本属性组_计划投料量);
+//					String planAmount = CommonAlgorithm.getDataValue(putMaterial, MaterialRatioCELNE3466Item.基本属性组_计划投料量);
 					String actualAmount = CommonAlgorithm.getDataValue(putMaterial, MaterialRatioCELNE3466Item.基本属性组_实际投料量);
 					String putMateriaUnit = CommonAlgorithm.getDataValue(putMaterial, MaterialRatioCELNE3466Item.基本属性组_投料量单位);
 
-					PutMaterialRatio putMaterialRatio = new PutMaterialRatio(putMaterialCode, materialCode, planAmount, actualAmount, putMateriaUnit, expProcessTime);
+					PutMaterialRatio putMaterialRatio = new PutMaterialRatio(putMaterialCode, materialCode,  actualAmount, putMateriaUnit, expProcessTime);
 					putMaterialRatio.setMaterialName(materialName);
 					
 					putMaterialRatioList.add(putMaterialRatio);
@@ -347,44 +347,44 @@ public class ExpRecordAlgorithm {
 			}
 			
 			// 查询出实验记录所有的投料方案
-			List<RecordRelation> putMateriaSchemeList = (List<RecordRelation>)CommonAlgorithm.getAppointRecordRelation(recordComplexus, BaseConstant.TYPE_实验记录, recordCode, RelationType.RR_实验记录_物料配比_投料信息);
-			for (RecordRelation putMateriaSchemeRela : putMateriaSchemeList) {
-				// 获取投料方案code
-				String putMateriaSchemeCodeOld = putMateriaSchemeRela.getRightCode();
-				// 获取摩尔比
-				String molarRatio = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_投料信息, putMateriaSchemeCodeOld, MaterialRatioCELNE3466Item.基本属性组_摩尔比);
-				// 获取投料单位
-				String putMateriaSchemeUnit = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_投料信息, putMateriaSchemeCodeOld, MaterialRatioCELNE3466Item.基本属性组_投料量单位);
-				// 获取计划投料量
-				String putMateriaSchemePlan = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_投料信息, putMateriaSchemeCodeOld, MaterialRatioCELNE3466Item.基本属性组_计划投料量);
-				// 获取投料实体类型
-				String putMateriaSchemeEntityType = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_投料信息, putMateriaSchemeCodeOld, MaterialRatioCELNE3466Item.基本属性组_投料实体类型);
-				
-				// 获取投料信息的物料
-				List<RecordRelation> materiaSchemeList = (List<RecordRelation>)CommonAlgorithm.getAppointRecordRelation(recordComplexus, BaseConstant.TYPE_投料信息, putMateriaSchemeCodeOld, RelationType.RR_投料信息_物料信息_物料基础信息);
-				// 物料的code， 
-				String materiaInfoSchemeCode = materiaSchemeList.get(0).getRightCode();
-				
-				// 构件新的投料方案， 并和实验记录关联
-				String putMateriaSchemeCode = UidManager.getLongUID() + "";
-				FGRootRecordBuilder putMateriaSchemeBuilder =FGRootRecordBuilder.getInstance(BaseConstant.TYPE_投料信息,putMateriaSchemeCode);
-				//设置记录属性，第一个参数为模型属性的编码，第二个参数为模型属性的取值
-				putMateriaSchemeBuilder.putAttribute(MaterialRatioCELNE3466Item.基本属性组_摩尔比, molarRatio);
-				putMateriaSchemeBuilder.putAttribute(MaterialRatioCELNE3466Item.基本属性组_投料量单位, putMateriaSchemeUnit);
-				putMateriaSchemeBuilder.putAttribute(MaterialRatioCELNE3466Item.基本属性组_计划投料量, putMateriaSchemePlan);
-				putMateriaSchemeBuilder.putAttribute(MaterialRatioCELNE3466Item.基本属性组_投料实体类型, putMateriaSchemeEntityType);
-				
-				//融合投料方案信息
-				relatedRecordList.add(putMateriaSchemeBuilder.getRootRecord());
-				// 构件新投料方案的关系
-				RecordRelationOpsBuilder putMateriaRelaSchemeBuilder = RecordRelationOpsBuilder.getInstance(BaseConstant.TYPE_投料信息, putMateriaSchemeCode);
-				// 建立投料信息和物料基础信息的关系
-				putMateriaRelaSchemeBuilder.putRelation(RelationType.RR_投料信息_物料信息_物料基础信息, materiaInfoSchemeCode);
-				// 融合投料方案关系信息
-				relatedRelationOpsBuilderList.add(putMateriaRelaSchemeBuilder);
-				
-				expRecordOpsBuilder.putRelation(RelationType.RR_实验记录_物料配比_投料信息, putMateriaSchemeCode);
-			}
+//			List<RecordRelation> putMateriaSchemeList = (List<RecordRelation>)CommonAlgorithm.getAppointRecordRelation(recordComplexus, BaseConstant.TYPE_实验记录, recordCode, RelationType.RR_实验记录_物料配比_投料信息);
+//			for (RecordRelation putMateriaSchemeRela : putMateriaSchemeList) {
+//				// 获取投料方案code
+//				String putMateriaSchemeCodeOld = putMateriaSchemeRela.getRightCode();
+//				// 获取摩尔比
+//				String molarRatio = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_投料信息, putMateriaSchemeCodeOld, MaterialRatioCELNE3466Item.基本属性组_摩尔比);
+//				// 获取投料单位
+//				String putMateriaSchemeUnit = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_投料信息, putMateriaSchemeCodeOld, MaterialRatioCELNE3466Item.基本属性组_投料量单位);
+//				// 获取计划投料量
+//				String putMateriaSchemePlan = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_投料信息, putMateriaSchemeCodeOld, MaterialRatioCELNE3466Item.基本属性组_计划投料量);
+//				// 获取投料实体类型
+//				String putMateriaSchemeEntityType = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_投料信息, putMateriaSchemeCodeOld, MaterialRatioCELNE3466Item.基本属性组_投料实体类型);
+//				
+//				// 获取投料信息的物料
+//				List<RecordRelation> materiaSchemeList = (List<RecordRelation>)CommonAlgorithm.getAppointRecordRelation(recordComplexus, BaseConstant.TYPE_投料信息, putMateriaSchemeCodeOld, RelationType.RR_投料信息_物料信息_物料基础信息);
+//				// 物料的code， 
+//				String materiaInfoSchemeCode = materiaSchemeList.get(0).getRightCode();
+//				
+//				// 构件新的投料方案， 并和实验记录关联
+//				String putMateriaSchemeCode = UidManager.getLongUID() + "";
+//				FGRootRecordBuilder putMateriaSchemeBuilder =FGRootRecordBuilder.getInstance(BaseConstant.TYPE_投料信息,putMateriaSchemeCode);
+//				//设置记录属性，第一个参数为模型属性的编码，第二个参数为模型属性的取值
+//				putMateriaSchemeBuilder.putAttribute(MaterialRatioCELNE3466Item.基本属性组_摩尔比, molarRatio);
+//				putMateriaSchemeBuilder.putAttribute(MaterialRatioCELNE3466Item.基本属性组_投料量单位, putMateriaSchemeUnit);
+//				putMateriaSchemeBuilder.putAttribute(MaterialRatioCELNE3466Item.基本属性组_计划投料量, putMateriaSchemePlan);
+//				putMateriaSchemeBuilder.putAttribute(MaterialRatioCELNE3466Item.基本属性组_投料实体类型, putMateriaSchemeEntityType);
+//				
+//				//融合投料方案信息
+//				relatedRecordList.add(putMateriaSchemeBuilder.getRootRecord());
+//				// 构件新投料方案的关系
+//				RecordRelationOpsBuilder putMateriaRelaSchemeBuilder = RecordRelationOpsBuilder.getInstance(BaseConstant.TYPE_投料信息, putMateriaSchemeCode);
+//				// 建立投料信息和物料基础信息的关系
+//				putMateriaRelaSchemeBuilder.putRelation(RelationType.RR_投料信息_物料信息_物料基础信息, materiaInfoSchemeCode);
+//				// 融合投料方案关系信息
+//				relatedRelationOpsBuilderList.add(putMateriaRelaSchemeBuilder);
+//				
+//				expRecordOpsBuilder.putRelation(RelationType.RR_实验记录_物料配比_投料信息, putMateriaSchemeCode);
+//			}
 			
 			// 查询当前实验记录的实验过程
 			List<RecordRelation> expProcessList = (List<RecordRelation>)CommonAlgorithm.getAppointRecordRelation(recordComplexus, BaseConstant.TYPE_实验记录, recordCode, RelationType.RR_实验记录_实验操作过程_实验操作过程);
@@ -419,8 +419,8 @@ public class ExpRecordAlgorithm {
 					String putMateriaType = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_投料信息, putMateriaCodeOld, MaterialRatioCELNE3466Item.基本属性组_投料方式);
 					// 获取投料单位
 					String putMateriaUnit = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_投料信息, putMateriaCodeOld, MaterialRatioCELNE3466Item.基本属性组_投料量单位);
-					// 获取计划投料量
-					String putMateriaPlan = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_投料信息, putMateriaCodeOld, MaterialRatioCELNE3466Item.基本属性组_计划投料量);
+					// 获取实际投料量
+					String putMateriaReal = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_投料信息, putMateriaCodeOld, MaterialRatioCELNE3466Item.基本属性组_实际投料量);
 					// 获取投料实体类型
 					String putMateriaEntityType = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_投料信息, putMateriaCodeOld, MaterialRatioCELNE3466Item.基本属性组_投料实体类型);
 					
@@ -436,7 +436,7 @@ public class ExpRecordAlgorithm {
 					//设置记录属性，第一个参数为模型属性的编码，第二个参数为模型属性的取值
 					putMateriaBuilder.putAttribute(MaterialRatioCELNE3466Item.基本属性组_投料方式, putMateriaType);
 					putMateriaBuilder.putAttribute(MaterialRatioCELNE3466Item.基本属性组_投料量单位, putMateriaUnit);
-					putMateriaBuilder.putAttribute(MaterialRatioCELNE3466Item.基本属性组_计划投料量, putMateriaPlan);
+					putMateriaBuilder.putAttribute(MaterialRatioCELNE3466Item.基本属性组_实际投料量, putMateriaReal);
 					putMateriaBuilder.putAttribute(MaterialRatioCELNE3466Item.基本属性组_投料实体类型, putMateriaEntityType);
 					
 					//融合投料信息

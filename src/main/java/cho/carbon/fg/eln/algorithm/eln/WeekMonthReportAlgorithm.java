@@ -20,7 +20,9 @@ import com.lowagie.text.rtf.RtfWriter2;
 
 import cho.carbon.complexus.FGRecordComplexus;
 import cho.carbon.fg.eln.algorithm.MyFileUtils;
+import cho.carbon.fg.eln.common.CommonCalculation;
 import cho.carbon.fg.eln.constant.BaseConstant;
+import cho.carbon.fg.eln.constant.EnumKeyValue;
 import cho.carbon.fg.eln.constant.RelationType;
 import cho.carbon.fg.eln.constant.item.ElnprojectCELNE2244Item;
 import cho.carbon.fg.eln.constant.item.ExpRecordCELNE2189Item;
@@ -143,7 +145,7 @@ public class WeekMonthReportAlgorithm {
         //建立一个书写器，与document对象关联  
         RtfWriter2.getInstance(document, new FileOutputStream(filePath));  
         document.open();  
-        Paragraph title = new Paragraph("工作总结");  
+        Paragraph title = new Paragraph("实验总结");  
         //设置标题格式对齐方式  
         title.setAlignment(Element.ALIGN_CENTER);  
         document.add(title);  
@@ -165,8 +167,8 @@ public class WeekMonthReportAlgorithm {
 	        document.add(context);  
 	        
 	        //设置Table表格,创建一个三列的表格  
-	        Table table = new Table(6);  
-	        int width[] = {25,25,25,25,25,25};//设置每列宽度比例  
+	        Table table = new Table(9);  
+	        int width[] = {25,25,25,25,25,25,25,25,25};//设置每列宽度比例  
 	        table.setWidths(width);  
 	        table.setWidth(90);//占页面宽度比例  
 	        table.setAlignment(Element.ALIGN_CENTER);//居中  
@@ -176,29 +178,58 @@ public class WeekMonthReportAlgorithm {
 	        //设置表头  
 	        table.addCell(new Cell("实验名称"));  
 	        table.addCell(new Cell("批号"));  
-	        table.addCell(new Cell("干品重量"));  
-	        table.addCell(new Cell("湿品重量"));  
-	        table.addCell(new Cell("实验总结"));  
-	        table.addCell(new Cell("实验日期"));  
-	        
+	      
+	        table.addCell(new Cell("含量"));  
+	        table.addCell(new Cell("纯度")); 
+	        table.addCell(new Cell("单一杂质")); 
+	        table.addCell(new Cell("吸光度")); 
+	        table.addCell(new Cell("熔点")); 
+	        table.addCell(new Cell("重量"));  
+	        table.addCell(new Cell("实验总结")); 
 			// 获取实验记录的信息
 			for (String expCode : expCodeList) {
 				String expName = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_名称);
-				String expTime = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_实验日期);
 				String piHao = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_批号);
-				String ganpin = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_干品重量);
-				String shipin = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_湿品重量);
+				String zhongliang = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_干品重量);
+				// 收量单位
+				String shouLiangDanweiStr = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_收量单位);
+				String danwei = "";
+				if (CommonCalculation.isBasicLawful(shouLiangDanweiStr)) {
+					Integer shouLiangDanWei = Integer.parseInt(shouLiangDanweiStr);
+					if (EnumKeyValue.ENUM_物料计量单位_克.equals(shouLiangDanWei)) {
+						danwei = "g";
+					} else if (EnumKeyValue.ENUM_物料计量单位_千克.equals(shouLiangDanWei)) {
+						danwei = "kg";
+					}  else if (EnumKeyValue.ENUM_物料计量单位_升.equals(shouLiangDanWei)) {
+						danwei = "L";
+					}  else if (EnumKeyValue.ENUM_物料计量单位_吨.equals(shouLiangDanWei)) {
+						danwei = "t";
+					} else if (EnumKeyValue.ENUM_物料计量单位_毫升.equals(shouLiangDanWei)) {
+						danwei = "ml";
+					} 
+				}
+				
 				String zongjie = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_实验总结);
+				String hanliang = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_含量);
+				String chundu = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_纯度);
+				String danyizazhi = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_单一杂质);
+				String xiguangdian = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_吸光度);
+				String rongdian = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_熔点);
 				
 				table.addCell(new Cell(expName));  
 		        Font fontChinese = new Font(12);  
 		        Cell cell = new Cell(new Paragraph(piHao));  
 		        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);  
 		        table.addCell(cell);  
-		        table.addCell(new Cell(ganpin));  
-		        table.addCell(new Cell(shipin));  
-		        table.addCell(new Cell(zongjie));  
-		        table.addCell(new Cell(expTime));  
+		        
+		        table.addCell(new Cell(hanliang));  
+		        table.addCell(new Cell(chundu));  
+		        
+		        table.addCell(new Cell(danyizazhi));  
+		        table.addCell(new Cell(xiguangdian));  
+		        table.addCell(new Cell(rongdian));  
+		        table.addCell(new Cell(zhongliang+ " " +danwei));  
+		        table.addCell(new Cell(zongjie)); 
 			}
 			
 			  // 表格加入文档中

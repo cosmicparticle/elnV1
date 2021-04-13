@@ -96,9 +96,9 @@ public class MateriaInfoAlgorithm {
 		
 		} catch (Exception e) {
 			e.printStackTrace();
-			return MessageFactory.buildRefuseMessage("Failed", "物料基础信息添加物料库存失败", BaseConstant.TYPE_物料基础信息, "物料基础信息添加物料库存失败");
+			return MessageFactory.buildRefuseMessage("Failed", "物料基础更改基础单位失败", BaseConstant.TYPE_物料基础信息, "物料基础更改基础单位失败");
 		}
-		return MessageFactory.buildInfoMessage("Succeeded", "物料基础信息添加物料库存成功", BaseConstant.TYPE_物料基础信息, "物料基础信息添加物料库存成功");
+		return MessageFactory.buildInfoMessage("Succeeded", "物料基础更改基础单位成功", BaseConstant.TYPE_物料基础信息, "物料基础更改基础单位成功");
 	}
 	
 	

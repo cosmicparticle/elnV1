@@ -8,10 +8,10 @@ package cho.carbon.fg.eln.algorithm.pojo;
 public class PutMaterialRatio {
 	public PutMaterialRatio() {}
 	
-	public  PutMaterialRatio(String putMateriaCode, String materiaCode, String planAmount, String actualAmount, String putMateriaUnit, String putMateriaTime) {
+	public  PutMaterialRatio(String putMateriaCode, String materiaCode,  String actualAmount, String putMateriaUnit, String putMateriaTime) {
 		this.putMateriaCode = putMateriaCode;
 		this.materiaCode = materiaCode;
-		this.planAmount = planAmount;
+//		this.planAmount = planAmount;
 		this.actualAmount = actualAmount;
 		this.putMateriaUnit = putMateriaUnit;
 		this.putMateriaTime = putMateriaTime;

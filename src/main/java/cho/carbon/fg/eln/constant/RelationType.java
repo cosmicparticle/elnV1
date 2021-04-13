@@ -24,8 +24,6 @@ public static final Long RR_投料信息_实验记录_实验记录=1366388182454
 public static final Long RR_实验记录_物料配比_投料信息=136638818245451779L;
 public static final Long RR_实验操作过程_投料信息_投料信息=137796060676136962L;
 public static final Long RR_投料信息_关联实验过程_实验操作过程=137796060676136963L;
-public static final Long RR_实验项目_项目报告_项目报告=137799945474056194L;
-public static final Long RR_项目报告_关联项目_实验项目=137799945474056195L;
 public static final Long RR_实验项目_组长_系统用户=137800435100327938L;
 public static final Long RR_系统用户_组长项目_实验项目=137800435100327939L;
 public static final Long RR_实验项目_组员_系统用户=137800538179543042L;
@@ -102,4 +100,6 @@ public static final Long RR_物料基础信息_附件信息_附件资料=1494479
 public static final Long RR_附件资料_关联物料_物料基础信息=149447901075775491L;
 public static final Long RR_周月总结_创建人_系统用户=152268998804545538L;
 public static final Long RR_系统用户_关联周月总结创建人_周月总结=152268998804545539L;
+public static final Long RR_项目报告_实验项目_实验项目=157423326779449346L;
+public static final Long RR_实验项目_项目报告_项目报告=157423326779449347L;
 }

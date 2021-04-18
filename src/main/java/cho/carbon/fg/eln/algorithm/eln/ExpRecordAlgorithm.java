@@ -211,7 +211,7 @@ public class ExpRecordAlgorithm {
 		try {
 			// 获取当前实验记录
 			FGRootRecord rootRecord = CommonAlgorithm.getRootRecord(recordComplexus, BaseConstant.TYPE_实验记录, recordCode);
-			// 获取实验记录的操作过程
+			// 获取实验记录的实验项目
 			List<RecordRelation> expProcessRelaList = (List)CommonAlgorithm.getAppointRecordRelation(recordComplexus, BaseConstant.TYPE_实验记录, recordCode, RelationType.RR_实验记录_关联项目_实验项目);
 			if (expProcessRelaList.isEmpty() || expProcessRelaList.size() != 1) {
 				return MessageFactory.buildRefuseMessage("Failed", "实验记录", BaseConstant.TYPE_实验记录, "关联实验项目不唯一");

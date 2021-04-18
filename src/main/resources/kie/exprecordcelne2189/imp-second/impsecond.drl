@@ -59,6 +59,7 @@ rule "执行实验记录计算投料总量命令"
 		messageList.add(ExpRecordAlgorithm.computeMaterialGross(recordComplexus,  recordCode, recordOpsBuilder, relatedRecordList,  relatedRelationOpsBuilderList));
 end
 
+/*
 rule "实验记录提请归档后， 需要制定审核人"
 	salience 30 
 	when
@@ -67,3 +68,5 @@ rule "实验记录提请归档后， 需要制定审核人"
 		// 增加实验记录的审核人
 		messageList.add(ExpRecordAlgorithm.addVerifier(recordComplexus,  recordCode, relationOpsBuilder));
 end
+
+*/

@@ -167,8 +167,8 @@ public class WeekMonthReportAlgorithm {
 	        document.add(context);  
 	        
 	        //设置Table表格,创建一个三列的表格  
-	        Table table = new Table(9);  
-	        int width[] = {25,25,25,25,25,25,25,25,25};//设置每列宽度比例  
+	        Table table = new Table(10);  
+	        int width[] = {25,25,25,25,25,25,25,25,25,25};//设置每列宽度比例  
 	        table.setWidths(width);  
 	        table.setWidth(90);//占页面宽度比例  
 	        table.setAlignment(Element.ALIGN_CENTER);//居中  
@@ -186,6 +186,7 @@ public class WeekMonthReportAlgorithm {
 	        table.addCell(new Cell("熔点")); 
 	        table.addCell(new Cell("重量"));  
 	        table.addCell(new Cell("实验总结")); 
+	        table.addCell(new Cell("备注")); 
 			// 获取实验记录的信息
 			for (String expCode : expCodeList) {
 				String expName = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_名称);
@@ -215,6 +216,9 @@ public class WeekMonthReportAlgorithm {
 				String danyizazhi = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_单一杂质);
 				String xiguangdian = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_吸光度);
 				String rongdian = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_熔点);
+				String shiyanbeizhu = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_实验结果备注);
+				
+				
 				
 				table.addCell(new Cell(expName));  
 		        Font fontChinese = new Font(12);  
@@ -230,6 +234,7 @@ public class WeekMonthReportAlgorithm {
 		        table.addCell(new Cell(rongdian));  
 		        table.addCell(new Cell(zhongliang+ " " +danwei));  
 		        table.addCell(new Cell(zongjie)); 
+		        table.addCell(new Cell(shiyanbeizhu)); 
 			}
 			
 			  // 表格加入文档中

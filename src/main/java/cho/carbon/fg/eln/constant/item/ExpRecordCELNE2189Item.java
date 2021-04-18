@@ -20,4 +20,5 @@ public static final String 基本属性组_纯度="celn4216";
 public static final String 基本属性组_单一杂质="celn4217";
 public static final String 基本属性组_吸光度="celn4218";
 public static final String 基本属性组_熔点="celn4219";
+public static final String 基本属性组_实验结果备注="celn4225";
 }

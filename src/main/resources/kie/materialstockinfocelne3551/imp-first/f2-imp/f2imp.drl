@@ -31,6 +31,7 @@ global java.util.List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList;
 global cho.carbon.ops.builder.RecordRelationOpsBuilder relationOpsBuilder;
 global java.util.List<Message> messageList;
 
+/*
 rule "计算高低库存"
 	when
 		FuseAttribute( name == MaterialStockInfoCELNE3551Item.基本属性组_是否更新阈值, getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_是否_是)
@@ -39,3 +40,5 @@ rule "计算高低库存"
 		recordOpsBuilder.addUpdateAttr(attr);	
 		messageList.add(MaterialStockAlgorithm.calculateMaterialStockInfo(recordComplexus, recordCode, recordOpsBuilder));
 end
+*/
+

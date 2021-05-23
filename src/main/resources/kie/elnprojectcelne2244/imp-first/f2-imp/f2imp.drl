@@ -35,13 +35,24 @@ global java.util.List<Message> messageList;
 rule "设置实验项目状态"
 	salience 20
 	when
-		not FuseAttribute(name==ElnprojectCELNE2244Item.基本属性组_项目状态) or FuseAttribute(name==ElnprojectCELNE2244Item.基本属性组_项目状态,CommonCalculation.isNotBasicLawful(getValue(AttributeValueType.STRING)));
+		not FuseAttribute(name==ElnprojectCELNE2244Item.基本属性组_项目状态) 
+		or FuseAttribute(name==ElnprojectCELNE2244Item.基本属性组_项目状态,CommonCalculation.isNotBasicLawful(getValue(AttributeValueType.STRING)));
 	then
 		// 生成实验项目状态
 		FGAttribute attr=FuseAttributeFactory.buildAttribute(ElnprojectCELNE2244Item.基本属性组_项目状态, EnumKeyValue.ENUM_项目状态_筹划中);
 		recordOpsBuilder.addUpdateAttr(attr);	
 end
 
+rule "设置存档状态"
+	salience 20
+	when
+		not FuseAttribute(name==ElnprojectCELNE2244Item.基本属性组_存档状态) 
+		or FuseAttribute(name==ElnprojectCELNE2244Item.基本属性组_存档状态,CommonCalculation.isNotBasicLawful(getValue(AttributeValueType.STRING)));
+	then 
+		// 设置存档状态
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(ElnprojectCELNE2244Item.基本属性组_存档状态, EnumKeyValue.ENUM_实验存档状态_未存档);
+		recordOpsBuilder.addUpdateAttr(attr);	
+end
 
 rule "设置实验项目启动日期"
 	salience 20

@@ -41,3 +41,14 @@ rule "默认实验记录状态"
 		FGAttribute attr=FuseAttributeFactory.buildAttribute(ExpRecordCELNE2189Item.基本属性组_记录状态, EnumKeyValue.ENUM_实验记录状态_实验中);
 		recordOpsBuilder.addUpdateAttr(attr);	
 end
+
+rule "设置存档状态"
+	salience 33
+	when
+		not FuseAttribute(name==ExpRecordCELNE2189Item.基本属性组_存档状态) 
+		or FuseAttribute(name==ExpRecordCELNE2189Item.基本属性组_存档状态,CommonCalculation.isNotBasicLawful(getValue(AttributeValueType.STRING)));
+	then 
+		// 设置存档状态
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(ExpRecordCELNE2189Item.基本属性组_存档状态, EnumKeyValue.ENUM_实验存档状态_未存档);
+		recordOpsBuilder.addUpdateAttr(attr);	
+end

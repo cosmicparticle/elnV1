@@ -1,4 +1,4 @@
-package cho.carbon.fg.eln.rule.exprecordcelne2189.impthird
+package cho.carbon.fg.eln.rule.consultprojectcelne4320.f1pre
 
 import cho.carbon.relation.RelationCorrelation;
 import cho.carbon.fuse.improve.attribute.FuseAttributeFactory;
@@ -13,8 +13,8 @@ import cho.carbon.fg.eln.common.CommonCalculation;
 import cho.carbon.fg.eln.constant.BaseConstant;
 import cho.carbon.fg.eln.constant.EnumKeyValue;
 import cho.carbon.fg.eln.constant.RelationType;
-import cho.carbon.fg.eln.constant.item.ExpRecordCELNE2189Item;
-import cho.carbon.fg.eln.algorithm.eln.ExpRecordAlgorithm;
+import cho.carbon.fg.eln.constant.item.ConsultProjectCELNE4320Item;
+
 
 global java.lang.String recordCode;
 global java.lang.String userCode;
@@ -31,30 +31,4 @@ global java.util.List<RecordRelationOpsBuilder>  relatedRelationOpsBuilderList;
 global cho.carbon.ops.builder.RecordRelationOpsBuilder relationOpsBuilder;
 global java.util.List<Message> messageList;
 
-rule "设置实验记录的实验员名称"
-	when
-		RecordRelation(type == RelationType.RR_实验记录_实验员_系统用户);
-	then 
-		// 执行设置
-		messageList.add(ExpRecordAlgorithm.setLaboratoryName(recordComplexus, recordCode, recordOpsBuilder));
-end
 
-rule "复制实验记录内容"
-	salience 20
-	when
-		FuseAttribute(name==ExpRecordCELNE2189Item.基本属性组_实验记录命令,getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_实验记录命令_复制实验记录);
-	then  
-		// 实验记录命令置空
-		FGAttribute attr=FuseAttributeFactory.buildAttribute(ExpRecordCELNE2189Item.基本属性组_实验记录命令, null);
-		recordOpsBuilder.addUpdateAttr(attr);	
-		// 复制实验记录命令
-		messageList.add(ExpRecordAlgorithm.copyExpRecord(recordComplexus, recordCode, recordOpsBuilder, relatedRecordList, relatedRelationOpsBuilderList));
-end
-
-
-rule "计算实际投料当量比"
-	when
-		eval( true )
-	then
-		messageList.add(ExpRecordAlgorithm.computeRealityEQR(recordComplexus, recordCode, relationOpsBuilder, relatedRecordList));
-end

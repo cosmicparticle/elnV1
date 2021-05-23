@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import cho.carbon.complexus.FGRecordComplexus;
-import cho.carbon.fg.eln.algorithm.MaterialUnitUtil;
+import cho.carbon.fg.eln.algorithm.MaterialUnitUtilOld;
 import cho.carbon.fg.eln.constant.BaseConstant;
 import cho.carbon.fg.eln.constant.EnumKeyValue;
 import cho.carbon.fg.eln.constant.RelationType;
@@ -81,7 +81,7 @@ public class MateriaInfoAlgorithm {
 			
 			
 			// 判断前后两个单位是否能转换
-			BigDecimal convertCount = MaterialUnitUtil.getConvertCount(fuseUnit, new BigDecimal("0"), opsUnit);
+			BigDecimal convertCount = MaterialUnitUtilOld.getConvertCount(fuseUnit, new BigDecimal("0"), opsUnit);
 			
 			// 获取物料对应的库存信息
 			List<RecordRelation> materialStockRela = (List)CommonAlgorithm.getAppointRecordRelation(recordComplexus, BaseConstant.TYPE_物料基础信息, recordCode, RelationType.RR_物料基础信息_库存信息_物料库存信息);

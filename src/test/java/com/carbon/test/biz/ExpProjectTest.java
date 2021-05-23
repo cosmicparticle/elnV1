@@ -1,4 +1,6 @@
 package com.carbon.test.biz;
+import java.math.BigDecimal;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -60,19 +62,26 @@ public class ExpProjectTest {
 	}
 	
 	
-	@Test
-	public void fun33() {
-		new ProjectReportTask().configureTasks();
-	}
 	// 客户下单
 	private Entity createEntity(String mappingName) {
 		
 		Entity entity = new Entity(mappingName);
-//		entity.putValue("唯一编码", "139109779502833668");
-//		entity.putValue("实验记录命令", EnumKeyValue.ENUM_实验记录命令_计算投料总量); 
+		entity.putValue("唯一编码", "157895685135179782");
+		entity.putValue("方案描述", "描述11"); 
+		entity.putValue("项目命令", EnumKeyValue.ENUM_实验项目命令_存档命令); 
 //		
 		return entity;
 	}
 	
+	
+	@Test
+	public void fff() {
+		
+		BigDecimal aa = new BigDecimal("0");
+		BigDecimal bb = new BigDecimal("1");
+		
+		BigDecimal divide = aa.divide(bb);
+		
+	}
 	
 }

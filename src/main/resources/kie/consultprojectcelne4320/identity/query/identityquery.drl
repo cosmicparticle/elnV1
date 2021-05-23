@@ -1,0 +1,13 @@
+package cho.carbon.fg.eln.rule.consultprojectcelne4320.idquery
+
+import cho.carbon.fuse.improve.attribute.FuseAttribute;
+import cho.carbon.query.model.FGConJunctionFactory;
+import cho.carbon.meta.enun.AttributeValueType;
+import cho.carbon.meta.enun.operator.UnaryOperator;
+import cho.carbon.fg.eln.common.CommonCalculation;
+import cho.carbon.fg.eln.constant.BaseConstant;
+import cho.carbon.fg.eln.constant.item.ConsultProjectCELNE4320Item;
+
+global java.lang.String recordName;
+global cho.carbon.query.model.FGConJunctionFactory conJunctionFactory;
+

@@ -1,4 +1,9 @@
 package com.carbon.test.biz;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.fileUpload;
+
+import java.math.BigDecimal;
+import java.util.Date;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -10,6 +15,7 @@ import cho.carbon.context.core.FusionContext;
 import cho.carbon.context.hc.HCFusionContext;
 import cho.carbon.entity.entity.Entity;
 import cho.carbon.fg.eln.constant.EnumKeyValue;
+import cho.carbon.fg.eln.timertask.ConsultProjectTask;
 import cho.carbon.panel.Discoverer;
 import cho.carbon.panel.Integration;
 import cho.carbon.panel.IntegrationMsg;
@@ -18,14 +24,15 @@ import cho.carbon.panel.PanelFactory;
 
 @ContextConfiguration(locations = "classpath*:spring-core.xml")
 @RunWith(SpringJUnit4ClassRunner.class)
-public class ExpRecordTest {
+public class ConsultProjectTest {
 	
-	Logger logger = LoggerFactory.getLogger(ExpRecordTest.class);
-	protected String mapperName = "默认实验记录";// 结构体的名称
+	Logger logger = LoggerFactory.getLogger(ConsultProjectTest.class);
+	protected String mapperName = "默认查阅项目";// 结构体的名称
+	
 	
 	@Test
 	public void readData() {
-			
+		
 			long startTime = System.currentTimeMillis();
 			HCFusionContext context=new HCFusionContext();
 			context.setSource(FusionContext.SOURCE_COMMON);
@@ -41,31 +48,37 @@ public class ExpRecordTest {
 			logger.debug("融合情况： " + success);
 			if (!success) {
 				
-				System.out.println("融合拒绝情况： " + imsg.getRefuse());
-			} else {
-				System.out.println("融合警告情况： " + imsg.getWarn());
-				String code=imsg.getCode();
-				Discoverer discoverer=PanelFactory.getDiscoverer(context);
-				Entity result=discoverer.discover(code);
-				System.out.println("融合后实体： " + code + " : "+ result.toJson());
-				
-				long endTime = System.currentTimeMillis();// 记录结束时间
-				logger.debug(( (endTime - startTime) / 1000 ) + "");
+				logger.info("融合拒绝情况： " + imsg.getRefuse());
 			}
+			
+			String code=imsg.getCode();
+			Discoverer discoverer=PanelFactory.getDiscoverer(context);
+			Entity result=discoverer.discover(code);
+			logger.debug("融合后实体： " + code + " : "+ result.toJson());
+			
+			long endTime = System.currentTimeMillis();// 记录结束时间
+			logger.debug(( (endTime - startTime) / 1000 ) + "");
 			
 			// 删除实体
 			
 			
 	}
+	
+	
 	// 客户下单
 	private Entity createEntity(String mappingName) {
 		
 		Entity entity = new Entity(mappingName);
-		entity.putValue("唯一编码", "162531017851969539");
-		entity.putValue("步骤", EnumKeyValue.ENUM_实验记录步骤_第三步); 
-		entity.putValue("实验记录命令", EnumKeyValue.ENUM_实验记录命令_计算投料总量); 
+		entity.putValue("唯一编码", "164920428417818627");
+//		entity.putValue("查阅截止日期", new Date()); 
+		entity.putValue("命令", EnumKeyValue.ENUM_查阅项目命令_同意查阅); 
+//		
 		return entity;
 	}
 	
+	@Test
+	public void aa() {
+//		new ConsultProjectTask().updateConsultStatus();
+	}
 	
 }

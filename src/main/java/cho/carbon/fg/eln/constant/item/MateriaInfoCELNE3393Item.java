@@ -1,12 +1,12 @@
 package cho.carbon.fg.eln.constant.item;
 public class MateriaInfoCELNE3393Item {
 public static final String 物料基础信息_基本属性组="celn3394";
-public static final String 基本属性组_化学式="celn3400";
+public static final String 基本属性组_化学式1="celn3400";
 public static final String 基本属性组_分子量="celn3401";
 public static final String 基本属性组_熔点="celn3402";
 public static final String 基本属性组_沸点="celn3403";
 public static final String 基本属性组_水溶性="celn3404";
-public static final String 基本属性组_密度="celn3405";
+public static final String 基本属性组_密度_g="celn3405";
 public static final String 基本属性组_外观="celn3406";
 public static final String 基本属性组_闪点="celn3407";
 public static final String 基本属性组_安全性描述="celn3408";
@@ -22,4 +22,8 @@ public static final String 基本属性组_物料名称="celn3463";
 public static final String 基本属性组_基础计量单位="celn3880";
 public static final String 基本属性组_物料URL="celn4066";
 public static final String 基本属性组_详细资料="celn4067";
+public static final String 基本属性组_化学式="celn4214";
+public static final String 基本属性组_CAS号="celn4231";
+public static final String 基本属性组_状态="celn4302";
+public static final String 基本属性组_摩尔质量_g="celn4314";
 }

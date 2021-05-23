@@ -5,4 +5,5 @@ public static final String 基本属性组_周月总结命令="celn4041";
 public static final String 基本属性组_开始日期="celn4042";
 public static final String 基本属性组_结束日期="celn4043";
 public static final String 基本属性组_附件报告="celn4044";
+public static final String 基本属性组_生成类型="celn4303";
 }

@@ -34,10 +34,12 @@ global java.util.List<Message> messageList;
 rule "投料量单位必填"
 	when
 		not FuseAttribute(name == MaterialRatioCELNE3466Item.基本属性组_投料量单位) 
-		or FuseAttribute(name == MaterialRatioCELNE3466Item.基本属性组_投料量单位, CommonCalculation.isBasicLawful(getValue(AttributeValueType.STRING)));
+		or FuseAttribute(name == MaterialRatioCELNE3466Item.基本属性组_投料量单位, CommonCalculation.isNotBasicLawful(getValue(AttributeValueType.STRING)));
 	then
-		MessageFactory.buildRefuseMessage("Failed", "投料信息", BaseConstant.TYPE_实验记录, "投料单位必填");
+		messageList.add(MessageFactory.buildRefuseMessage("Failed", "投料信息", BaseConstant.TYPE_实验记录, "投料单位必填"));
 end
+
+
 
 /*
 rule "默认计划投料量"

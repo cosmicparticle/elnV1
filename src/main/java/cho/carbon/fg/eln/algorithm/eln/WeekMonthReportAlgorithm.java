@@ -32,7 +32,9 @@ import cho.carbon.fuse.improve.ops.builder.FGRecordOpsBuilder;
 import cho.carbon.message.Message;
 import cho.carbon.message.MessageFactory;
 import cho.carbon.meta.enun.operator.BetweenOperator;
+import cho.carbon.meta.enun.operator.UnaryOperator;
 import cho.carbon.ops.builder.RecordRelationOpsBuilder;
+import cho.carbon.query.model.ConJunctionFactory;
 import cho.carbon.query.model.FGConJunctionFactory;
 import cho.carbon.query.model.QueryRecordParmFactory;
 import cho.carbon.relation.RecordRelation;
@@ -62,28 +64,84 @@ public class WeekMonthReportAlgorithm {
 			
 			String startTime = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_周月总结, recordCode, WeekMonthReportCELNE4037Item.基本属性组_开始日期);
 			String endTime = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_周月总结, recordCode, WeekMonthReportCELNE4037Item.基本属性组_结束日期);
+			String createTypeStr = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_周月总结, recordCode, WeekMonthReportCELNE4037Item.基本属性组_生成类型);
+			Integer createType = null;
+			if (CommonCalculation.isBasicLawful(createTypeStr)) {
+				createType = Integer.parseInt(createTypeStr);
+			} else {
+				return MessageFactory.buildRefuseMessage("Failed", "警告", BaseConstant.TYPE_周月总结, "生成类型必填！");
+			}
 			
-//			String startTime = CommonAlgorithm.getDataValue(rootRecord, WeekMonthReportCELNE4037Item.基本属性组_开始日期);
-//			String endTime = CommonAlgorithm.getDataValue(rootRecord, WeekMonthReportCELNE4037Item.基本属性组_结束日期);
+			// 存放所有的实验记录
+			List<String> codeList = new ArrayList<String>();
 			
-			
-			// 查询实验记录， 按照用户、开始时间、结束时间 进行查询
-			QueryRecordParmFactory queryRecordParmFactory= new QueryRecordParmFactory(BaseConstant.TYPE_实验记录);
-			//设置结构化查询过滤条件，可选项，默认不设任何过滤条件。
-			FGConJunctionFactory conJunctionFactory = queryRecordParmFactory.getConJunctionFactory();
-			conJunctionFactory.getGroupFactory().addBetween(ExpRecordCELNE2189Item.基本属性组_实验日期, startTime, endTime, BetweenOperator.BETWEEN);
-			// 并且实验记录的实验员为userCode
-			List<String> userCodes  = new ArrayList<String>();
-			userCodes.add(userCode);
-			// 存在实验员的关系， 并且实验员为 uerCode
-			List<Long> inRelationTypes =  new ArrayList<Long>();
-			inRelationTypes.add(RelationType.RR_实验记录_实验员_系统用户);
-			conJunctionFactory.getRightRelJuncFactory(BaseConstant.TYPE_系统用户)
-			.getRelationCriterionFactory().setInRightCodes(userCodes)
-			.setInRelationTypes(inRelationTypes);
-			
-			// 执行查询, 获取到所有相关的实验记录
-			List<String> codeList = SimpleRecordQueryPanel.queryCodeList(queryRecordParmFactory.getQueryParameter());
+			if (EnumKeyValue.ENUM_周月总结生成类型_本用户的实验总结.equals(createType)) {
+				// 生成实验员自己的
+				
+				// 查询实验记录， 按照用户、开始时间、结束时间 进行查询
+				QueryRecordParmFactory queryRecordParmFactory= new QueryRecordParmFactory(BaseConstant.TYPE_实验记录);
+				//设置结构化查询过滤条件，可选项，默认不设任何过滤条件。
+				FGConJunctionFactory conJunctionFactory = queryRecordParmFactory.getConJunctionFactory();
+				ConJunctionFactory groupFactory = conJunctionFactory.getGroupFactory();
+				groupFactory.addBetween(ExpRecordCELNE2189Item.基本属性组_实验日期, startTime, endTime, BetweenOperator.BETWEEN);
+				groupFactory.addCommon(ExpRecordCELNE2189Item.基本属性组_记录状态, EnumKeyValue.ENUM_实验记录状态_已废弃 , UnaryOperator.INEQUAL);
+				
+				// 并且实验记录的实验员为userCode
+				List<String> userCodes  = new ArrayList<String>();
+				userCodes.add(userCode);
+				// 存在实验员的关系， 并且实验员为 uerCode
+				List<Long> inRelationTypes =  new ArrayList<Long>();
+				inRelationTypes.add(RelationType.RR_实验记录_实验员_系统用户);
+				conJunctionFactory.getRightRelJuncFactory(BaseConstant.TYPE_系统用户)
+				.getRelationCriterionFactory().setInRightCodes(userCodes)
+				.setInRelationTypes(inRelationTypes);
+				
+				// 执行查询, 获取到所有相关的实验记录
+				codeList = SimpleRecordQueryPanel.queryCodeList(queryRecordParmFactory.getQueryParameter());
+				
+			} else if (EnumKeyValue.ENUM_周月总结生成类型_我负责项目的总结.equals(createType)) {
+				// 查询出我负责的项目
+				
+				//  在查出项目下的所有实验记录， 并确定开始时间和结束时间
+				
+				QueryRecordParmFactory queryProjectFactory = new QueryRecordParmFactory(BaseConstant.TYPE_实验项目);
+				//查询实验项目   启动日期在  开始时间 和结束时间之内的
+				FGConJunctionFactory conJunctionFactory = queryProjectFactory.getConJunctionFactory();
+				conJunctionFactory.getGroupFactory().addBetween(ElnprojectCELNE2244Item.基本属性组_启动日期, startTime, endTime, BetweenOperator.BETWEEN);
+				
+				// 并且实验项目的负责人为userCode
+				List<String> userCodes  = new ArrayList<String>();
+				userCodes.add(userCode);
+				
+				// 存在项目负责人的关系， 并且项目负责人为 uerCode
+				List<Long> inRelationTypes =  new ArrayList<Long>();
+				inRelationTypes.add(RelationType.RR_实验项目_组长_系统用户);
+				conJunctionFactory.getRightRelJuncFactory(BaseConstant.TYPE_系统用户)
+				.getRelationCriterionFactory().setInRightCodes(userCodes)
+				.setInRelationTypes(inRelationTypes);
+				
+				// 执行查询, 获取到所有相关的实验项目code
+				List<String> projectCodeList = SimpleRecordQueryPanel.queryCodeList(queryProjectFactory.getQueryParameter());
+				// 根据项目code， 查询出项目下所有的实验
+				
+				QueryRecordParmFactory queryExpFactory = new QueryRecordParmFactory(BaseConstant.TYPE_实验记录);
+				//设置结构化查询过滤条件，可选项，默认不设任何过滤条件。
+				FGConJunctionFactory expFactory = queryExpFactory.getConJunctionFactory();
+				expFactory.getGroupFactory().addCommon(ExpRecordCELNE2189Item.基本属性组_记录状态, EnumKeyValue.ENUM_实验记录状态_已废弃 , UnaryOperator.INEQUAL);
+				
+				// 并且实验记录的实验员为userCode
+				// 存在实验员的关系， 并且实验员为 uerCode
+				inRelationTypes =  new ArrayList<Long>();
+				inRelationTypes.add(RelationType.RR_实验记录_关联项目_实验项目);
+				
+				expFactory.getRightRelJuncFactory(BaseConstant.TYPE_实验项目)
+				.getRelationCriterionFactory().setInRightCodes(projectCodeList)
+				.setInRelationTypes(inRelationTypes);
+				
+				// 执行查询, 获取到所有相关的实验记录
+				codeList = SimpleRecordQueryPanel.queryCodeList(queryExpFactory.getQueryParameter());
+				System.out.println();
+			}
 			
 		
 		// 存放项目code对应的实验记录code
@@ -179,11 +237,11 @@ public class WeekMonthReportAlgorithm {
 	        table.addCell(new Cell("实验名称"));  
 	        table.addCell(new Cell("批号"));  
 	      
-	        table.addCell(new Cell("含量"));  
-	        table.addCell(new Cell("纯度")); 
-	        table.addCell(new Cell("单一杂质")); 
+	        table.addCell(new Cell("含量(%)"));  
+	        table.addCell(new Cell("纯度(%)")); 
+	        table.addCell(new Cell("单一杂质(%)")); 
 	        table.addCell(new Cell("吸光度")); 
-	        table.addCell(new Cell("熔点")); 
+	        table.addCell(new Cell("熔点(℃)")); 
 	        table.addCell(new Cell("重量"));  
 	        table.addCell(new Cell("实验总结")); 
 	        table.addCell(new Cell("备注")); 

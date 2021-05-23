@@ -1,5 +1,7 @@
 package cho.carbon.fg.eln.algorithm.pojo;
 
+import java.math.BigDecimal;
+
 /**
  * 	投料信息
  * @author lhb
@@ -8,7 +10,7 @@ package cho.carbon.fg.eln.algorithm.pojo;
 public class PutMaterialRatio {
 	public PutMaterialRatio() {}
 	
-	public  PutMaterialRatio(String putMateriaCode, String materiaCode,  String actualAmount, String putMateriaUnit, String putMateriaTime) {
+	public  PutMaterialRatio(String putMateriaCode, String materiaCode,  BigDecimal actualAmount, Integer putMateriaUnit, String putMateriaTime) {
 		this.putMateriaCode = putMateriaCode;
 		this.materiaCode = materiaCode;
 //		this.planAmount = planAmount;
@@ -28,9 +30,9 @@ public class PutMaterialRatio {
 	// 计划投料量
 	private String planAmount;
 	// 实际投料量
-	private String actualAmount;
+	private BigDecimal actualAmount;
 	//投料单位
-	private String putMateriaUnit;
+	private Integer putMateriaUnit;
 	
 	// 投料时间
 	private String putMateriaTime;
@@ -59,18 +61,23 @@ public class PutMaterialRatio {
 	public void setPlanAmount(String planAmount) {
 		this.planAmount = planAmount;
 	}
-	public String getActualAmount() {
+	
+	public BigDecimal getActualAmount() {
 		return actualAmount;
 	}
-	public void setActualAmount(String actualAmount) {
+
+	public void setActualAmount(BigDecimal actualAmount) {
 		this.actualAmount = actualAmount;
 	}
-	public String getPutMateriaUnit() {
+
+	public Integer getPutMateriaUnit() {
 		return putMateriaUnit;
 	}
-	public void setPutMateriaUnit(String putMateriaUnit) {
+
+	public void setPutMateriaUnit(Integer putMateriaUnit) {
 		this.putMateriaUnit = putMateriaUnit;
 	}
+
 	public String getPutMateriaTime() {
 		return putMateriaTime;
 	}

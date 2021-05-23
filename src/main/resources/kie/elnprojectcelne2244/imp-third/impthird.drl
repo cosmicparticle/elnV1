@@ -35,7 +35,6 @@ rule "实验项目组长也是组员"
 	salience 30 
 	when
 		RecordRelation(type == RelationType.RR_实验项目_组长_系统用户, $rightCodeZh:rightCode);
-		not RecordRelation(type == RelationType.RR_实验项目_组员_系统用户, $rightCodeZh != rightCode);
-	then  
+	then
 		relationOpsBuilder.putRelation(RelationType.RR_实验项目_组员_系统用户,  $rightCodeZh);
 end

@@ -8,7 +8,7 @@ import org.apache.commons.lang.StringUtils;
 
 import cho.carbon.complexus.FGRecordComplexus;
 import cho.carbon.fg.eln.algorithm.ComputeSign;
-import cho.carbon.fg.eln.algorithm.MaterialUnitUtil;
+import cho.carbon.fg.eln.algorithm.MaterialUnitUtilOld;
 import cho.carbon.fg.eln.constant.BaseConstant;
 import cho.carbon.fg.eln.constant.EnumKeyValue;
 import cho.carbon.fg.eln.constant.RelationType;
@@ -136,7 +136,7 @@ public class MaterialOutInRecordAlgorithm {
 			String materiaCode = getMateriaCode(recordComplexus, batchCode);
 			try {
 				// 判断入库的单位是否可以转换为物料基础计量单位, 若可以， 则进行转换
-				inventoryCount = MaterialUnitUtil.convertBaseUnit(recordComplexus, inventoryUnit,  inventoryCount, materiaCode); 
+				inventoryCount = MaterialUnitUtilOld.convertBaseUnit(recordComplexus, inventoryUnit,  inventoryCount, materiaCode); 
 			} catch (Exception e) {
 				return MessageFactory.buildRefuseMessage("Failed", "失败", BaseConstant.TYPE_物料出入库记录, "物料基础单位和所选单位不符合");
 			}
@@ -268,7 +268,7 @@ public class MaterialOutInRecordAlgorithm {
 			String materiaCode = getMateriaCode(recordComplexus, batchCode);
 			try {
 				// 判断入库的单位是否可以转换为物料基础计量单位, 若可以， 则进行转换
-				inventoryCount = MaterialUnitUtil.convertBaseUnit(recordComplexus, inventoryUnit,  inventoryCount, materiaCode); 
+				inventoryCount = MaterialUnitUtilOld.convertBaseUnit(recordComplexus, inventoryUnit,  inventoryCount, materiaCode); 
 			} catch (Exception e) {
 				return MessageFactory.buildRefuseMessage("Failed", "失败", BaseConstant.TYPE_物料出入库记录, "物料基础单位和所选单位不符合");
 			}
@@ -400,7 +400,7 @@ public class MaterialOutInRecordAlgorithm {
 			String materiaCode = getMateriaCode(recordComplexus, batchCode);
 			try {
 				// 判断入库的单位是否可以转换为物料基础计量单位, 若可以， 则进行转换
-				inventoryCount = MaterialUnitUtil.convertBaseUnit(recordComplexus, inventoryUnit,  inventoryCount, materiaCode); 
+				inventoryCount = MaterialUnitUtilOld.convertBaseUnit(recordComplexus, inventoryUnit,  inventoryCount, materiaCode); 
 			} catch (Exception e) {
 				return MessageFactory.buildRefuseMessage("Failed", "失败", BaseConstant.TYPE_物料出入库记录, "物料基础单位和所选单位不符合");
 			}
@@ -489,7 +489,7 @@ public class MaterialOutInRecordAlgorithm {
 			String materiaCode = getMateriaCode(recordComplexus, batchCode);
 			try {
 				// 判断入库的单位是否可以转换为物料基础计量单位, 若可以， 则进行转换
-				inventoryCount = MaterialUnitUtil.convertBaseUnit(recordComplexus, inventoryUnit,  inventoryCount, materiaCode); 
+				inventoryCount = MaterialUnitUtilOld.convertBaseUnit(recordComplexus, inventoryUnit,  inventoryCount, materiaCode); 
 			} catch (Exception e) {
 				return MessageFactory.buildRefuseMessage("Failed", "失败", BaseConstant.TYPE_物料出入库记录, "物料基础单位和所选单位不符合");
 			}
@@ -562,7 +562,7 @@ public class MaterialOutInRecordAlgorithm {
 	String materiaBaseCode = getMateriaCode(recordComplexus, batchCode);
 			try {
 				// 判断入库的单位是否可以转换为物料基础计量单位, 若可以， 则进行转换
-				inventoryCount = MaterialUnitUtil.convertBaseUnit(recordComplexus, inventoryUnit,  inventoryCount, materiaBaseCode); 
+				inventoryCount = MaterialUnitUtilOld.convertBaseUnit(recordComplexus, inventoryUnit,  inventoryCount, materiaBaseCode); 
 			} catch (Exception e) {
 				return MessageFactory.buildRefuseMessage("Failed", "失败", BaseConstant.TYPE_物料出入库记录, "物料基础单位和所选单位不符合");
 			}
@@ -777,7 +777,7 @@ public class MaterialOutInRecordAlgorithm {
 			String materiaBaseCode = getMateriaCode(recordComplexus, batchCode);
 			try {
 				// 判断入库的单位是否可以转换为物料基础计量单位, 若可以， 则进行转换
-				inventoryCount = MaterialUnitUtil.convertBaseUnit(recordComplexus, inventoryUnit,  inventoryCount, materiaBaseCode); 
+				inventoryCount = MaterialUnitUtilOld.convertBaseUnit(recordComplexus, inventoryUnit,  inventoryCount, materiaBaseCode); 
 			} catch (Exception e) {
 				return MessageFactory.buildRefuseMessage("Failed", "失败", BaseConstant.TYPE_物料出入库记录, "物料基础单位和所选单位不符合");
 			}
@@ -870,7 +870,7 @@ public class MaterialOutInRecordAlgorithm {
 			String materiaCode = getMateriaCode(recordComplexus, batchCode);
 			try {
 				// 判断入库的单位是否可以转换为物料基础计量单位, 若可以， 则进行转换
-				inventoryCount = MaterialUnitUtil.convertBaseUnit(recordComplexus, inventoryUnit,  inventoryCount, materiaCode); 
+				inventoryCount = MaterialUnitUtilOld.convertBaseUnit(recordComplexus, inventoryUnit,  inventoryCount, materiaCode); 
 			} catch (Exception e) {
 				return MessageFactory.buildRefuseMessage("Failed", "失败", BaseConstant.TYPE_物料出入库记录, "物料基础单位和所选单位不符合");
 			}
@@ -948,7 +948,7 @@ public class MaterialOutInRecordAlgorithm {
 			String materiaCode = getMateriaCode(recordComplexus, batchCode);
 			try {
 				// 判断入库的单位是否可以转换为物料基础计量单位, 若可以， 则进行转换
-				inventoryCount = MaterialUnitUtil.convertBaseUnit(recordComplexus, inventoryUnit,  inventoryCount, materiaCode); 
+				inventoryCount = MaterialUnitUtilOld.convertBaseUnit(recordComplexus, inventoryUnit,  inventoryCount, materiaCode); 
 			} catch (Exception e) {
 				return MessageFactory.buildRefuseMessage("Failed", "失败", BaseConstant.TYPE_物料出入库记录, "物料基础单位和所选单位不符合");
 			}

@@ -15,4 +15,5 @@ public static final String 基本属性组_调研报告="celn3690";
 public static final String 基本属性组_项目总结报告="celn3696";
 public static final String 基本属性组_项目总结摘要="celn3702";
 public static final String 基本属性组_项目命令="celn3925";
+public static final String 基本属性组_存档状态="celn4318";
 }

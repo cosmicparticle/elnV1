@@ -7,18 +7,59 @@ import cho.carbon.complexus.FGRecordComplexus;
 import cho.carbon.fg.eln.constant.BaseConstant;
 import cho.carbon.fg.eln.constant.EnumKeyValue;
 import cho.carbon.fg.eln.constant.RelationType;
+import cho.carbon.fg.eln.constant.item.ElnprojectCELNE2244Item;
 import cho.carbon.fg.eln.constant.item.ExpProjectReportCELNE3499Item;
-import cho.carbon.fg.eln.constant.item.InstrumentCELNE3900Item;
+import cho.carbon.fg.eln.constant.item.ExpRecordCELNE2189Item;
+import cho.carbon.fuse.improve.attribute.FuseAttributeFactory;
+import cho.carbon.fuse.improve.ops.builder.FGRecordOpsBuilder;
 import cho.carbon.message.Message;
 import cho.carbon.message.MessageFactory;
 import cho.carbon.model.uid.UidManager;
 import cho.carbon.ops.builder.RecordRelationOpsBuilder;
 import cho.carbon.relation.RecordRelation;
 import cho.carbon.rrc.builder.FGRootRecordBuilder;
+import cho.carbon.rrc.record.FGAttribute;
 import cho.carbon.rrc.record.FGRootRecord;
 
 public class ElnprojectAlgorithm {
-
+	
+	
+	/**
+	 * 对项目进行存档
+	 * @param recordComplexus
+	 * @param recordCode
+	 * @param relationOpsBuilder
+	 * @param relatedRecordList
+	 * @return
+	 */
+	public static Message archivedProject(FGRecordComplexus recordComplexus, String recordCode, 
+			RecordRelationOpsBuilder relationOpsBuilder, List<FGRootRecord> relatedRecordList, FGRecordOpsBuilder recordOpsBuilder) {
+		try {
+			// 获取当前实验项目
+			FGRootRecord rootRecord = CommonAlgorithm.getRootRecord(recordComplexus, BaseConstant.TYPE_实验项目, recordCode);
+			// 实验项目存档
+			FGAttribute attr=FuseAttributeFactory.buildFGAttribute(ElnprojectCELNE2244Item.基本属性组_存档状态, EnumKeyValue.ENUM_实验存档状态_已存档);
+			recordOpsBuilder.addUpdateAttr(attr);	
+			// 获取实验项目的所有实验记录
+			List<RecordRelation> expRecordRelaList = (List)CommonAlgorithm.getAppointRecordRelation(recordComplexus, BaseConstant.TYPE_实验项目, recordCode, RelationType.RR_实验项目_组成实验_实验记录);
+			
+			for (RecordRelation recordRelation : expRecordRelaList) {
+				// 实验记录code
+				String expRecordCode = recordRelation.getRightCode();
+				
+				// 把此实验记录记性存档
+				FGRootRecordBuilder builder = FGRootRecordBuilder.getInstance(BaseConstant.TYPE_实验记录, expRecordCode);
+				//设置记录属性。第一个参数为模型属性的编码，第二个参数为模型属性的取值
+				builder.putAttribute(ExpRecordCELNE2189Item.基本属性组_存档状态, EnumKeyValue.ENUM_实验存档状态_已存档);
+				//放入到kie预设的全局变量中
+				relatedRecordList.add(builder.getRootRecord());	
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return MessageFactory.buildRefuseMessage("computeMaterialGrossFailed", "计算投料总量失败", BaseConstant.TYPE_实验记录, "计算投料总量失败");
+		}
+		return MessageFactory.buildInfoMessage("computeMaterialGrossSucceeded", "计算投料总量成功", BaseConstant.TYPE_实验记录, "计算投料总量成功");
+	}
 	
 
 	/**

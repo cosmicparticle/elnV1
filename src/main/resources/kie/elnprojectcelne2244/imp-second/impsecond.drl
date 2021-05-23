@@ -47,6 +47,7 @@ rule "实验项目项目组长"
 		not RecordRelation(type == RelationType.RR_实验项目_组长_系统用户);
 	then 
 		relationOpsBuilder.putRelation(RelationType.RR_实验项目_组长_系统用户, userCode);
+		
 end
 
 rule "实验项目的创建人"
@@ -68,4 +69,13 @@ rule "生成项目报告"
 		messageList.add(ElnprojectAlgorithm.createProjectReport(recordComplexus, recordCode, relationOpsBuilder, relatedRecordList));
 end
 
-
+rule "执行项目存档命令"
+	salience 20
+	when
+		FuseAttribute(name==ElnprojectCELNE2244Item.基本属性组_项目命令, getValue(AttributeValueType.INT) == EnumKeyValue.ENUM_实验项目命令_存档命令);
+	then 
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(ElnprojectCELNE2244Item.基本属性组_项目命令, null);
+		recordOpsBuilder.addUpdateAttr(attr);	
+		// 执行存档命令
+		messageList.add(ElnprojectAlgorithm.archivedProject(recordComplexus, recordCode, relationOpsBuilder, relatedRecordList, recordOpsBuilder));
+end

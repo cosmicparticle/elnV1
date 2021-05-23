@@ -8,7 +8,7 @@ import org.apache.commons.lang.StringUtils;
 
 import cho.carbon.complexus.FGRecordComplexus;
 import cho.carbon.fg.eln.algorithm.ComputeSign;
-import cho.carbon.fg.eln.algorithm.MaterialUnitUtil;
+import cho.carbon.fg.eln.algorithm.MaterialUnitUtilOld;
 import cho.carbon.fg.eln.constant.BaseConstant;
 import cho.carbon.fg.eln.constant.EnumKeyValue;
 import cho.carbon.fg.eln.constant.RelationType;
@@ -85,7 +85,7 @@ public class MaterialReservationAlgorithm {
 				String materialBaseCode = materialBaseRela.get(0).getRightCode();
 				
 				
-				materialCount = MaterialUnitUtil.convertBaseUnit(recordComplexus, materialuUit, materialCount, materialBaseCode);
+				materialCount = MaterialUnitUtilOld.convertBaseUnit(recordComplexus, materialuUit, materialCount, materialBaseCode);
 				
 				// 获取物料库存信息
 				List<RecordRelation> materialStockRela = (List)CommonAlgorithm.getAppointRecordRelation(recordComplexus, BaseConstant.TYPE_物料基础信息, materialBaseCode, RelationType.RR_物料基础信息_库存信息_物料库存信息);
@@ -145,7 +145,7 @@ public class MaterialReservationAlgorithm {
 						pmCount = materialCount;
 					} 				
 					
-					Integer materialBaseUnit = MaterialUnitUtil.getMaterialBaseUnit(recordComplexus, materialBaseCode);
+					Integer materialBaseUnit = MaterialUnitUtilOld.getMaterialBaseUnit(recordComplexus, materialBaseCode);
 					
 					// 新建一个 【项目预定库存信息】, 并和项目、物料基础信息， 进行关联关系
 					String pMCode = UidManager.getLongUID() + "";

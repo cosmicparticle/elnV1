@@ -41,3 +41,4 @@ rule "设置查阅状态"
 		FGAttribute attr = FuseAttributeFactory.buildAttribute(ConsultProjectCELNE4320Item.基本属性组_查阅状态, EnumKeyValue.ENUM_查阅项目状态_编辑中);
 		recordOpsBuilder.addUpdateAttr(attr);	
 end
+

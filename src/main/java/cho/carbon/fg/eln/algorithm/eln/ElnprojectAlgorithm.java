@@ -21,6 +21,10 @@ import cho.carbon.rrc.builder.FGRootRecordBuilder;
 import cho.carbon.rrc.record.FGAttribute;
 import cho.carbon.rrc.record.FGRootRecord;
 
+/**
+ * 实验项目
+ * @author lhb
+ */
 public class ElnprojectAlgorithm {
 	
 	
@@ -42,7 +46,6 @@ public class ElnprojectAlgorithm {
 			recordOpsBuilder.addUpdateAttr(attr);	
 			// 获取实验项目的所有实验记录
 			List<RecordRelation> expRecordRelaList = (List)CommonAlgorithm.getAppointRecordRelation(recordComplexus, BaseConstant.TYPE_实验项目, recordCode, RelationType.RR_实验项目_组成实验_实验记录);
-			
 			for (RecordRelation recordRelation : expRecordRelaList) {
 				// 实验记录code
 				String expRecordCode = recordRelation.getRightCode();
@@ -51,6 +54,20 @@ public class ElnprojectAlgorithm {
 				FGRootRecordBuilder builder = FGRootRecordBuilder.getInstance(BaseConstant.TYPE_实验记录, expRecordCode);
 				//设置记录属性。第一个参数为模型属性的编码，第二个参数为模型属性的取值
 				builder.putAttribute(ExpRecordCELNE2189Item.基本属性组_存档状态, EnumKeyValue.ENUM_实验存档状态_已存档);
+				//放入到kie预设的全局变量中
+				relatedRecordList.add(builder.getRootRecord());	
+			}
+			
+			// 获取项目的所有项目报告
+			List<RecordRelation> projectReportRelaList = (List)CommonAlgorithm.getAppointRecordRelation(recordComplexus, BaseConstant.TYPE_实验项目, recordCode, RelationType.RR_实验项目_项目报告_项目报告);
+			for (RecordRelation recordRelation : projectReportRelaList) {
+				// 项目报告 code
+				String projectReportCode = recordRelation.getRightCode();
+				
+				// 把此实验记录记性存档
+				FGRootRecordBuilder builder = FGRootRecordBuilder.getInstance(BaseConstant.TYPE_项目报告, projectReportCode);
+				//设置记录属性。第一个参数为模型属性的编码，第二个参数为模型属性的取值
+				builder.putAttribute(ExpProjectReportCELNE3499Item.基本属性组_存档状态, EnumKeyValue.ENUM_实验存档状态_已存档);
 				//放入到kie预设的全局变量中
 				relatedRecordList.add(builder.getRootRecord());	
 			}

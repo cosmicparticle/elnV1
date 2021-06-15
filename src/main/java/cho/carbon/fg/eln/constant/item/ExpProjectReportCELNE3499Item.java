@@ -9,4 +9,6 @@ public static final String 基本属性组_年="celn3548";
 public static final String 基本属性组_月="celn3549";
 public static final String 基本属性组_月周="celn3550";
 public static final String 基本属性组_状态="celn3924";
+public static final String 基本属性组_主题="celn4230";
+public static final String 基本属性组_存档状态="celn4334";
 }

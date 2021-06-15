@@ -32,7 +32,7 @@ import cho.carbon.rrc.record.FGRootRecord;
 public class ConsultProjectAlgorithm {
 
 	/**
-	 * 执行同意查阅命令
+	 *  执行同意查阅命令
 	 * @param recordComplexus
 	 * @param recordCode
 	 * @param relationOpsBuilder

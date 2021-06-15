@@ -2,6 +2,7 @@ package cho.carbon.fg.eln.algorithm.eln;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -249,7 +250,10 @@ public class WeekMonthReportAlgorithm {
 			for (String expCode : expCodeList) {
 				String expName = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_名称);
 				String piHao = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_批号);
-				String zhongliang = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_干品重量);
+				String zhongliangStr = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_干品重量);
+				
+				BigDecimal zhongLiang = new BigDecimal(zhongliangStr).setScale(2, BigDecimal.ROUND_HALF_UP);;
+				
 				// 收量单位
 				String shouLiangDanweiStr = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_收量单位);
 				String danwei = "";
@@ -269,14 +273,17 @@ public class WeekMonthReportAlgorithm {
 				}
 				
 				String zongjie = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_实验总结);
-				String hanliang = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_含量);
-				String chundu = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_纯度);
-				String danyizazhi = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_单一杂质);
-				String xiguangdian = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_吸光度);
-				String rongdian = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_熔点);
+				String hanliangStr = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_含量);
+				BigDecimal hanliang = new BigDecimal(hanliangStr).setScale(2, BigDecimal.ROUND_HALF_UP);;
+				String chunduStr = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_纯度);
+				BigDecimal chundu = new BigDecimal(chunduStr).setScale(2, BigDecimal.ROUND_HALF_UP);;
+				String danyizazhiStr = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_单一杂质);
+				BigDecimal danyizazhi = new BigDecimal(danyizazhiStr).setScale(2, BigDecimal.ROUND_HALF_UP);;
+				String xiguangdianStr = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_吸光度);
+				BigDecimal xiguangdian = new BigDecimal(xiguangdianStr).setScale(2, BigDecimal.ROUND_HALF_UP);;
+				String rongdianStr = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_熔点);
+				BigDecimal rongdian = new BigDecimal(rongdianStr).setScale(2, BigDecimal.ROUND_HALF_UP);;
 				String shiyanbeizhu = CommonAlgorithm.getDataValue(recordComplexus, BaseConstant.TYPE_实验记录, expCode, ExpRecordCELNE2189Item.基本属性组_实验结果备注);
-				
-				
 				
 				table.addCell(new Cell(expName));  
 		        Font fontChinese = new Font(12);  
@@ -284,13 +291,13 @@ public class WeekMonthReportAlgorithm {
 		        cell.setVerticalAlignment(Element.ALIGN_MIDDLE);  
 		        table.addCell(cell);  
 		        
-		        table.addCell(new Cell(hanliang));  
-		        table.addCell(new Cell(chundu));  
+		        table.addCell(new Cell(hanliang + ""));  
+		        table.addCell(new Cell(chundu+ ""));  
 		        
-		        table.addCell(new Cell(danyizazhi));  
-		        table.addCell(new Cell(xiguangdian));  
-		        table.addCell(new Cell(rongdian));  
-		        table.addCell(new Cell(zhongliang+ " " +danwei));  
+		        table.addCell(new Cell(danyizazhi+ ""));  
+		        table.addCell(new Cell(xiguangdian+ ""));  
+		        table.addCell(new Cell(rongdian+ ""));  
+		        table.addCell(new Cell(zhongLiang+ " " +danwei));  
 		        table.addCell(new Cell(zongjie)); 
 		        table.addCell(new Cell(shiyanbeizhu)); 
 			}

@@ -42,3 +42,14 @@ rule "设置项目报告默认状态"
 		FGAttribute attr=FuseAttributeFactory.buildAttribute(ExpProjectReportCELNE3499Item.基本属性组_状态, EnumKeyValue.ENUM_项目报告状态_编辑中);
 		recordOpsBuilder.addUpdateAttr(attr);	
 end
+
+rule "设置存档状态"
+	salience 25
+	when
+		not FuseAttribute(name==ExpProjectReportCELNE3499Item.基本属性组_存档状态) 
+		or FuseAttribute(name==ExpProjectReportCELNE3499Item.基本属性组_存档状态,CommonCalculation.isNotBasicLawful(getValue(AttributeValueType.STRING)));
+	then 
+		// 设置存档状态
+		FGAttribute attr=FuseAttributeFactory.buildAttribute(ExpProjectReportCELNE3499Item.基本属性组_存档状态, EnumKeyValue.ENUM_实验存档状态_未存档);
+		recordOpsBuilder.addUpdateAttr(attr);	
+end
